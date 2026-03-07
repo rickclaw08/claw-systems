@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shield Subscription Terms | ClawOps</title>
+  <meta name="description" content="ClawOps Shield subscription terms, pricing, cancellation, refund policy, and scanner disclaimers.">
+  <link rel="icon" href="../logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-deep: #060a14;
+      --bg-surface: #0a0f1e;
+      --accent-bright: #60a5fa;
+      --accent-mid: #3b82f6;
+      --cyan-bright: #00e5cc;
+      --text-primary: #f0f4ff;
+      --text-secondary: #8898b8;
+      --text-muted: #4a5a78;
+      --border-subtle: rgba(96, 165, 250, .12);
+      --font-display: "Space Grotesk", system-ui, sans-serif;
+      --font-body: "Inter", system-ui, sans-serif;
+    }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 16px 0;
+      background: rgba(6, 10, 20, .85); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-primary); }
+    .nav-brand svg { width: 36px; height: 36px; filter: drop-shadow(0 0 10px rgba(96,165,250,.4)); }
+    .nav-brand span { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; }
+    .nav-link { color: var(--text-secondary); text-decoration: none; font-size: .875rem; font-weight: 500; transition: color .2s; }
+    .nav-link:hover { color: var(--accent-bright); }
+    .container {
+      max-width: 900px; margin: 0 auto; padding: 120px 24px 80px;
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 700; margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff 0%, var(--accent-bright) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .subtitle { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 48px; }
+    h2 {
+      font-family: var(--font-display); font-size: 1.8rem; font-weight: 600;
+      margin-top: 48px; margin-bottom: 16px; color: var(--accent-bright);
+    }
+    h3 {
+      font-family: var(--font-display); font-size: 1.3rem; font-weight: 600;
+      margin-top: 32px; margin-bottom: 12px; color: var(--text-primary);
+    }
+    p { color: var(--text-secondary); margin-bottom: 16px; line-height: 1.8; }
+    ul, ol { color: var(--text-secondary); margin-left: 24px; margin-bottom: 16px; }
+    li { margin-bottom: 8px; line-height: 1.7; }
+    strong { color: var(--text-primary); font-weight: 600; }
+    a { color: var(--accent-bright); text-decoration: none; transition: color .2s; }
+    a:hover { color: #93c5fd; }
+    .tier-table {
+      width: 100%; border-collapse: collapse; margin: 24px 0;
+      background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; overflow: hidden;
+    }
+    .tier-table th, .tier-table td {
+      padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--border-subtle);
+    }
+    .tier-table th {
+      background: rgba(96, 165, 250, .08); color: var(--accent-bright);
+      font-family: var(--font-display); font-weight: 600; font-size: .9rem;
+    }
+    .tier-table td { color: var(--text-secondary); font-size: .9rem; }
+    .tier-table tr:last-child td { border-bottom: none; }
+    .highlight-box {
+      background: var(--bg-surface); border: 1px solid var(--border-subtle);
+      border-radius: 12px; padding: 24px; margin: 24px 0;
+    }
+    .highlight-box h3 { margin-top: 0; color: var(--accent-bright); }
+    .footer {
+      border-top: 1px solid var(--border-subtle); padding: 40px 24px; text-align: center;
+    }
+    .footer-brand { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 16px; }
+    .footer-brand svg { width: 28px; height: 28px; }
+    .footer-brand span { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; }
+    .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
+    .footer-links a { color: var(--text-secondary); font-size: .875rem; text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--accent-bright); }
+    .footer p { color: var(--text-muted); font-size: .85rem; }
+    @media (max-width: 768px) {
+      .container { padding: 100px 20px 60px; }
+      .tier-table { font-size: .85rem; }
+      .tier-table th, .tier-table td { padding: 10px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="../" class="nav-brand">
+      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Lobster body - elongated pill shape -->
+        <ellipse cx="60" cy="58" rx="22" ry="30" fill="url(#grad)"/>
+        <!-- Head - rounded top -->
+        <ellipse cx="60" cy="30" rx="18" ry="16" fill="url(#grad)"/>
+        <!-- Body segment lines -->
+        <path d="M42 50 Q60 47 78 50" stroke="rgba(29,78,216,0.25)" stroke-width="1" fill="none"/>
+        <path d="M40 60 Q60 57 80 60" stroke="rgba(29,78,216,0.20)" stroke-width="1" fill="none"/>
+        <path d="M41 70 Q60 67 79 70" stroke="rgba(29,78,216,0.15)" stroke-width="1" fill="none"/>
+        <!-- Tail fan -->
+        <ellipse cx="52" cy="96" rx="8" ry="5" fill="url(#grad)" transform="rotate(-15 52 96)"/>
+        <ellipse cx="60" cy="98" rx="8" ry="5" fill="url(#grad)"/>
+        <ellipse cx="68" cy="96" rx="8" ry="5" fill="url(#grad)" transform="rotate(15 68 96)"/>
+        <path d="M60 88 L60 93" stroke="rgba(29,78,216,0.20)" stroke-width="1"/>
+        <!-- Left claw -->
+        <path d="M30 30 C18 22 8 28 10 38 C12 48 22 46 28 38 C32 32 30 30 30 30Z" fill="url(#grad)"/>
+        <path d="M14 32 Q18 36 14 40" stroke="rgba(29,78,216,0.25)" stroke-width="1" fill="none"/>
+        <!-- Right claw -->
+        <path d="M90 30 C102 22 112 28 110 38 C108 48 98 46 92 38 C88 32 90 30 90 30Z" fill="url(#grad)"/>
+        <path d="M106 32 Q102 36 106 40" stroke="rgba(29,78,216,0.25)" stroke-width="1" fill="none"/>
+        <!-- Antennae - long and curved -->
+        <path d="M50 18 Q40 4 28 2" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/>
+        <path d="M70 18 Q80 4 92 2" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/>
+        <!-- Small legs (4 pairs) -->
+        <line x1="40" y1="48" x2="32" y2="52" stroke="url(#grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="80" y1="48" x2="88" y2="52" stroke="url(#grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="39" y1="56" x2="30" y2="60" stroke="url(#grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="81" y1="56" x2="90" y2="60" stroke="url(#grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="39" y1="64" x2="31" y2="68" stroke="url(#grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="81" y1="64" x2="89" y2="68" stroke="url(#grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="40" y1="72" x2="33" y2="76" stroke="url(#grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="80" y1="72" x2="87" y2="76" stroke="url(#grad)" stroke-width="2" stroke-linecap="round"/>
+        <!-- Eyes -->
+        <circle cx="51" cy="28" r="5" fill="#050810"/>
+        <circle cx="69" cy="28" r="5" fill="#050810"/>
+        <circle cx="52" cy="27" r="2" fill="#00e5cc"/>
+        <circle cx="70" cy="27" r="2" fill="#00e5cc"/>
+        <defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#60a5fa"/><stop offset="100%" stop-color="#1d4ed8"/></linearGradient></defs>
+      </svg>
+      <span>ClawOps</span>
+    </a>
+    <a href="./" class="nav-link">Back to Shield</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Shield Subscription Terms</h1>
+  <p class="subtitle"><strong>Effective Date:</strong> February 27, 2026 | <strong>Last Updated:</strong> February 27, 2026</p>
+
+  <p>These Shield Subscription Terms ("Subscription Terms") govern your subscription to and use of the ClawOps Shield scanner service ("Shield"). These Subscription Terms supplement and are incorporated into the ClawOps <a href="../terms/">Terms of Service</a>. In the event of a conflict between these Subscription Terms and the general Terms of Service, these Subscription Terms control with respect to the Shield service.</p>
+
+  <h2>1. Subscription Plans and Features</h2>
+
+  <h3>1.1 Available Plans</h3>
+  <p>Shield is offered at the following subscription tiers:</p>
+
+  <table class="tier-table">
+    <thead>
+      <tr>
+        <th>Plan</th>
+        <th>Price</th>
+        <th>Scans</th>
+        <th>Features</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Free</strong></td>
+        <td>$0</td>
+        <td>1 scan total</td>
+        <td>All 6 threat categories, line-by-line analysis, severity ratings, remediation guidance. No account required.</td>
+      </tr>
+      <tr>
+        <td><strong>Starter</strong></td>
+        <td>$5.99/month</td>
+        <td>10 scans/month (resets monthly)</td>
+        <td>All Free features plus email support.</td>
+      </tr>
+      <tr>
+        <td><strong>Pro</strong></td>
+        <td>$9.99/month</td>
+        <td>Unlimited</td>
+        <td>All Starter features plus scan history, reports, and priority support.</td>
+      </tr>
+      <tr>
+        <td><strong>Enterprise</strong></td>
+        <td>$14.99/month</td>
+        <td>Unlimited</td>
+        <td>All Pro features plus bulk directory scanning, API access for CI/CD, team accounts (up to 5), exportable PDF reports, custom rule definitions, and dedicated support.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>1.2 Scan Limit Resets</h3>
+  <p>For the Starter plan, scan allowances reset on the monthly anniversary of your subscription start date. Unused scans do not roll over to the next billing period.</p>
+
+  <h3>1.3 Plan Changes</h3>
+  <p>You may upgrade or downgrade your subscription plan at any time through the Stripe customer portal or by contacting us at <a href="mailto:rickclaw08@gmail.com">rickclaw08@gmail.com</a>. Upgrades take effect immediately. Downgrades take effect at the start of the next billing cycle.</p>
+
+  <h2>2. Auto-Renewal and Billing</h2>
+
+  <div class="highlight-box">
+    <h3>Important: Automatic Renewal Disclosure</h3>
+    <p>Your Shield subscription will automatically renew at the end of each billing period (monthly) at the then-current subscription rate unless you cancel before the renewal date. You authorize ClawOps to charge your payment method on file for each renewal period. The renewal charge will be the same as your current plan rate unless we notify you of a price change at least 30 days in advance.</p>
+  </div>
+
+  <h3>2.1 Billing Cycle</h3>
+  <p>All paid Shield plans are billed monthly. Your billing cycle begins on the date you first subscribe and renews on the same date each month.</p>
+
+  <h3>2.2 Payment Processing</h3>
+  <p>Payments are processed through Stripe. By subscribing, you agree to Stripe's terms of service and authorize recurring charges to your designated payment method.</p>
+
+  <h3>2.3 Price Changes</h3>
+  <p>We may change subscription prices with at least 30 days' advance notice. Price changes take effect at the start of your next billing cycle after the notice period. Continued use of Shield after a price change constitutes acceptance of the new pricing.</p>
+
+  <h3>2.4 Failed Payments</h3>
+  <p>If a renewal payment fails, we may retry the charge and/or suspend your access to paid features until payment is successfully processed. We will notify you by email of any payment failure.</p>
+
+  <h2>3. Cancellation</h2>
+
+  <h3>3.1 How to Cancel</h3>
+  <p>You may cancel your Shield subscription at any time using either of these methods:</p>
+  <ul>
+    <li><strong>Stripe Customer Portal:</strong> Access your subscription management page through Stripe to cancel directly.</li>
+    <li><strong>Email:</strong> Send a cancellation request to <a href="mailto:rickclaw08@gmail.com">rickclaw08@gmail.com</a>. We will process your request within two (2) business days.</li>
+  </ul>
+
+  <h3>3.2 Effect of Cancellation</h3>
+  <p>When you cancel:</p>
+  <ul>
+    <li>Your subscription remains active until the end of the current paid billing period.</li>
+    <li>You will not be charged for subsequent billing periods.</li>
+    <li>After the current period ends, your account reverts to the Free tier (1 scan, no account required).</li>
+    <li>Scan history and reports may be deleted 30 days after your paid subscription ends.</li>
+  </ul>
+
+  <h3>3.3 No Cancellation Fees</h3>
+  <p>There are no cancellation fees or penalties for canceling your subscription.</p>
+
+  <h2>4. Refund Policy</h2>
+
+  <h3>4.1 Seven-Day Refund Window</h3>
+  <p>If you cancel within seven (7) days of your initial subscription purchase or a renewal charge, you are eligible for a pro-rated refund for the unused portion of that billing period.</p>
+
+  <h3>4.2 After Seven Days</h3>
+  <p>After seven (7) days from any charge, no refunds will be issued for that billing period. You will retain access to paid features through the end of the current billing cycle.</p>
+
+  <h3>4.3 How to Request a Refund</h3>
+  <p>To request a refund, email <a href="mailto:rickclaw08@gmail.com">rickclaw08@gmail.com</a> with your account email and the reason for your request. Refunds are processed within five (5) business days to your original payment method.</p>
+
+  <h2>5. Scanner Accuracy Disclaimers</h2>
+
+  <div class="highlight-box">
+    <h3>Important: Scanner Limitations</h3>
+    <p>ClawOps Shield uses pattern-based detection to identify potential security threats in text-based files. You should understand the following limitations before relying on scan results:</p>
+  </div>
+
+  <h3>5.1 Detection Method</h3>
+  <p>Shield uses rule-based pattern matching and heuristic analysis to detect potential prompt injection, data exfiltration, social engineering, and other threat patterns. It does not use comprehensive static analysis, dynamic analysis, or formal verification methods.</p>
+
+  <h3>5.2 Informational Only</h3>
+  <p>All scan results are provided for informational purposes only. Shield is designed to assist you in identifying potential risks, not to provide a definitive security assessment.</p>
+
+  <h3>5.3 False Positives and False Negatives</h3>
+  <p>Scan results may include:</p>
+  <ul>
+    <li><strong>False positives:</strong> Flagging content as potentially malicious when it is not.</li>
+    <li><strong>False negatives:</strong> Failing to detect content that is actually malicious.</li>
+  </ul>
+  <p>A clean scan does not guarantee that a file is free from malicious content or security vulnerabilities.</p>
+
+  <h3>5.4 Not a Substitute for Professional Security Audits</h3>
+  <p>Shield is not a substitute for professional security audits, penetration testing, or comprehensive security assessments. For critical or high-risk environments, you should engage qualified security professionals.</p>
+
+  <h3>5.5 Client-Side Scanning</h3>
+  <p>Scans run entirely in your browser. Your files are not uploaded to or stored on ClawOps servers. While this protects your data privacy, it also means scan capabilities are limited to client-side pattern matching.</p>
+
+  <h2>6. Limitation of Liability</h2>
+
+  <h3>6.1 Liability Cap</h3>
+  <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, CLAWOPS' TOTAL LIABILITY TO YOU FOR ALL CLAIMS ARISING FROM OR RELATED TO YOUR USE OF SHIELD SHALL NOT EXCEED THE TOTAL SUBSCRIPTION FEES YOU PAID TO CLAWOPS FOR SHIELD IN THE TWELVE (12) MONTHS IMMEDIATELY PRECEDING THE EVENT GIVING RISE TO THE CLAIM.</p>
+
+  <h3>6.2 Exclusion of Damages</h3>
+  <p>IN NO EVENT SHALL CLAWOPS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING FROM YOUR USE OF OR INABILITY TO USE SHIELD, INCLUDING BUT NOT LIMITED TO:</p>
+  <ul>
+    <li>Damages resulting from reliance on scan results (whether false positives or false negatives)</li>
+    <li>Security breaches or incidents that Shield failed to detect</li>
+    <li>Loss of data, revenue, or business opportunities</li>
+    <li>Cost of substitute security services</li>
+  </ul>
+
+  <h3>6.3 Disclaimer of Warranties</h3>
+  <p>SHIELD IS PROVIDED "AS IS" AND "AS AVAILABLE." CLAWOPS MAKES NO WARRANTIES, EXPRESS OR IMPLIED, REGARDING THE ACCURACY, RELIABILITY, COMPLETENESS, OR FITNESS FOR A PARTICULAR PURPOSE OF SHIELD OR ITS SCAN RESULTS.</p>
+
+  <h2>7. California Auto-Renewal Compliance (SB-313)</h2>
+
+  <div class="highlight-box">
+    <h3>California Residents: Auto-Renewal Notice</h3>
+    <p>Pursuant to California Business and Professions Code Sections 17600-17606 (SB-313), ClawOps provides the following disclosures:</p>
+  </div>
+
+  <ul>
+    <li><strong>Automatic Renewal:</strong> Your Shield subscription will automatically renew on a monthly basis at the rate stated at the time of purchase, unless you cancel before the renewal date.</li>
+    <li><strong>Cancellation Policy:</strong> You may cancel at any time via the Stripe customer portal or by emailing <a href="mailto:rickclaw08@gmail.com">rickclaw08@gmail.com</a>. Cancellation takes effect at the end of the current billing period.</li>
+    <li><strong>Consent:</strong> By subscribing to a paid Shield plan, you provide your affirmative consent to the automatic renewal terms described herein.</li>
+    <li><strong>Confirmation:</strong> You will receive a confirmation of your subscription via email at the email address associated with your account. This confirmation will include the subscription terms, pricing, and cancellation instructions.</li>
+    <li><strong>Renewal Reminders:</strong> We will send a renewal reminder to your email address at least 3 days before each renewal charge.</li>
+  </ul>
+
+  <h2>8. Acceptable Use</h2>
+  <p>Your use of Shield is subject to the ClawOps <a href="../acceptable-use/">Acceptable Use Policy</a>. In addition to the general AUP, you agree to the following Shield-specific rules:</p>
+  <ul>
+    <li>You may only scan files you own or have authorization to scan.</li>
+    <li>You must not use the scanner to identify vulnerabilities for the purpose of exploitation.</li>
+    <li>Automated or bot-driven scanning that exceeds your plan limits is prohibited.</li>
+    <li>Reverse engineering, extracting, or replicating Shield's detection rules or patterns is prohibited.</li>
+  </ul>
+
+  <h2>9. Changes to These Terms</h2>
+  <p>ClawOps may update these Subscription Terms at any time. We will notify you of material changes by email and by updating the "Last Updated" date above. Continued use of Shield after changes take effect constitutes acceptance of the updated Subscription Terms. If you do not agree to the changes, you may cancel your subscription.</p>
+
+  <h2>10. Contact</h2>
+  <p>For questions about these Subscription Terms, billing, cancellation, or refunds:</p>
+  <p><strong>Email:</strong> <a href="mailto:rickclaw08@gmail.com">rickclaw08@gmail.com</a><br>
+  <strong>Website:</strong> <a href="https://theclawops.com">theclawops.com</a></p>
+</div>
+
+<footer class="footer">
+  <div class="footer-brand">
+    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Lobster body - elongated pill shape -->
+        <ellipse cx="60" cy="58" rx="22" ry="30" fill="url(#ft-grad)"/>
+        <!-- Head - rounded top -->
+        <ellipse cx="60" cy="30" rx="18" ry="16" fill="url(#ft-grad)"/>
+        <!-- Body segment lines -->
+        <path d="M42 50 Q60 47 78 50" stroke="rgba(29,78,216,0.25)" stroke-width="1" fill="none"/>
+        <path d="M40 60 Q60 57 80 60" stroke="rgba(29,78,216,0.20)" stroke-width="1" fill="none"/>
+        <path d="M41 70 Q60 67 79 70" stroke="rgba(29,78,216,0.15)" stroke-width="1" fill="none"/>
+        <!-- Tail fan -->
+        <ellipse cx="52" cy="96" rx="8" ry="5" fill="url(#ft-grad)" transform="rotate(-15 52 96)"/>
+        <ellipse cx="60" cy="98" rx="8" ry="5" fill="url(#ft-grad)"/>
+        <ellipse cx="68" cy="96" rx="8" ry="5" fill="url(#ft-grad)" transform="rotate(15 68 96)"/>
+        <path d="M60 88 L60 93" stroke="rgba(29,78,216,0.20)" stroke-width="1"/>
+        <!-- Left claw -->
+        <path d="M30 30 C18 22 8 28 10 38 C12 48 22 46 28 38 C32 32 30 30 30 30Z" fill="url(#ft-grad)"/>
+        <path d="M14 32 Q18 36 14 40" stroke="rgba(29,78,216,0.25)" stroke-width="1" fill="none"/>
+        <!-- Right claw -->
+        <path d="M90 30 C102 22 112 28 110 38 C108 48 98 46 92 38 C88 32 90 30 90 30Z" fill="url(#ft-grad)"/>
+        <path d="M106 32 Q102 36 106 40" stroke="rgba(29,78,216,0.25)" stroke-width="1" fill="none"/>
+        <!-- Antennae - long and curved -->
+        <path d="M50 18 Q40 4 28 2" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/>
+        <path d="M70 18 Q80 4 92 2" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/>
+        <!-- Small legs (4 pairs) -->
+        <line x1="40" y1="48" x2="32" y2="52" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="80" y1="48" x2="88" y2="52" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="39" y1="56" x2="30" y2="60" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="81" y1="56" x2="90" y2="60" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="39" y1="64" x2="31" y2="68" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="81" y1="64" x2="89" y2="68" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="40" y1="72" x2="33" y2="76" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="80" y1="72" x2="87" y2="76" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+        <!-- Eyes -->
+        <circle cx="51" cy="28" r="5" fill="#050810"/>
+        <circle cx="69" cy="28" r="5" fill="#050810"/>
+        <circle cx="52" cy="27" r="2" fill="#00e5cc"/>
+        <circle cx="70" cy="27" r="2" fill="#00e5cc"/>
+        <defs><linearGradient id="ft-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#60a5fa"/><stop offset="100%" stop-color="#1d4ed8"/></linearGradient></defs>
+      </svg>
+    <span>ClawOps</span>
+  </div>
+  <div class="footer-links">
+    <a href="../privacy/">Privacy Policy</a>
+    <a href="../terms/">Terms of Service</a>
+    <a href="../acceptable-use/">Acceptable Use Policy</a>
+    <a href="./">Shield Scanner</a>
+  </div>
+  <p>&copy; 2026 ClawOps. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

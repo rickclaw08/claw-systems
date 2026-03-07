@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClawOps Shield - Scan Your File</title>
+  <meta name="description" content="Upload and scan OpenClaw skills and prompt files for prompt injection and malicious content.">
+  <link rel="icon" href="../logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-deep: #060a14; --bg-surface: #0a0f1e; --bg-elevated: #101830;
+      --accent-bright: #60a5fa; --accent-mid: #3b82f6; --accent-dark: #1d4ed8;
+      --text-primary: #f0f4ff; --text-secondary: #8898b8; --text-muted: #4a5a78;
+      --border-subtle: rgba(96,165,250,.12); --border-accent: rgba(96,165,250,.25);
+      --green-safe: #4ade80; --yellow-warn: #facc15; --red-danger: #f87171; --orange-caution: #fb923c;
+      --font-display: "Space Grotesk", system-ui, sans-serif;
+      --font-body: "Inter", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", "SF Mono", monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--bg-deep); color: var(--text-primary); min-height: 100vh; }
+
+    .app-header {
+      background: rgba(6,10,20,.9); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle); padding: 16px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .app-header-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-primary); }
+    .app-header-brand svg { width: 28px; height: 28px; filter: drop-shadow(0 0 8px rgba(96,165,250,.4)); }
+    .app-header-brand span { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; }
+    .app-header-badge { background: rgba(96,165,250,.12); border: 1px solid var(--border-accent); padding: 2px 10px; border-radius: 100px; font-size: .65rem; font-weight: 600; color: var(--accent-bright); font-family: var(--font-mono); }
+    .app-header-links { display: flex; gap: 16px; align-items: center; }
+    .app-header-links a { color: var(--text-secondary); text-decoration: none; font-size: .85rem; }
+    .app-header-links a:hover { color: var(--accent-bright); }
+    .scan-count { font-family: var(--font-mono); font-size: .8rem; color: var(--text-muted); }
+    .scan-count strong { color: var(--accent-bright); }
+
+    .app-main { max-width: 900px; margin: 40px auto; padding: 0 24px; }
+
+    /* Auth Gate */
+    .auth-gate { text-align: center; padding: 80px 24px; }
+    .auth-gate h2 { font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 12px; }
+    .auth-gate p { color: var(--text-secondary); margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .auth-buttons { display: flex; flex-direction: column; gap: 12px; max-width: 360px; margin: 0 auto; }
+    .auth-btn {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 14px 24px; border-radius: 10px; font-size: .95rem; font-weight: 600;
+      cursor: pointer; transition: all .2s; text-decoration: none; border: none;
+      font-family: var(--font-body);
+    }
+    .auth-btn-google {
+      background: #fff; color: #333;
+    }
+    .auth-btn-google:hover { background: #f0f0f0; }
+    .auth-btn-google svg { width: 20px; height: 20px; }
+    .auth-btn-email {
+      background: var(--bg-elevated); color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+    }
+    .auth-btn-email:hover { border-color: var(--accent-bright); }
+    .auth-divider { color: var(--text-muted); font-size: .85rem; margin: 8px 0; }
+
+    .email-form { display: none; max-width: 360px; margin: 0 auto; }
+    .email-form input {
+      width: 100%; background: var(--bg-surface); border: 1px solid var(--border-subtle);
+      border-radius: 8px; padding: 12px 16px; color: var(--text-primary); font-size: .95rem;
+      margin-bottom: 12px; font-family: var(--font-body);
+    }
+    .email-form input:focus { outline: none; border-color: var(--accent-bright); }
+    .email-form button {
+      width: 100%; background: var(--accent-mid); color: #fff; padding: 14px;
+      border-radius: 10px; font-weight: 700; border: none; cursor: pointer;
+      font-size: .95rem; font-family: var(--font-body); transition: all .2s;
+    }
+    .email-form button:hover { background: var(--accent-bright); }
+
+    /* Upload Area */
+    /* Source Tabs */
+    .source-tabs {
+      display: flex; gap: 0; margin-bottom: 24px; border-bottom: 1px solid var(--border-subtle);
+    }
+    .source-tab {
+      padding: 12px 24px; font-size: .9rem; font-weight: 600; cursor: pointer;
+      color: var(--text-muted); border-bottom: 2px solid transparent;
+      transition: all .2s; background: none; border-top: none; border-left: none; border-right: none;
+      font-family: var(--font-body);
+    }
+    .source-tab:hover { color: var(--text-secondary); }
+    .source-tab.active { color: var(--accent-bright); border-bottom-color: var(--accent-bright); }
+    .source-tab .tab-icon { margin-right: 8px; }
+
+    /* GitHub URL input */
+    .github-source { display: none; }
+    .github-source.active { display: block; }
+    .github-input-wrap {
+      background: var(--bg-surface); border: 1px solid var(--border-subtle);
+      border-radius: 12px; padding: 32px; text-align: center;
+    }
+    .github-input-wrap h3 { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 8px; }
+    .github-input-wrap > p { color: var(--text-secondary); font-size: .9rem; margin-bottom: 20px; }
+    .github-url-row {
+      display: flex; gap: 12px; max-width: 640px; margin: 0 auto 16px;
+    }
+    .github-url-row input {
+      flex: 1; background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+      border-radius: 8px; padding: 12px 16px; color: var(--text-primary); font-size: .9rem;
+      font-family: var(--font-mono); outline: none;
+    }
+    .github-url-row input::placeholder { color: var(--text-muted); }
+    .github-url-row input:focus { border-color: var(--accent-bright); }
+    .github-url-row button {
+      background: var(--accent-mid); color: #fff; border: none; padding: 12px 24px;
+      border-radius: 8px; font-weight: 700; cursor: pointer; transition: all .2s;
+      font-family: var(--font-body); white-space: nowrap;
+    }
+    .github-url-row button:hover { background: var(--accent-bright); }
+    .github-url-row button:disabled { opacity: .5; cursor: not-allowed; }
+    .github-examples {
+      display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 12px;
+    }
+    .github-examples span { color: var(--text-muted); font-size: .8rem; }
+    .github-example {
+      background: rgba(96,165,250,.08); border: 1px solid var(--border-subtle);
+      color: var(--accent-bright); padding: 4px 12px; border-radius: 6px;
+      font-size: .75rem; font-family: var(--font-mono); cursor: pointer;
+      transition: all .2s;
+    }
+    .github-example:hover { background: rgba(96,165,250,.15); border-color: var(--accent-bright); }
+    .github-error {
+      color: var(--red-danger); font-size: .85rem; margin-top: 12px; display: none;
+    }
+    .github-info {
+      color: var(--text-muted); font-size: .8rem; margin-top: 16px;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .github-info svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+
+    .file-source { display: block; }
+    .file-source.hidden { display: none; }
+
+    .upload-area {
+      border: 2px dashed var(--border-accent); border-radius: 16px;
+      padding: 60px 40px; text-align: center; cursor: pointer;
+      transition: all .3s; background: rgba(96,165,250,.02);
+    }
+    .upload-area:hover, .upload-area.dragover {
+      border-color: var(--accent-bright); background: rgba(96,165,250,.06);
+    }
+    .upload-icon { font-size: 3rem; margin-bottom: 16px; }
+    .upload-area h3 { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 8px; }
+    .upload-area p { color: var(--text-secondary); font-size: .9rem; }
+    .upload-area .formats { color: var(--text-muted); font-size: .8rem; font-family: var(--font-mono); margin-top: 12px; }
+    .upload-area input[type="file"] { display: none; }
+
+    /* Results */
+    .results-container { display: none; margin-top: 32px; }
+    .results-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 0; border-bottom: 1px solid var(--border-subtle); margin-bottom: 24px;
+    }
+    .results-file { font-family: var(--font-mono); font-size: .9rem; color: var(--accent-bright); }
+    .results-verdict {
+      font-family: var(--font-display); font-weight: 700; font-size: 1.1rem;
+      padding: 6px 20px; border-radius: 100px;
+    }
+    .verdict-safe { background: rgba(74,222,128,.12); color: var(--green-safe); border: 1px solid rgba(74,222,128,.3); }
+    .verdict-low { background: rgba(74,222,128,.08); color: var(--green-safe); border: 1px solid rgba(74,222,128,.2); }
+    .verdict-medium { background: rgba(250,204,21,.1); color: var(--yellow-warn); border: 1px solid rgba(250,204,21,.2); }
+    .verdict-high { background: rgba(251,146,60,.1); color: var(--orange-caution); border: 1px solid rgba(251,146,60,.2); }
+    .verdict-critical { background: rgba(248,113,113,.12); color: var(--red-danger); border: 1px solid rgba(248,113,113,.3); }
+
+    .results-summary {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px;
+    }
+    .summary-card {
+      background: var(--bg-surface); border: 1px solid var(--border-subtle);
+      border-radius: 10px; padding: 16px; text-align: center;
+    }
+    .summary-card .num { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; }
+    .summary-card .label { color: var(--text-muted); font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; margin-top: 4px; }
+    .num-critical { color: var(--red-danger); }
+    .num-high { color: var(--orange-caution); }
+    .num-medium { color: var(--yellow-warn); }
+    .num-low { color: var(--green-safe); }
+
+    .finding {
+      background: var(--bg-surface); border: 1px solid var(--border-subtle);
+      border-radius: 12px; padding: 20px; margin-bottom: 16px; transition: all .2s;
+    }
+    .finding:hover { border-color: var(--border-accent); }
+    .finding-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .finding-severity {
+      font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+      padding: 3px 10px; border-radius: 6px; font-family: var(--font-mono);
+    }
+    .sev-critical { background: rgba(248,113,113,.15); color: var(--red-danger); }
+    .sev-high { background: rgba(251,146,60,.15); color: var(--orange-caution); }
+    .sev-medium { background: rgba(250,204,21,.12); color: var(--yellow-warn); }
+    .sev-low { background: rgba(74,222,128,.1); color: var(--green-safe); }
+    .sev-info { background: rgba(96,165,250,.1); color: var(--accent-bright); }
+    .finding-title { font-weight: 600; font-size: .95rem; }
+    .finding-line { font-family: var(--font-mono); font-size: .8rem; color: var(--text-muted); margin-left: auto; }
+    .finding-body { color: var(--text-secondary); font-size: .875rem; line-height: 1.6; margin-bottom: 12px; }
+    .finding-code {
+      background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+      border-radius: 8px; padding: 12px 16px; font-family: var(--font-mono);
+      font-size: .8rem; color: var(--red-danger); overflow-x: auto; margin-bottom: 12px;
+      white-space: pre-wrap; word-break: break-all;
+    }
+    .finding-fix {
+      background: rgba(74,222,128,.05); border: 1px solid rgba(74,222,128,.15);
+      border-radius: 8px; padding: 12px 16px;
+    }
+    .finding-fix-label { font-size: .75rem; font-weight: 700; color: var(--green-safe); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+    .finding-fix p { color: var(--text-secondary); font-size: .85rem; line-height: 1.5; }
+
+    .no-findings { text-align: center; padding: 40px; }
+    .no-findings .icon { font-size: 3rem; margin-bottom: 12px; }
+    .no-findings h3 { color: var(--green-safe); font-family: var(--font-display); margin-bottom: 8px; }
+    .no-findings p { color: var(--text-secondary); }
+
+    .results-actions { display: flex; gap: 12px; margin-top: 24px; justify-content: center; }
+    .results-actions button {
+      padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: .875rem;
+      cursor: pointer; font-family: var(--font-body); transition: all .2s;
+    }
+    .btn-scan-again { background: var(--accent-mid); color: #fff; border: none; }
+    .btn-scan-again:hover { background: var(--accent-bright); }
+    .btn-copy-report { background: var(--bg-elevated); color: var(--text-primary); border: 1px solid var(--border-subtle); }
+    .btn-copy-report:hover { border-color: var(--accent-bright); }
+
+    /* Scanning animation */
+    .scanning-state { display: none; text-align: center; padding: 60px; }
+    .scanning-spinner {
+      width: 60px; height: 60px; margin: 0 auto 24px;
+      border: 3px solid var(--border-subtle); border-top-color: var(--accent-bright);
+      border-radius: 50%; animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .app-header-brand .eye-glow { animation: eyePulse 3s ease-in-out infinite; }
+    .app-header-brand .claw-body { animation: bodyBob 3s ease-in-out infinite; transform-origin: center bottom; }
+    .app-header-brand .claw-left { animation: clawSnap 4s ease-in-out infinite; transform-origin: right center; }
+    .app-header-brand .claw-right { animation: clawSnap 4s ease-in-out 0.2s infinite; transform-origin: left center; }
+    @keyframes eyePulse { 0%, 100% { opacity: 1; filter: drop-shadow(0 0 2px #00e5cc); } 50% { opacity: 0.6; filter: drop-shadow(0 0 6px #00e5cc); } }
+    @keyframes bodyBob { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-4px); } }
+    @keyframes clawSnap { 0%, 85%, 100% { transform: rotate(0deg); } 90% { transform: rotate(-12deg); } 95% { transform: rotate(0deg); } }
+    .scanning-state h3 { font-family: var(--font-display); margin-bottom: 8px; }
+    .scanning-state p { color: var(--text-secondary); font-size: .9rem; }
+    .scanning-progress {
+      width: 300px; height: 4px; background: var(--border-subtle);
+      border-radius: 2px; margin: 16px auto 0; overflow: hidden;
+    }
+    .scanning-progress-bar {
+      height: 100%; background: var(--accent-bright); border-radius: 2px;
+      width: 0; transition: width .3s ease;
+    }
+
+    /* Upgrade prompt */
+    .upgrade-prompt {
+      display: none; background: var(--bg-surface); border: 1px solid var(--border-accent);
+      border-radius: 16px; padding: 40px; text-align: center; margin-top: 32px;
+    }
+    .upgrade-prompt h3 { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 12px; }
+    .upgrade-prompt p { color: var(--text-secondary); margin-bottom: 24px; }
+    .upgrade-prompt .plans { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .upgrade-prompt .plan-btn {
+      padding: 12px 24px; border-radius: 8px; font-weight: 600; text-decoration: none;
+      font-size: .875rem; transition: all .2s; font-family: var(--font-body);
+    }
+
+    /* Fix This CTA Buttons */
+    .fix-cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(248,113,113,.08); border: 1px solid rgba(248,113,113,.25);
+      color: #f87171; padding: 8px 16px; border-radius: 8px;
+      font-size: .8rem; font-weight: 600; cursor: pointer;
+      font-family: var(--font-body); transition: all .25s; margin-top: 12px;
+    }
+    .fix-cta-btn:hover {
+      background: rgba(248,113,113,.18); border-color: rgba(248,113,113,.5);
+      transform: translateY(-1px); box-shadow: 0 4px 16px rgba(248,113,113,.15);
+    }
+    .fix-cta-btn .fix-price {
+      background: rgba(248,113,113,.15); padding: 2px 8px; border-radius: 4px;
+      font-family: var(--font-mono); font-size: .75rem;
+    }
+    .fix-cta-desc {
+      color: var(--text-muted); font-size: .78rem; margin-top: 6px; line-height: 1.4;
+    }
+
+    /* Fix Everything Bundle CTA */
+    .fix-bundle-cta {
+      background: linear-gradient(135deg, rgba(96,165,250,.08), rgba(248,113,113,.06));
+      border: 1px solid var(--border-accent); border-radius: 16px;
+      padding: 32px; text-align: center; margin-top: 32px;
+    }
+    .fix-bundle-cta h3 {
+      font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--accent-bright), #f87171);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .fix-bundle-cta p { color: var(--text-secondary); font-size: .9rem; margin-bottom: 20px; max-width: 540px; margin-left: auto; margin-right: auto; }
+    .fix-bundle-cta .bundle-price {
+      font-family: var(--font-display); font-size: 2rem; font-weight: 700;
+      color: var(--text-primary); margin-bottom: 4px;
+    }
+    .fix-bundle-cta .bundle-savings {
+      color: var(--green-safe); font-size: .85rem; font-weight: 600; margin-bottom: 20px;
+    }
+    .fix-bundle-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, var(--accent-mid), #1d4ed8);
+      color: #fff; padding: 14px 32px; border-radius: 10px;
+      font-size: 1rem; font-weight: 700; cursor: pointer;
+      border: none; font-family: var(--font-body); transition: all .25s;
+      text-decoration: none;
+    }
+    .fix-bundle-btn:hover {
+      transform: translateY(-2px); box-shadow: 0 8px 24px rgba(59,130,246,.3);
+    }
+    .fix-bundle-or {
+      color: var(--text-muted); font-size: .85rem; margin-top: 16px;
+    }
+    .fix-overhaul-link {
+      color: var(--accent-bright); text-decoration: underline; cursor: pointer;
+      font-weight: 600;
+    }
+    .fix-overhaul-link:hover { color: #93c5fd; }
+
+    /* Contact/Quote Modal */
+    .fix-modal-overlay {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(6,10,20,.85); backdrop-filter: blur(8px);
+      z-index: 9999; align-items: center; justify-content: center;
+    }
+    .fix-modal-overlay.active { display: flex; }
+    .fix-modal {
+      background: var(--bg-surface); border: 1px solid var(--border-accent);
+      border-radius: 16px; padding: 36px; max-width: 480px; width: 90%;
+      position: relative; max-height: 90vh; overflow-y: auto;
+    }
+    .fix-modal-close {
+      position: absolute; top: 16px; right: 16px; background: none; border: none;
+      color: var(--text-muted); font-size: 1.4rem; cursor: pointer; line-height: 1;
+    }
+    .fix-modal-close:hover { color: var(--text-primary); }
+    .fix-modal h3 {
+      font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 6px;
+    }
+    .fix-modal .modal-subtitle {
+      color: var(--text-secondary); font-size: .85rem; margin-bottom: 20px;
+    }
+    .fix-modal .selected-issues {
+      background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+      border-radius: 8px; padding: 12px 16px; margin-bottom: 20px;
+    }
+    .fix-modal .selected-issues .issue-tag {
+      display: inline-block; background: rgba(248,113,113,.1); border: 1px solid rgba(248,113,113,.2);
+      color: #f87171; padding: 3px 10px; border-radius: 6px; font-size: .75rem;
+      font-family: var(--font-mono); margin: 3px 4px 3px 0;
+    }
+    .fix-modal .selected-issues .issue-total {
+      display: block; margin-top: 8px; font-family: var(--font-mono); font-weight: 700;
+      font-size: .9rem; color: var(--text-primary);
+    }
+    .fix-modal label {
+      display: block; color: var(--text-secondary); font-size: .8rem;
+      font-weight: 600; margin-bottom: 6px; text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .fix-modal input, .fix-modal textarea {
+      width: 100%; background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+      border-radius: 8px; padding: 12px 16px; color: var(--text-primary);
+      font-size: .9rem; font-family: var(--font-body); margin-bottom: 16px;
+    }
+    .fix-modal input:focus, .fix-modal textarea:focus {
+      outline: none; border-color: var(--accent-bright);
+    }
+    .fix-modal input::placeholder, .fix-modal textarea::placeholder { color: var(--text-muted); }
+    .fix-modal textarea { min-height: 80px; resize: vertical; }
+    .fix-modal-submit {
+      width: 100%; background: linear-gradient(135deg, var(--accent-mid), #1d4ed8);
+      color: #fff; padding: 14px; border-radius: 10px; font-weight: 700;
+      border: none; cursor: pointer; font-size: .95rem; font-family: var(--font-body);
+      transition: all .25s;
+    }
+    .fix-modal-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(59,130,246,.3); }
+    .fix-modal-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+    .fix-modal .modal-trust {
+      display: flex; align-items: center; gap: 8px; margin-top: 14px;
+      color: var(--text-muted); font-size: .75rem;
+    }
+    .fix-modal .modal-trust svg { width: 14px; height: 14px; fill: var(--green-safe); flex-shrink: 0; }
+    .fix-modal .form-success {
+      display: none; text-align: center; padding: 20px 0;
+    }
+    .fix-modal .form-success .check-icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .fix-modal .form-success h4 {
+      font-family: var(--font-display); font-size: 1.1rem; color: var(--green-safe); margin-bottom: 8px;
+    }
+    .fix-modal .form-success p { color: var(--text-secondary); font-size: .85rem; }
+
+    @media (max-width: 600px) {
+      .results-summary { grid-template-columns: repeat(2, 1fr); }
+      .results-header { flex-direction: column; gap: 12px; }
+      .fix-bundle-cta { padding: 24px 16px; }
+      .fix-modal { padding: 24px; }
+    }
+  </style>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="../auth/clawops-auth.js"></script>
+</head>
+<body>
+
+<div class="app-header">
+  <a href="index.html" class="app-header-brand">
+    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Lobster body - elongated pill shape -->
+        <ellipse cx="60" cy="58" rx="22" ry="30" fill="url(#h-grad)" class="claw-body"/>
+        <!-- Head - rounded top -->
+        <ellipse cx="60" cy="30" rx="18" ry="16" fill="url(#h-grad)"/>
+        <!-- Body segment lines -->
+        <path d="M42 50 Q60 47 78 50" stroke="rgba(29,78,216,0.25)" stroke-width="1" fill="none"/>
+        <path d="M40 60 Q60 57 80 60" stroke="rgba(29,78,216,0.20)" stroke-width="1" fill="none"/>
+        <path d="M41 70 Q60 67 79 70" stroke="rgba(29,78,216,0.15)" stroke-width="1" fill="none"/>
+        <!-- Tail fan -->
+        <ellipse cx="52" cy="96" rx="8" ry="5" fill="url(#h-grad)" transform="rotate(-15 52 96)"/>
+        <ellipse cx="60" cy="98" rx="8" ry="5" fill="url(#h-grad)"/>
+        <ellipse cx="68" cy="96" rx="8" ry="5" fill="url(#h-grad)" transform="rotate(15 68 96)"/>
+        <path d="M60 88 L60 93" stroke="rgba(29,78,216,0.20)" stroke-width="1"/>
+        <!-- Left claw -->
+        <path d="M30 30 C18 22 8 28 10 38 C12 48 22 46 28 38 C32 32 30 30 30 30Z" fill="url(#h-grad)" class="claw-left"/>
+        <path d="M14 32 Q18 36 14 40" stroke="rgba(29,78,216,0.25)" stroke-width="1" fill="none"/>
+        <!-- Right claw -->
+        <path d="M90 30 C102 22 112 28 110 38 C108 48 98 46 92 38 C88 32 90 30 90 30Z" fill="url(#h-grad)" class="claw-right"/>
+        <path d="M106 32 Q102 36 106 40" stroke="rgba(29,78,216,0.25)" stroke-width="1" fill="none"/>
+        <!-- Antennae - long and curved -->
+        <path d="M50 18 Q40 4 28 2" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" class="antenna"/>
+        <path d="M70 18 Q80 4 92 2" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" class="antenna"/>
+        <!-- Small legs (4 pairs) -->
+        <line x1="40" y1="48" x2="32" y2="52" stroke="url(#h-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="80" y1="48" x2="88" y2="52" stroke="url(#h-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="39" y1="56" x2="30" y2="60" stroke="url(#h-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="81" y1="56" x2="90" y2="60" stroke="url(#h-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="39" y1="64" x2="31" y2="68" stroke="url(#h-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="81" y1="64" x2="89" y2="68" stroke="url(#h-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="40" y1="72" x2="33" y2="76" stroke="url(#h-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="80" y1="72" x2="87" y2="76" stroke="url(#h-grad)" stroke-width="2" stroke-linecap="round"/>
+        <!-- Eyes -->
+        <circle cx="51" cy="28" r="5" fill="#050810" class="eye"/>
+        <circle cx="69" cy="28" r="5" fill="#050810" class="eye"/>
+        <circle cx="52" cy="27" r="2" fill="#00e5cc" class="eye-glow"/>
+        <circle cx="70" cy="27" r="2" fill="#00e5cc" class="eye-glow"/>
+        <defs><linearGradient id="h-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#60a5fa"/><stop offset="100%" stop-color="#1d4ed8"/></linearGradient></defs>
+      </svg>
+    <span>Shield</span>
+    <span class="app-header-badge">SCANNER</span>
+  </a>
+  <div class="app-header-links">
+    <span class="scan-count" id="scanCount"></span>
+    <a href="index.html">Pricing</a>
+    <a href="#" id="logoutBtn" style="display:none;">Log Out</a>
+    <a href="#" id="loginLink" onclick="event.preventDefault(); if(window.ClawOpsAuth) ClawOpsAuth.openAuthModal('signin');">Sign In</a>
+  </div>
+</div>
+
+<div class="app-main">
+  <!-- Auth Gate (shown when not logged in) -->
+  <div class="auth-gate" id="authGate">
+    <h2>Sign up for your free scan</h2>
+    <p>Create an account to get 1 free scan. Upload any OpenClaw skill or prompt file and see the full security analysis.</p>
+    <div class="auth-buttons">
+      <button class="auth-btn auth-btn-google" onclick="signUpGoogle()">
+        <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Continue with Google
+      </button>
+      <div class="auth-divider">or</div>
+      <button class="auth-btn auth-btn-email" onclick="showEmailForm()">
+        Sign up with email
+      </button>
+    </div>
+    <div class="email-form" id="emailForm">
+      <input type="email" id="emailInput" placeholder="your@email.com" required>
+      <input type="password" id="passwordInput" placeholder="Create a password (min 8 chars)" minlength="8" required>
+      <button onclick="signUpEmail()">Create Account</button>
+      <p style="color:var(--text-muted);font-size:.8rem;margin-top:8px;cursor:pointer;" onclick="loginMode()">Already have an account? <span style="color:var(--accent-bright);">Log in</span></p>
+    </div>
+  </div>
+
+  <!-- Scanner (shown when logged in) -->
+  <div id="scannerApp" style="display:none;">
+
+    <!-- Source Tabs -->
+    <div class="source-tabs">
+      <button class="source-tab active" onclick="switchSource('url')" id="tabUrl"><span class="tab-icon">&#127760;</span>Paste URL</button>
+      <button class="source-tab" onclick="switchSource('file')" id="tabFile"><span class="tab-icon">&#128196;</span>Upload File</button>
+    </div>
+
+    <!-- URL Source (GitHub, ClawHub, any link) - shown by default -->
+    <div class="github-source active" id="urlSource">
+      <div class="github-input-wrap">
+        <h3>Scan from a URL</h3>
+        <p>Paste a link to any public skill file, GitHub repo, ClawHub skill, or raw text URL. We will fetch and scan it without you needing to download anything.</p>
+        <div class="github-url-row">
+          <input type="text" id="githubUrlInput" placeholder="https://clawhub.ai/steipete/weather or any GitHub/raw URL" autocomplete="off" spellcheck="false">
+          <button onclick="fetchAndScanUrl()" id="githubScanBtn">Scan</button>
+        </div>
+        <div class="github-error" id="githubError"></div>
+        <div class="github-examples">
+          <span>Try:</span>
+          <span class="github-example" onclick="setGithubExample('https://clawhub.ai/steipete/weather')">ClawHub: weather</span>
+          <span class="github-example" onclick="setGithubExample('https://clawhub.ai/pskoett/self-improving-agent')">ClawHub: self-improving-agent</span>
+          <span class="github-example" onclick="setGithubExample('https://github.com/openclaw/openclaw/blob/main/skills/weather/SKILL.md')">GitHub: weather/SKILL.md</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- File Upload Source - hidden by default -->
+    <div class="file-source" id="fileSource" style="display:none;">
+      <div class="upload-area" id="uploadArea">
+        <div class="upload-icon">&#128737;</div>
+        <h3>Drop your file here</h3>
+        <p>or click to browse</p>
+        <div class="formats">.md .txt .yaml .yml .json .toml .py .js .sh</div>
+        <input type="file" id="fileInput" accept=".md,.txt,.yaml,.yml,.json,.toml,.py,.js,.sh,.ts,.jsx,.tsx">
+      </div>
+    </div>
+
+    <div class="scanning-state" id="scanningState">
+      <div class="scanning-spinner"></div>
+      <h3>Scanning your file...</h3>
+      <p id="scanStep">Initializing detection engine</p>
+      <div class="scanning-progress">
+        <div class="scanning-progress-bar" id="scanProgress"></div>
+      </div>
+    </div>
+
+    <div class="results-container" id="resultsContainer"></div>
+
+    <div style="margin-top:24px;padding:16px;text-align:center;">
+      <p style="font-size:.78rem;color:var(--text-muted);line-height:1.5;max-width:640px;margin:0 auto;">ClawOps Shield uses pattern-based detection to identify potential security threats. Results are informational only and may include false positives or false negatives. A clean scan does not guarantee a file is free from malicious content. Shield is not a substitute for professional security audits. See our <a href="terms.html" style="color:var(--accent-bright);text-decoration:underline;">Scanner Terms</a> for full details.</p>
+    </div>
+
+    <div class="upgrade-prompt" id="upgradePrompt">
+      <h3>You have used your free scan</h3>
+      <p>Upgrade to keep scanning files and protecting your agents.</p>
+      <div class="plans">
+        <a href="https://buy.stripe.com/9B6eVd0L3blL54E9Ck3oA0d" class="plan-btn" style="background:var(--bg-elevated);color:var(--text-primary);border:1px solid var(--border-subtle);" id="upgrade-starter">Starter $5.99/mo</a>
+        <a href="https://buy.stripe.com/4gM8wP3Xf2Pfbt229S3oA0e" class="plan-btn" style="background:var(--accent-mid);color:#fff;" id="upgrade-pro">Pro $9.99/mo</a>
+        <a href="https://buy.stripe.com/4gM8wPctLexXgNm8yg3oA0f" class="plan-btn" style="background:var(--bg-elevated);color:var(--text-primary);border:1px solid var(--border-subtle);" id="upgrade-enterprise">Enterprise $14.99/mo</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Fix This Contact/Quote Modal -->
+<div class="fix-modal-overlay" id="fixModalOverlay">
+  <div class="fix-modal">
+    <button class="fix-modal-close" onclick="closeFixModal()">&times;</button>
+    <h3>Get This Fixed</h3>
+    <p class="modal-subtitle">Our security engineers will remediate these issues, usually within 24-48 hours.</p>
+    <div class="selected-issues" id="fixModalIssues"></div>
+    <form id="fixQuoteForm" action="https://formsubmit.co/rickclaw08@gmail.com" method="POST" target="_blank">
+      <input type="hidden" name="_subject" value="Shield Fix Request">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_next" id="formRedirectUrl">
+      <input type="hidden" name="issues" id="fixFormIssues">
+      <input type="hidden" name="estimated_cost" id="fixFormCost">
+      <input type="hidden" name="scanned_file" id="fixFormFile">
+      <label for="fixEmail">Your Email</label>
+      <input type="email" id="fixEmail" name="email" placeholder="you@company.com" required>
+      <label for="fixWebsite">Website / Asset URL</label>
+      <input type="text" id="fixWebsite" name="website" placeholder="https://yoursite.com" required>
+      <label for="fixNotes">Anything else we should know?</label>
+      <textarea id="fixNotes" name="notes" placeholder="Access details, timeline, etc. (optional)"></textarea>
+      <button type="submit" class="fix-modal-submit" id="fixModalSubmitBtn">Request a Fix</button>
+      <div class="modal-trust">
+        <svg viewBox="0 0 16 16"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.78 5.28l-4.5 5.5a.75.75 0 01-1.12.04l-2-2a.75.75 0 111.06-1.06l1.42 1.42 3.96-4.84a.75.75 0 111.18.94z"/></svg>
+        <span>No payment required upfront. We will confirm scope and pricing before any work begins.</span>
+      </div>
+    </form>
+    <div class="form-success" id="fixFormSuccess">
+      <div class="check-icon">&#9989;</div>
+      <h4>Request Submitted</h4>
+      <p>We will review your scan results and get back to you within a few hours with a detailed remediation plan.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// Fix This CTA - Pricing Map & Modal Logic
+// ============================================================
+
+var FIX_PRICING = {
+  'PI-001': { price: 250, label: 'Prompt Injection Fix', desc: 'We will audit and remove the injection vector, add input sanitization, and harden the prompt boundary.' },
+  'PI-002': { price: 250, label: 'Role Reassignment Fix', desc: 'We will lock down the agent role context and add identity verification guards.' },
+  'PI-003': { price: 250, label: 'Boundary Escape Fix', desc: 'We will strip dangerous tokens and add instruction boundary hardening.' },
+  'PI-004': { price: 250, label: 'Multi-turn Attack Fix', desc: 'We will neutralize persistent behavior modification and add turn isolation.' },
+  'DE-001': { price: 250, label: 'Exfiltration Vector Fix', desc: 'We will remove or sandbox external data calls and audit all outbound URLs.' },
+  'DE-002': { price: 250, label: 'Sensitive File Access Fix', desc: 'We will restrict file access patterns and add path allowlisting.' },
+  'DE-003': { price: 250, label: 'Webhook Leak Fix', desc: 'We will remove unauthorized webhooks and lock down notification channels.' },
+  'DE-004': { price: 250, label: 'Email Exfiltration Fix', desc: 'We will remove email sending of sensitive data and add data classification guards.' },
+  'PE-001': { price: 250, label: 'Shell Execution Fix', desc: 'We will remove dangerous shell commands and add command allowlisting.' },
+  'PE-002': { price: 250, label: 'System File Mod Fix', desc: 'We will restrict file modification scope and add filesystem guards.' },
+  'PE-003': { price: 200, label: 'Config Manipulation Fix', desc: 'We will lock agent config files and add modification detection.' },
+  'PE-004': { price: 200, label: 'Env Variable Fix', desc: 'We will remove direct env access and add secret management.' },
+  'HI-001': { price: 200, label: 'Hidden Character Fix', desc: 'We will strip all zero-width characters and add content normalization.' },
+  'HI-002': { price: 200, label: 'Hidden Instruction Fix', desc: 'We will remove concealed instructions and add comment auditing.' },
+  'HI-003': { price: 200, label: 'Invisible Text Fix', desc: 'We will remove CSS-hidden content and ensure full instruction visibility.' },
+  'OP-001': { price: 250, label: 'Base64 Payload Fix', desc: 'We will decode, audit, and replace obfuscated content with transparent alternatives.' },
+  'OP-002': { price: 200, label: 'Encoded String Fix', desc: 'We will decode and inspect encoded strings and add obfuscation detection.' },
+  'OP-003': { price: 200, label: 'Hex Payload Fix', desc: 'We will decode hex content and replace with plaintext equivalents.' },
+  'SE-001': { price: 200, label: 'Social Engineering Fix', desc: 'We will remove manipulation language and add authority verification.' },
+  'SE-002': { price: 200, label: 'Safety Bypass Fix', desc: 'We will remove safety override language and strengthen security guards.' }
+};
+
+var _fixModalState = { issues: [], filename: '' };
+
+window.openFixModal = function(issueIds, filename) {
+  _fixModalState.issues = issueIds;
+  _fixModalState.filename = filename;
+  var issuesEl = document.getElementById('fixModalIssues');
+  var total = 0;
+  var tags = '';
+  var issueNames = [];
+  issueIds.forEach(function(id) {
+    var p = FIX_PRICING[id] || { price: 200, label: id };
+    tags += '<span class="issue-tag">' + esc(p.label) + ' - $' + p.price + '</span>';
+    total += p.price;
+    issueNames.push(p.label + ' ($' + p.price + ')');
+  });
+  tags += '<span class="issue-total">Estimated total: $' + total + '</span>';
+  issuesEl.innerHTML = tags;
+  document.getElementById('fixFormIssues').value = issueNames.join(', ');
+  document.getElementById('fixFormCost').value = '$' + total;
+  document.getElementById('fixFormFile').value = filename;
+  document.getElementById('formRedirectUrl').value = window.location.href;
+  // Reset form state
+  document.getElementById('fixQuoteForm').style.display = 'block';
+  document.getElementById('fixFormSuccess').style.display = 'none';
+  document.getElementById('fixModalOverlay').classList.add('active');
+};
+
+window.closeFixModal = function() {
+  document.getElementById('fixModalOverlay').classList.remove('active');
+};
+
+// Close modal on overlay click
+document.getElementById('fixModalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeFixModal();
+});
+
+// Handle form submission (FormSubmit handles the actual send)
+document.getElementById('fixQuoteForm').addEventListener('submit', function(e) {
+  // Let FormSubmit handle it via target="_blank", then show success
+  var btn = document.getElementById('fixModalSubmitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  setTimeout(function() {
+    document.getElementById('fixQuoteForm').style.display = 'none';
+    document.getElementById('fixFormSuccess').style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Request a Fix';
+  }, 1500);
+});
+
+// ============================================================
+// ClawOps Shield - Client-Side Prompt Injection Scanner Engine
+// All scanning happens in the browser. No files leave the device.
+// ============================================================
+
+const DETECTION_RULES = [
+  // CRITICAL - Prompt Injection
+  {
+    id: 'PI-001', category: 'Prompt Injection', severity: 'critical',
+    title: 'System prompt override attempt',
+    pattern: /(?:ignore|forget|disregard|override|bypass|skip)\s+(?:all\s+)?(?:previous|prior|above|earlier|system|original|initial)\s+(?:instructions?|prompts?|rules?|guidelines?|context|directives?)/gi,
+    description: 'Attempts to make the AI ignore its original instructions, allowing an attacker to take control of the agent behavior.',
+    fix: 'Remove this line entirely. Legitimate skills never need to override system prompts.'
+  },
+  {
+    id: 'PI-002', category: 'Prompt Injection', severity: 'critical',
+    title: 'Role reassignment attack',
+    pattern: /(?:you\s+are\s+now|from\s+now\s+on\s+you\s+are|act\s+as\s+if\s+you\s+are|pretend\s+(?:to\s+be|you\s+are)|your\s+new\s+(?:role|identity|persona)\s+is|switch\s+to\s+(?:role|mode|persona))/gi,
+    description: 'Attempts to reassign the AI agent to a different role or persona, potentially bypassing safety restrictions.',
+    fix: 'Remove role reassignment language. Skills should provide instructions within the existing agent context, not redefine who the agent is.'
+  },
+  {
+    id: 'PI-003', category: 'Prompt Injection', severity: 'high',
+    title: 'Instruction boundary escape',
+    pattern: /(?:\[system\]|\[SYSTEM\]|<\|im_start\|>|<\|im_end\|>|<\|system\|>|<\/?system>|<<SYS>>|<\/?s>|<\/?inst>|\[\/INST\]|\[INST\])/gi,
+    description: 'Contains special tokens or delimiters that attempt to break out of the instruction boundary and inject system-level commands.',
+    fix: 'Remove all special instruction tokens. These are model-specific control sequences that should never appear in skill files.'
+  },
+  {
+    id: 'PI-004', category: 'Prompt Injection', severity: 'high',
+    title: 'Multi-turn manipulation chain',
+    pattern: /(?:in\s+(?:your|the)\s+(?:next|following)\s+(?:response|reply|message|turn),?\s+(?:you\s+)?(?:must|should|will|need\s+to)\s+(?:always|never))|(?:from\s+(?:this|now)\s+(?:point|on),?\s+(?:always|never)\s+)/gi,
+    description: 'Attempts to plant persistent behavioral changes that affect future turns beyond the current interaction.',
+    fix: 'Remove persistent behavior modification language. Skills should not alter agent behavior across conversation turns.'
+  },
+  // HIGH - Data Exfiltration
+  {
+    id: 'DE-001', category: 'Data Exfiltration', severity: 'critical',
+    title: 'External data transmission via URL',
+    pattern: /(?:fetch|curl|wget|http\.get|requests\.(?:get|post)|axios|XMLHttpRequest|sendBeacon)\s*\(?.*(?:https?:\/\/(?!(?:fonts\.googleapis|cdnjs\.cloudflare|unpkg|cdn\.jsdelivr))[^\s'")]+)/gi,
+    description: 'Code that sends data to external URLs. Could be exfiltrating API keys, memory files, or user data to an attacker-controlled server.',
+    fix: 'Remove or audit all external URL calls. If the skill genuinely needs web access, verify the domains are trusted and necessary.'
+  },
+  {
+    id: 'DE-002', category: 'Data Exfiltration', severity: 'high',
+    title: 'Sensitive file read attempt',
+    pattern: /(?:read|cat|less|more|head|tail|open|load)\s+.*(?:\.env|\.ssh|id_rsa|\.aws|credentials|api[_-]?key|secret|token|password|\.openclaw\/openclaw\.json|MEMORY\.md|USER\.md)/gi,
+    description: 'Attempts to read sensitive files like API keys, SSH keys, credentials, or private agent configuration files.',
+    fix: 'Remove references to sensitive files. Skills should never need access to .env files, SSH keys, or credential stores.'
+  },
+  {
+    id: 'DE-003', category: 'Data Exfiltration', severity: 'high',
+    title: 'Webhook/callback data leak',
+    pattern: /(?:webhook|callback|notify|ping|beacon|exfil|phone[_-]?home)\s*[\(=:]\s*['"]?https?:\/\//gi,
+    description: 'Sends data to external webhook endpoints, potentially leaking agent state, conversation history, or user information.',
+    fix: 'Remove all webhook/callback URLs pointing to external services. If notifications are needed, they should use the agent framework built-in messaging.'
+  },
+  // HIGH - Privilege Escalation
+  {
+    id: 'PE-001', category: 'Privilege Escalation', severity: 'critical',
+    title: 'Shell command execution',
+    pattern: /(?:exec|system|popen|subprocess|child_process|spawn|shell_exec|eval)\s*\(.*(?:rm\s+-rf|sudo|chmod\s+777|chown|mkfs|dd\s+if=|:\(\)\{|fork\s+bomb)/gi,
+    description: 'Executes dangerous shell commands that could destroy data, gain root access, or cause system damage.',
+    fix: 'Remove all destructive shell commands. Skills should never need rm -rf, sudo, chmod 777, or similar system-level operations.'
+  },
+  {
+    id: 'PE-002', category: 'Privilege Escalation', severity: 'high',
+    title: 'System file modification',
+    pattern: /(?:write|overwrite|modify|edit|replace|append)\s+.*(?:\/etc\/|\/usr\/|\/var\/|~\/\.|\.bashrc|\.zshrc|\.profile|\.ssh\/|crontab|sudoers|openclaw\.json)/gi,
+    description: 'Attempts to modify system configuration files, shell profiles, or agent configuration that could escalate privileges.',
+    fix: 'Remove system file modification commands. Skills should only modify files within their own directory scope.'
+  },
+  {
+    id: 'PE-003', category: 'Privilege Escalation', severity: 'medium',
+    title: 'Agent config manipulation',
+    pattern: /(?:modify|change|update|edit|overwrite)\s+(?:the\s+)?(?:AGENTS\.md|SOUL\.md|USER\.md|TOOLS\.md|openclaw\.json|\.openclaw\/|system\s+prompt)/gi,
+    description: 'Attempts to modify core agent configuration files that define identity, behavior, and access controls.',
+    fix: 'Remove references to modifying core agent files. Skills should operate within their own scope without altering global agent configuration.'
+  },
+  // MEDIUM - Hidden Instructions
+  {
+    id: 'HI-001', category: 'Hidden Instructions', severity: 'high',
+    title: 'Zero-width character obfuscation',
+    pattern: /[\u200B\u200C\u200D\u2060\uFEFF\u200E\u200F\u202A-\u202E]/g,
+    description: 'Contains invisible zero-width Unicode characters that can hide instructions from human review while still being processed by AI.',
+    fix: 'Strip all zero-width characters. Use a hex editor or run: sed "s/[\\x{200B}\\x{200C}\\x{200D}\\x{2060}\\x{FEFF}]//g" on the file.'
+  },
+  {
+    id: 'HI-002', category: 'Hidden Instructions', severity: 'medium',
+    title: 'HTML comment with instructions',
+    pattern: /<!--[\s\S]*?(?:ignore|override|inject|execute|run|always|never|secret|hidden)[\s\S]*?-->/gi,
+    description: 'HTML comments containing instruction-like language that could be interpreted by AI models even though invisible when rendered.',
+    fix: 'Remove HTML comments containing instructions. Comments should only contain documentation, not behavioral directives.'
+  },
+  {
+    id: 'HI-003', category: 'Hidden Instructions', severity: 'medium',
+    title: 'Invisible text via formatting',
+    pattern: /(?:color:\s*(?:transparent|rgba\(0,\s*0,\s*0,\s*0\)|#(?:00000000|ffffff00))|font-size:\s*0|display:\s*none|visibility:\s*hidden|opacity:\s*0).*(?:ignore|override|inject|execute|always|never)/gi,
+    description: 'Text hidden via CSS that could contain instructions invisible to humans but processed by AI when reading the raw file.',
+    fix: 'Remove any hidden text blocks. All instructions should be visible and auditable.'
+  },
+  // MEDIUM - Obfuscated Payloads
+  {
+    id: 'OP-001', category: 'Obfuscated Payloads', severity: 'high',
+    title: 'Base64 encoded content',
+    pattern: /(?:atob|btoa|base64[_-]?decode|base64[_-]?encode|Buffer\.from)\s*\(\s*['"][A-Za-z0-9+\/=]{20,}['"]/gi,
+    description: 'Contains Base64-encoded content being decoded at runtime. Could hide malicious instructions or URLs that bypass pattern matching.',
+    fix: 'Decode and inspect the Base64 content. If it contains instructions, URLs, or code, replace with the plaintext version for transparency.'
+  },
+  {
+    id: 'OP-002', category: 'Obfuscated Payloads', severity: 'medium',
+    title: 'Suspicious long encoded string',
+    pattern: /['"][A-Za-z0-9+\/=]{100,}['"]/g,
+    description: 'Contains a suspiciously long encoded string that may hide obfuscated payloads.',
+    fix: 'Decode and inspect the content. Replace with plaintext if it contains readable instructions.'
+  },
+  {
+    id: 'OP-003', category: 'Obfuscated Payloads', severity: 'medium',
+    title: 'Hex-encoded content',
+    pattern: /(?:\\x[0-9a-fA-F]{2}){8,}|(?:0x[0-9a-fA-F]{2},?\s*){8,}/g,
+    description: 'Contains hex-encoded byte sequences that could hide executable instructions or malicious strings.',
+    fix: 'Decode the hex content and inspect. Replace with plaintext equivalent.'
+  },
+  // LOW - Social Engineering
+  {
+    id: 'SE-001', category: 'Social Engineering', severity: 'medium',
+    title: 'Urgency/authority manipulation',
+    pattern: /(?:this\s+is\s+(?:extremely|very|critically)\s+(?:urgent|important)|you\s+must\s+(?:immediately|right\s+now)|failure\s+to\s+comply|(?:the\s+)?(?:CEO|admin|owner|developer|creator)\s+(?:says|demands|requires|instructed))/gi,
+    description: 'Uses urgency or false authority to pressure the agent into compliance, a common social engineering technique.',
+    fix: 'Remove urgency/authority language. Skills should provide clear instructions without emotional manipulation.'
+  },
+  {
+    id: 'SE-002', category: 'Social Engineering', severity: 'low',
+    title: 'Safety bypass request',
+    pattern: /(?:(?:disable|turn\s+off|ignore|bypass|skip)\s+(?:safety|security|filter|guard|restriction|protection|moderation))|(?:(?:no|without)\s+(?:safety|security|content)\s+(?:check|filter|review))/gi,
+    description: 'Requests to disable safety mechanisms, content filtering, or security restrictions.',
+    fix: 'Remove safety bypass language. Legitimate skills never need to disable security features.'
+  },
+  // Additional detection
+  {
+    id: 'DE-004', category: 'Data Exfiltration', severity: 'medium',
+    title: 'Email sending with sensitive data',
+    pattern: /(?:send[_-]?mail|smtp|sendgrid|mailgun|ses\.send)\s*.*(?:MEMORY|USER|SOUL|AGENTS|\.env|api[_-]?key|password|secret|token)/gi,
+    description: 'Attempts to email sensitive data such as agent memory, user information, or credentials.',
+    fix: 'Remove email commands that reference sensitive files. If email functionality is needed, ensure it does not include private agent data.'
+  },
+  {
+    id: 'PE-004', category: 'Privilege Escalation', severity: 'medium',
+    title: 'Environment variable access',
+    pattern: /(?:process\.env|os\.environ|getenv|ENV\[)\s*[\[.(]\s*['"](?:API[_-]?KEY|SECRET|TOKEN|PASSWORD|AWS|STRIPE|OPENAI|ANTHROPIC)/gi,
+    description: 'Attempts to read sensitive environment variables containing API keys, secrets, or tokens.',
+    fix: 'Remove direct environment variable access for sensitive keys. Skills should not need to read API keys or secrets directly.'
+  }
+];
+
+// State management via Firebase Auth + Firestore
+function getUser() {
+  return window.ClawOpsAuth ? window.ClawOpsAuth.currentUser() : null;
+}
+
+var _userProfile = null;
+
+async function loadUserProfile() {
+  var user = getUser();
+  if (!user) { _userProfile = null; return null; }
+  _userProfile = await window.ClawOpsAuth.getUserProfile(user.uid);
+  return _userProfile;
+}
+
+function getScansUsed() {
+  return _userProfile ? (_userProfile.scansUsed || 0) : 0;
+}
+
+function getScanLimit() {
+  if (!_userProfile) return 0;
+  var plan = _userProfile.plan || 'free';
+  if (plan === 'pro' || plan === 'enterprise' || plan === 'clawops') return 999999;
+  if (plan === 'starter') return 10;
+  return 1; // free
+}
+
+function canScan() { return getScansUsed() < getScanLimit(); }
+
+async function updateUI() {
+  var user = getUser();
+  var authGate = document.getElementById('authGate');
+  var scannerApp = document.getElementById('scannerApp');
+  var logoutBtn = document.getElementById('logoutBtn');
+  var loginLink = document.getElementById('loginLink');
+  var scanCountEl = document.getElementById('scanCount');
+
+  if (user) {
+    await loadUserProfile();
+    authGate.style.display = 'none';
+    scannerApp.style.display = 'block';
+    logoutBtn.style.display = 'inline';
+    loginLink.style.display = 'none';
+    // Ensure URL source tab is visible by default on load
+    var urlSrc = document.getElementById('urlSource');
+    var resCont = document.getElementById('resultsContainer');
+    if (urlSrc && (!resCont || resCont.style.display === 'none' || resCont.style.display === '')) {
+      urlSrc.classList.add('active');
+    }
+    var limit = getScanLimit();
+    var used = getScansUsed();
+    if (limit > 99999) {
+      scanCountEl.innerHTML = '<strong>Unlimited</strong> scans';
+    } else {
+      scanCountEl.innerHTML = '<strong>' + (limit - used) + '</strong> of ' + limit + ' scans left';
+    }
+  } else {
+    _userProfile = null;
+    authGate.style.display = 'block';
+    scannerApp.style.display = 'none';
+    logoutBtn.style.display = 'none';
+    loginLink.style.display = 'inline';
+    scanCountEl.innerHTML = '';
+  }
+}
+
+// Auth functions (Firebase-powered)
+window.signUpGoogle = async function() {
+  var result = await window.ClawOpsAuth.signInWithGoogle();
+  if (result.success) {
+    await updateUI();
+  } else if (result.error) {
+    alert(result.error);
+  }
+};
+
+window.showEmailForm = function() {
+  document.getElementById('emailForm').style.display = 'block';
+};
+
+window.signUpEmail = async function() {
+  var email = document.getElementById('emailInput').value;
+  var pass = document.getElementById('passwordInput').value;
+  if (!email || !pass || pass.length < 6) { alert('Please enter a valid email and password (min 6 characters).'); return; }
+  var result = await window.ClawOpsAuth.signUpWithEmail(email, pass, '');
+  if (result.success) {
+    await updateUI();
+  } else {
+    alert(result.error);
+  }
+};
+
+window.loginMode = function() {
+  var btn = document.querySelector('#emailForm button');
+  btn.textContent = 'Log In';
+  btn.onclick = async function() {
+    var email = document.getElementById('emailInput').value;
+    var pass = document.getElementById('passwordInput').value;
+    if (!email || !pass) return;
+    var result = await window.ClawOpsAuth.signInWithEmail(email, pass);
+    if (result.success) {
+      await updateUI();
+    } else {
+      alert(result.error);
+    }
+  };
+};
+
+document.getElementById('logoutBtn').addEventListener('click', function(e) {
+  e.preventDefault();
+  window.ClawOpsAuth.signOut();
+});
+
+// Listen for Firebase auth state changes
+if (window.ClawOpsAuth) {
+  window.ClawOpsAuth.onAuthChange(function(user) {
+    updateUI();
+  });
+}
+
+// Source tab switching
+window.switchSource = function(source) {
+  var tabFile = document.getElementById('tabFile');
+  var tabUrl = document.getElementById('tabUrl');
+  var fileSource = document.getElementById('fileSource');
+  var urlSource = document.getElementById('urlSource');
+
+  if (source === 'url') {
+    tabFile.classList.remove('active');
+    tabUrl.classList.add('active');
+    fileSource.style.display = 'none';
+    urlSource.classList.add('active');
+    urlSource.style.display = '';
+  } else {
+    tabUrl.classList.remove('active');
+    tabFile.classList.add('active');
+    urlSource.style.display = 'none';
+    urlSource.classList.remove('active');
+    fileSource.style.display = '';
+  }
+};
+
+// URL example helper
+window.setGithubExample = function(url) {
+  document.getElementById('githubUrlInput').value = url;
+};
+
+// ======================
+// URL Parsing & Routing
+// ======================
+
+function parseGithubUrl(url) {
+  // raw.githubusercontent.com direct link
+  var rawMatch = url.match(/^https?:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.+)$/);
+  if (rawMatch) {
+    return { type: 'file', rawUrl: url, filename: rawMatch[4].split('/').pop() };
+  }
+  // github.com blob (single file)
+  var blobMatch = url.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.+)$/);
+  if (blobMatch) {
+    return { type: 'file',
+      rawUrl: 'https://raw.githubusercontent.com/' + blobMatch[1] + '/' + blobMatch[2] + '/' + blobMatch[3] + '/' + blobMatch[4],
+      filename: blobMatch[4].split('/').pop() };
+  }
+  // github.com tree (directory)
+  var treeMatch = url.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/tree\/([^/]+)\/(.+)$/);
+  if (treeMatch) {
+    return { type: 'github-dir', user: treeMatch[1], repo: treeMatch[2], branch: treeMatch[3], path: treeMatch[4] };
+  }
+  // github.com repo root
+  var repoMatch = url.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/?$/);
+  if (repoMatch) {
+    return { type: 'github-repo', user: repoMatch[1], repo: repoMatch[2] };
+  }
+  return null;
+}
+
+function parseClawHubUrl(url) {
+  // ClawHub skill page: clawhub.ai/userId/skillName or clawhub.com/userId/skillName
+  // Also handles: clawhub.ai/kn70pywhg0.../weather (hash IDs)
+  var match = url.match(/^https?:\/\/clawhub\.(?:ai|com)\/([^/]+)\/([^/?\s#]+)/);
+  if (match) {
+    return { type: 'clawhub', user: match[1], skill: match[2] };
+  }
+  return null;
+}
+
+function parseAnyRawUrl(url) {
+  // Any URL that looks like it points to a text file
+  if (/^https?:\/\/.+/i.test(url)) {
+    var filename = url.split('/').pop().split('?')[0].split('#')[0] || 'file.txt';
+    return { type: 'raw', rawUrl: url, filename: filename };
+  }
+  return null;
+}
+
+// ======================
+// Fetch Strategies
+// ======================
+
+function fetchRawFile(rawUrl, filename) {
+  return fetch(rawUrl)
+    .then(function(res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      var ct = res.headers.get('content-type') || '';
+      if (ct.includes('application/zip') || ct.includes('octet-stream')) {
+        throw new Error('Got binary/zip content. Try linking to a specific file, not a download archive.');
+      }
+      return res.text();
+    })
+    .then(function(content) {
+      if (!content || content.trim().length === 0) throw new Error('Empty file.');
+      // Basic HTML page detection (not a skill file)
+      if (content.trim().startsWith('<!DOCTYPE') || content.trim().startsWith('<html')) {
+        throw new Error('Got an HTML page instead of a text file. Try linking directly to a raw file URL.');
+      }
+      document.getElementById('urlSource').classList.remove('active');
+      document.getElementById('fileSource').classList.add('hidden');
+      runScan(filename, content);
+    });
+}
+
+function fetchClawHubSkill(user, skill) {
+  // ClawHub stores skill content on the page itself. We can extract it via their download endpoint (zip),
+  // but that's binary. Instead, scrape the rendered SKILL.md from the page or use their API.
+  // Strategy: Fetch the skill page HTML, extract the SKILL.md content from the rendered markdown.
+
+  // First try: fetch the page and extract raw SKILL.md content from the rendered page
+  // ClawHub renders the SKILL.md content directly on the skill page
+  var pageUrl = 'https://clawhub.ai/' + user + '/' + skill;
+
+  // Use a CORS proxy approach - fetch the page content
+  // Actually, ClawHub has a download zip endpoint. Let's try the API first.
+  var downloadUrl = 'https://wry-manatee-359.convex.site/api/v1/download?slug=' + encodeURIComponent(skill);
+
+  // Since zip parsing in-browser is complex, let's try fetching the raw SKILL.md via the page
+  // ClawHub pages render the SKILL.md in a code block. We can use an alternative approach:
+  // Fetch from GitHub if the skill links to one, or try fetching the page.
+
+  // Best approach: fetch the zip, unzip in browser (using JSZip-free method)
+  return fetch(downloadUrl)
+    .then(function(res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.arrayBuffer();
+    })
+    .then(function(buffer) {
+      return extractTextFromZip(buffer);
+    })
+    .then(function(result) {
+      if (!result.content) throw new Error('No scannable text files found in skill package.');
+      document.getElementById('urlSource').classList.remove('active');
+      document.getElementById('fileSource').classList.add('hidden');
+      runScan(user + '/' + skill + '/' + result.filename, result.content);
+    });
+}
+
+// Minimal zip text extractor (no library needed)
+// ZIP format: local file headers start with PK\x03\x04
+function extractTextFromZip(buffer) {
+  var bytes = new Uint8Array(buffer);
+  var files = [];
+  var i = 0;
+
+  while (i < bytes.length - 4) {
+    // Look for local file header signature: PK\x03\x04
+    if (bytes[i] === 0x50 && bytes[i+1] === 0x4B && bytes[i+2] === 0x03 && bytes[i+3] === 0x04) {
+      var compressionMethod = bytes[i+8] | (bytes[i+9] << 8);
+      var compressedSize = bytes[i+18] | (bytes[i+19] << 8) | (bytes[i+20] << 16) | (bytes[i+21] << 24);
+      var uncompressedSize = bytes[i+22] | (bytes[i+23] << 8) | (bytes[i+24] << 16) | (bytes[i+25] << 24);
+      var nameLen = bytes[i+26] | (bytes[i+27] << 8);
+      var extraLen = bytes[i+28] | (bytes[i+29] << 8);
+      var nameStart = i + 30;
+      var nameBytes = bytes.slice(nameStart, nameStart + nameLen);
+      var filename = new TextDecoder().decode(nameBytes);
+      var dataStart = nameStart + nameLen + extraLen;
+
+      if (compressionMethod === 0 && compressedSize > 0) {
+        // Stored (no compression)
+        var fileData = bytes.slice(dataStart, dataStart + compressedSize);
+        var content = new TextDecoder().decode(fileData);
+        files.push({ filename: filename, content: content });
+      } else if (compressionMethod === 8 && compressedSize > 0) {
+        // Deflated - use DecompressionStream if available
+        try {
+          var compressedData = bytes.slice(dataStart, dataStart + compressedSize);
+          files.push({ filename: filename, compressed: compressedData, uncompressedSize: uncompressedSize });
+        } catch(e) { /* skip undecompressable */ }
+      }
+
+      i = dataStart + compressedSize;
+    } else {
+      i++;
+    }
+  }
+
+  // Prioritize scannable files
+  var priority = ['SKILL.md', 'AGENTS.md', 'SOUL.md', 'USER.md', 'TOOLS.md', 'README.md', 'index.js', 'main.py'];
+  var scannableExts = /\.(md|txt|yaml|yml|json|toml|py|js|sh|ts)$/i;
+
+  // First try stored (uncompressed) files
+  var stored = files.filter(function(f) { return f.content && scannableExts.test(f.filename); });
+  if (stored.length > 0) {
+    for (var p = 0; p < priority.length; p++) {
+      var found = stored.find(function(f) { return f.filename === priority[p] || f.filename.endsWith('/' + priority[p]); });
+      if (found) return Promise.resolve({ filename: found.filename, content: found.content });
+    }
+    return Promise.resolve({ filename: stored[0].filename, content: stored[0].content });
+  }
+
+  // Try decompressing deflated files using DecompressionStream API
+  var deflated = files.filter(function(f) { return f.compressed && scannableExts.test(f.filename); });
+  if (deflated.length > 0) {
+    var target = deflated[0];
+    for (var p2 = 0; p2 < priority.length; p2++) {
+      var found2 = deflated.find(function(f) { return f.filename === priority[p2] || f.filename.endsWith('/' + priority[p2]); });
+      if (found2) { target = found2; break; }
+    }
+
+    if (typeof DecompressionStream !== 'undefined') {
+      // Wrap raw deflate data in a stream and decompress
+      var ds = new DecompressionStream('raw');
+      var writer = ds.writable.getWriter();
+      writer.write(target.compressed);
+      writer.close();
+      return new Response(ds.readable).text().then(function(text) {
+        return { filename: target.filename, content: text };
+      });
+    }
+  }
+
+  return Promise.resolve({ filename: null, content: null });
+}
+
+function fetchGithubDir(user, repo, branch, path) {
+  var apiUrl = 'https://api.github.com/repos/' + user + '/' + repo + '/contents/' + path + '?ref=' + branch;
+  return fetch(apiUrl)
+    .then(function(res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    })
+    .then(function(files) {
+      if (!Array.isArray(files)) throw new Error('Not a directory');
+      var scannable = files.filter(function(f) {
+        return f.type === 'file' && /\.(md|txt|yaml|yml|json|toml|py|js|sh|ts|jsx|tsx)$/i.test(f.name);
+      });
+      if (scannable.length === 0) throw new Error('No scannable files found in that directory.');
+      var priority = ['SKILL.md', 'AGENTS.md', 'SOUL.md', 'USER.md', 'TOOLS.md', 'README.md', 'index.js', 'index.py', 'main.py'];
+      var chosen = scannable[0];
+      for (var j = 0; j < priority.length; j++) {
+        var found = scannable.find(function(f) { return f.name === priority[j]; });
+        if (found) { chosen = found; break; }
+      }
+      return fetchRawFile(chosen.download_url, chosen.name);
+    });
+}
+
+function fetchGithubRepoScannable(user, repo) {
+  var apiUrl = 'https://api.github.com/repos/' + user + '/' + repo + '/contents/';
+  return fetch(apiUrl)
+    .then(function(res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    })
+    .then(function(files) {
+      if (!Array.isArray(files)) throw new Error('Could not read repo contents.');
+      var scannable = files.filter(function(f) {
+        return f.type === 'file' && /\.(md|txt|yaml|yml|json|toml|py|js|sh|ts)$/i.test(f.name);
+      });
+      if (scannable.length === 0) throw new Error('No scannable files found in root.');
+      var priority = ['SKILL.md', 'AGENTS.md', 'SOUL.md', 'USER.md', 'TOOLS.md', 'README.md'];
+      var chosen = scannable[0];
+      for (var j = 0; j < priority.length; j++) {
+        var found = scannable.find(function(f) { return f.name === priority[j]; });
+        if (found) { chosen = found; break; }
+      }
+      return fetchRawFile(chosen.download_url, user + '/' + repo + '/' + chosen.name);
+    });
+}
+
+// ======================
+// Main URL scan handler
+// ======================
+
+window.fetchAndScanUrl = function() {
+  var url = document.getElementById('githubUrlInput').value.trim();
+  var errorEl = document.getElementById('githubError');
+  var btn = document.getElementById('githubScanBtn');
+  errorEl.style.display = 'none';
+
+  if (!url) { showGithubError('Paste a URL to scan.'); return; }
+
+  if (!canScan()) {
+    document.getElementById('urlSource').classList.remove('active');
+    document.getElementById('upgradePrompt').style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Fetching...';
+
+  function done() { btn.disabled = false; btn.textContent = 'Scan'; }
+
+  // 1) Try ClawHub
+  var clawhub = parseClawHubUrl(url);
+  if (clawhub) {
+    fetchClawHubSkill(clawhub.user, clawhub.skill)
+      .catch(function(err) { showGithubError('ClawHub fetch failed: ' + err.message); })
+      .finally(done);
+    return;
+  }
+
+  // 2) Try GitHub
+  var github = parseGithubUrl(url);
+  if (github) {
+    var p;
+    if (github.type === 'file') {
+      p = fetchRawFile(github.rawUrl, github.filename);
+    } else if (github.type === 'github-dir') {
+      p = fetchGithubDir(github.user, github.repo, github.branch, github.path);
+    } else if (github.type === 'github-repo') {
+      p = fetchGithubRepoScannable(github.user, github.repo);
+    }
+    if (p) {
+      p.catch(function(err) { showGithubError('GitHub fetch failed: ' + err.message); })
+       .finally(done);
+      return;
+    }
+  }
+
+  // 3) Try as a raw URL (any link)
+  var raw = parseAnyRawUrl(url);
+  if (raw) {
+    fetchRawFile(raw.rawUrl, raw.filename)
+      .catch(function(err) { showGithubError('Could not fetch that URL. Make sure it points to a public text file. (' + err.message + ')'); })
+      .finally(done);
+    return;
+  }
+
+  showGithubError('Could not recognize that URL. Paste a link to a GitHub file, ClawHub skill, or any raw text URL.');
+  done();
+};
+
+function showGithubError(msg) {
+  var el = document.getElementById('githubError');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+// File upload handling
+var uploadArea = document.getElementById('uploadArea');
+var fileInput = document.getElementById('fileInput');
+
+uploadArea.addEventListener('click', function() { fileInput.click(); });
+uploadArea.addEventListener('dragover', function(e) { e.preventDefault(); uploadArea.classList.add('dragover'); });
+uploadArea.addEventListener('dragleave', function() { uploadArea.classList.remove('dragover'); });
+uploadArea.addEventListener('drop', function(e) {
+  e.preventDefault(); uploadArea.classList.remove('dragover');
+  if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', function() { if (fileInput.files.length) handleFile(fileInput.files[0]); });
+
+function handleFile(file) {
+  if (!canScan()) {
+    document.getElementById('upgradePrompt').style.display = 'block';
+    return;
+  }
+  var reader = new FileReader();
+  reader.onload = function(e) { runScan(file.name, e.target.result); };
+  reader.readAsText(file);
+}
+
+function runScan(filename, content) {
+  var uploadArea = document.getElementById('uploadArea');
+  var scanningState = document.getElementById('scanningState');
+  var resultsContainer = document.getElementById('resultsContainer');
+  var fileSource = document.getElementById('fileSource');
+  var urlSource = document.getElementById('urlSource');
+
+  fileSource.classList.add('hidden');
+  urlSource.classList.remove('active');
+  uploadArea.style.display = 'none';
+  scanningState.style.display = 'block';
+  resultsContainer.style.display = 'none';
+
+  var steps = [
+    'Checking for prompt injection patterns',
+    'Scanning for data exfiltration vectors',
+    'Detecting privilege escalation attempts',
+    'Analyzing for hidden instructions',
+    'Inspecting obfuscated payloads'
+  ];
+
+  var progress = document.getElementById('scanProgress');
+  var stepEl = document.getElementById('scanStep');
+  var stepIdx = 0;
+
+  var interval = setInterval(function() {
+    if (stepIdx < steps.length) {
+      stepEl.textContent = steps[stepIdx];
+      progress.style.width = ((stepIdx + 1) / steps.length * 100) + '%';
+      stepIdx++;
+    } else {
+      clearInterval(interval);
+      var findings = performScan(content);
+      // Increment scan count in Firestore
+      var user = getUser();
+      if (user && window.ClawOpsAuth) {
+        window.ClawOpsAuth.incrementScanCount(user.uid).then(function(profile) {
+          _userProfile = profile;
+          updateUI();
+        });
+      }
+      displayResults(filename, content, findings);
+    }
+  }, 600);
+}
+
+function performScan(content) {
+  var findings = [];
+  var lines = content.split('\n');
+
+  DETECTION_RULES.forEach(function(rule) {
+    var regex = new RegExp(rule.pattern.source, rule.pattern.flags);
+    var match;
+    while ((match = regex.exec(content)) !== null) {
+      // Find line number
+      var beforeMatch = content.substring(0, match.index);
+      var lineNum = (beforeMatch.match(/\n/g) || []).length + 1;
+      var matchedLine = lines[lineNum - 1] || '';
+
+      findings.push({
+        id: rule.id,
+        category: rule.category,
+        severity: rule.severity,
+        title: rule.title,
+        description: rule.description,
+        fix: rule.fix,
+        line: lineNum,
+        matched: match[0].substring(0, 120),
+        context: matchedLine.trim().substring(0, 200)
+      });
+
+      // Prevent infinite loops on zero-length matches
+      if (match.index === regex.lastIndex) regex.lastIndex++;
+    }
+  });
+
+  // Deduplicate findings on same line with same rule
+  var seen = {};
+  findings = findings.filter(function(f) {
+    var key = f.id + ':' + f.line;
+    if (seen[key]) return false;
+    seen[key] = true;
+    return true;
+  });
+
+  // Sort by severity
+  var sevOrder = { critical: 0, high: 1, medium: 2, low: 3, info: 4 };
+  findings.sort(function(a, b) { return (sevOrder[a.severity] || 4) - (sevOrder[b.severity] || 4); });
+
+  return findings;
+}
+
+function displayResults(filename, content, findings) {
+  var scanningState = document.getElementById('scanningState');
+  var resultsContainer = document.getElementById('resultsContainer');
+  scanningState.style.display = 'none';
+  resultsContainer.style.display = 'block';
+
+  var critical = findings.filter(function(f) { return f.severity === 'critical'; }).length;
+  var high = findings.filter(function(f) { return f.severity === 'high'; }).length;
+  var medium = findings.filter(function(f) { return f.severity === 'medium'; }).length;
+  var low = findings.filter(function(f) { return f.severity === 'low'; }).length;
+
+  var verdict, verdictClass;
+  if (critical > 0) { verdict = 'CRITICAL RISK'; verdictClass = 'verdict-critical'; }
+  else if (high > 0) { verdict = 'HIGH RISK'; verdictClass = 'verdict-high'; }
+  else if (medium > 0) { verdict = 'MEDIUM RISK'; verdictClass = 'verdict-medium'; }
+  else if (low > 0) { verdict = 'LOW RISK'; verdictClass = 'verdict-low'; }
+  else { verdict = 'SAFE'; verdictClass = 'verdict-safe'; }
+
+  var html = '';
+  html += '<div class="results-header">';
+  html += '<span class="results-file">' + esc(filename) + ' (' + content.split('\n').length + ' lines)</span>';
+  html += '<span class="results-verdict ' + verdictClass + '">' + verdict + '</span>';
+  html += '</div>';
+
+  html += '<div class="results-summary">';
+  html += '<div class="summary-card"><div class="num num-critical">' + critical + '</div><div class="label">Critical</div></div>';
+  html += '<div class="summary-card"><div class="num num-high">' + high + '</div><div class="label">High</div></div>';
+  html += '<div class="summary-card"><div class="num num-medium">' + medium + '</div><div class="label">Medium</div></div>';
+  html += '<div class="summary-card"><div class="num num-low">' + low + '</div><div class="label">Low</div></div>';
+  html += '</div>';
+
+  if (findings.length === 0) {
+    html += '<div class="no-findings">';
+    html += '<div class="icon">&#9989;</div>';
+    html += '<h3>No threats detected</h3>';
+    html += '<p>This file passed all ' + DETECTION_RULES.length + ' detection rules. It appears safe to use with your OpenClaw agent.</p>';
+    html += '</div>';
+  } else {
+    findings.forEach(function(f) {
+      var pricing = FIX_PRICING[f.id] || { price: 200, label: f.title, desc: 'Our engineers will remediate this issue.' };
+      html += '<div class="finding">';
+      html += '<div class="finding-header">';
+      html += '<span class="finding-severity sev-' + f.severity + '">' + f.severity + '</span>';
+      html += '<span class="finding-title">' + esc(f.title) + '</span>';
+      html += '<span class="finding-line">Line ' + f.line + '</span>';
+      html += '</div>';
+      html += '<div class="finding-body">' + esc(f.description) + '</div>';
+      if (f.context) {
+        html += '<div class="finding-code">' + esc(f.context) + '</div>';
+      }
+      html += '<div class="finding-fix">';
+      html += '<div class="finding-fix-label">Remediation</div>';
+      html += '<p>' + esc(f.fix) + '</p>';
+      html += '</div>';
+      html += '<button class="fix-cta-btn" onclick="openFixModal([\'' + f.id + '\'], \'' + esc(filename).replace(/'/g, "\\'") + '\')">';
+      html += '&#128736; Fix This <span class="fix-price">$' + pricing.price + '</span>';
+      html += '</button>';
+      html += '<div class="fix-cta-desc">' + esc(pricing.desc) + '</div>';
+      html += '</div>';
+    });
+
+    // Compute bundle total and savings
+    var seenIds = {};
+    var bundleTotal = 0;
+    findings.forEach(function(f) {
+      if (!seenIds[f.id]) {
+        seenIds[f.id] = true;
+        var p = FIX_PRICING[f.id] || { price: 200 };
+        bundleTotal += p.price;
+      }
+    });
+    var allIssueIds = Object.keys(seenIds);
+    var bundlePrice = 500;
+    var savings = bundleTotal - bundlePrice;
+
+    html += '<div class="fix-bundle-cta">';
+    html += '<h3>Fix Everything at Once</h3>';
+    html += '<p>Our security team will remediate all ' + findings.length + ' issue' + (findings.length > 1 ? 's' : '') + ' found in this scan. Full hardening, tested, and verified.</p>';
+    html += '<div class="bundle-price">$500</div>';
+    if (savings > 0) {
+      html += '<div class="bundle-savings">Save $' + savings + ' vs. fixing individually</div>';
+    }
+    html += '<button class="fix-bundle-btn" onclick="openFixModal(' + JSON.stringify(allIssueIds) + ', \'' + esc(filename).replace(/'/g, "\\'") + '\')">';
+    html += '&#9889; Fix All ' + findings.length + ' Issues - $500';
+    html += '</button>';
+    html += '<div class="fix-bundle-or">Need ongoing protection? <span class="fix-overhaul-link" onclick="openFixModal(' + JSON.stringify(allIssueIds) + ', \'' + esc(filename).replace(/'/g, "\\'") + '\')">Complete Security Overhaul + Monitoring</span> starting at $2,000 + $200/mo</div>';
+    html += '</div>';
+  }
+
+  html += '<div class="results-actions">';
+  html += '<button class="btn-scan-again" onclick="scanAgain()">Scan Another File</button>';
+  html += '<button class="btn-copy-report" onclick="copyReport()">Copy Report</button>';
+  html += '</div>';
+
+  resultsContainer.innerHTML = html;
+
+  // Store report for copy
+  window._lastReport = { filename: filename, findings: findings, verdict: verdict };
+}
+
+window.scanAgain = function() {
+  document.getElementById('resultsContainer').style.display = 'none';
+  document.getElementById('scanningState').style.display = 'none';
+  var fileTab = document.getElementById('tabFile');
+  var urlTab = document.getElementById('tabUrl');
+  if (urlTab.classList.contains('active')) {
+    document.getElementById('urlSource').classList.add('active');
+    document.getElementById('fileSource').classList.add('hidden');
+  } else {
+    document.getElementById('uploadArea').style.display = 'block';
+    document.getElementById('fileSource').classList.remove('hidden');
+  }
+  document.getElementById('fileInput').value = '';
+  if (!canScan()) {
+    document.getElementById('uploadArea').style.display = 'none';
+    document.getElementById('urlSource').classList.remove('active');
+    document.getElementById('fileSource').classList.add('hidden');
+    document.getElementById('upgradePrompt').style.display = 'block';
+  }
+};
+
+window.copyReport = function() {
+  var r = window._lastReport;
+  if (!r) return;
+  var text = 'ClawOps Shield Scan Report\n';
+  text += '==========================\n';
+  text += 'File: ' + r.filename + '\n';
+  text += 'Verdict: ' + r.verdict + '\n';
+  text += 'Total Findings: ' + r.findings.length + '\n\n';
+  r.findings.forEach(function(f, i) {
+    text += (i + 1) + '. [' + f.severity.toUpperCase() + '] ' + f.title + ' (Line ' + f.line + ')\n';
+    text += '   ' + f.description + '\n';
+    text += '   Fix: ' + f.fix + '\n\n';
+  });
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.querySelector('.btn-copy-report');
+    btn.textContent = 'Copied!';
+    setTimeout(function() { btn.textContent = 'Copy Report'; }, 2000);
+  });
+};
+
+function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+// Initialize
+updateUI();
+
+// Auto-switch to URL tab if #github or #url in URL
+if (window.location.hash === '#github' || window.location.hash === '#url') {
+  switchSource('url');
+}
+</script>
+<script src="../js/cookie-consent.js" defer></script>
+</body>
+</html>
