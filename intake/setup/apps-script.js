@@ -29,7 +29,7 @@ var SHEET_ID = 'YOUR_GOOGLE_SHEET_ID_HERE';
 var SHEET_NAME = 'Submissions';
 
 // Email to notify on new submission
-var NOTIFY_EMAIL = 'rickclaw08@gmail.com';
+var NOTIFY_EMAIL = 'contact@theclawops.com';
 
 function doPost(e) {
   try {
