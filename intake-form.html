@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClawOps - Client Onboarding</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #050810;
+            --bg-card: #0a0f1a;
+            --bg-input: #111827;
+            --border: #1f2937;
+            --border-focus: #4ade80;
+            --accent: #4ade80;
+            --accent-dim: #22c55e;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --error: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 40px 20px 60px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .logo h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 40px;
+        }
+
+        .form-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        label .required {
+            color: var(--error);
+            margin-left: 2px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="url"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+            -webkit-appearance: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.1);
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 36px;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 500px) {
+            .row { grid-template-columns: 1fr; }
+        }
+
+        .hours-grid {
+            display: grid;
+            grid-template-columns: auto 1fr 1fr;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .hours-grid .day-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            min-width: 40px;
+        }
+
+        .hours-grid input {
+            padding: 8px 10px;
+            font-size: 0.85rem;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: var(--accent);
+            color: var(--bg-deep);
+            border: none;
+            border-radius: 8px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            margin-top: 32px;
+        }
+
+        .submit-btn:hover { background: var(--accent-dim); }
+        .submit-btn:active { transform: scale(0.98); }
+
+        .note {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 16px;
+        }
+
+        /* Honeypot */
+        .hp-field { position: absolute; left: -9999px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>ClawOps</h1>
+        </div>
+        <p class="subtitle">Tell us about your business so we can build your AI receptionist.</p>
+
+        <form action="https://formsubmit.co/contact@theclawops.com" method="POST">
+            <!-- FormSubmit config -->
+            <input type="hidden" name="_subject" value="New Client Intake - ClawOps AI Receptionist">
+            <input type="hidden" name="_captcha" value="true">
+            <input type="hidden" name="_template" value="box">
+            <input type="hidden" name="_next" value="https://theclawops.com/founding/?onboarded=true">
+
+            <!-- Honeypot -->
+            <div class="hp-field">
+                <input type="text" name="_honey" tabindex="-1" autocomplete="off">
+            </div>
+
+            <!-- SECTION: Business Info -->
+            <div class="form-section">
+                <div class="section-title">Business Information</div>
+
+                <div class="form-group">
+                    <label>Business Name <span class="required">*</span></label>
+                    <input type="text" name="business_name" required maxlength="100" placeholder="e.g., ABC Heating & Cooling">
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>Owner Name <span class="required">*</span></label>
+                        <input type="text" name="owner_name" required maxlength="80" placeholder="First and last name">
+                    </div>
+                    <div class="form-group">
+                        <label>Trade / Niche <span class="required">*</span></label>
+                        <select name="niche" required>
+                            <option value="" disabled selected>Select your trade</option>
+                            <option value="HVAC">HVAC</option>
+                            <option value="Plumbing">Plumbing</option>
+                            <option value="Electrical">Electrical</option>
+                            <option value="Roofing">Roofing</option>
+                            <option value="General Contractor">General Contractor</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>Business Phone <span class="required">*</span></label>
+                        <input type="tel" name="business_phone" required maxlength="20" placeholder="(555) 123-4567">
+                    </div>
+                    <div class="form-group">
+                        <label>Business Email <span class="required">*</span></label>
+                        <input type="email" name="business_email" required maxlength="100" placeholder="you@yourbusiness.com">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Business Address <span class="required">*</span></label>
+                    <input type="text" name="business_address" required maxlength="200" placeholder="123 Main St, City, State ZIP">
+                </div>
+
+                <div class="form-group">
+                    <label>Website (optional)</label>
+                    <input type="url" name="website" maxlength="200" placeholder="https://yourbusiness.com">
+                </div>
+            </div>
+
+            <!-- SECTION: Services -->
+            <div class="form-section">
+                <div class="section-title">Services & Coverage</div>
+
+                <div class="form-group">
+                    <label>Services You Offer <span class="required">*</span></label>
+                    <textarea name="services" required maxlength="1000" placeholder="List your main services, e.g.:&#10;- AC repair & installation&#10;- Furnace repair&#10;- Duct cleaning&#10;- Maintenance plans"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Service Area <span class="required">*</span></label>
+                    <input type="text" name="service_area" required maxlength="300" placeholder="Cities, counties, or zip codes you cover">
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>Average Job Value</label>
+                        <select name="avg_job_value">
+                            <option value="" disabled selected>Select range</option>
+                            <option value="Under $500">Under $500</option>
+                            <option value="$500 - $2,000">$500 - $2,000</option>
+                            <option value="$2,000 - $5,000">$2,000 - $5,000</option>
+                            <option value="$5,000 - $10,000">$5,000 - $10,000</option>
+                            <option value="$10,000+">$10,000+</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Pricing Policy <span class="required">*</span></label>
+                        <select name="pricing_policy" required>
+                            <option value="" disabled selected>How to handle pricing calls</option>
+                            <option value="Give price ranges">Give price ranges over the phone</option>
+                            <option value="Free estimates only">Offer free on-site estimates only</option>
+                            <option value="Never quote prices">Never quote prices - schedule a visit</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION: Scheduling -->
+            <div class="form-section">
+                <div class="section-title">Scheduling & Hours</div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>Weekday Hours <span class="required">*</span></label>
+                        <input type="text" name="weekday_hours" required maxlength="50" placeholder="e.g., Mon-Fri 7AM - 6PM">
+                    </div>
+                    <div class="form-group">
+                        <label>Weekend Hours</label>
+                        <input type="text" name="weekend_hours" maxlength="50" placeholder="e.g., Sat 8AM - 2PM, Sun closed">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>After-Hours Policy <span class="required">*</span></label>
+                        <select name="after_hours_policy" required>
+                            <option value="" disabled selected>When someone calls after hours...</option>
+                            <option value="Transfer to cell">Transfer to my cell phone</option>
+                            <option value="Book next available">Book the next available slot</option>
+                            <option value="Take message only">Take a message only</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Emergency / After-Hours Phone</label>
+                        <input type="tel" name="emergency_phone" maxlength="20" placeholder="Cell to transfer emergencies to">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Current Scheduling System</label>
+                    <select name="scheduling_system">
+                        <option value="" disabled selected>How do you currently schedule?</option>
+                        <option value="Pen and paper">Pen and paper</option>
+                        <option value="Google Calendar">Google Calendar</option>
+                        <option value="ServiceTitan">ServiceTitan</option>
+                        <option value="Housecall Pro">Housecall Pro</option>
+                        <option value="Jobber">Jobber</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- SECTION: Preferences -->
+            <div class="form-section">
+                <div class="section-title">Preferences</div>
+
+                <div class="form-group">
+                    <label>Tone Preference</label>
+                    <select name="tone">
+                        <option value="" disabled selected>How should your AI sound?</option>
+                        <option value="Professional">Professional</option>
+                        <option value="Friendly and casual">Friendly and casual</option>
+                        <option value="Straightforward">Straightforward</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Anything else we should know?</label>
+                    <textarea name="additional_notes" maxlength="2000" placeholder="Special instructions, competitors to avoid mentioning, specific phrases to use, etc."></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit - Let's Build Your AI Receptionist</button>
+            <p class="note">We'll review your info and have your AI receptionist ready within 48 hours.</p>
+        </form>
+    </div>
+</body>
+</html>
