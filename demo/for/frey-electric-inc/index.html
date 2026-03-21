@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frey Electric Inc - Are You Missing Calls?</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: #050810; color: #e0e7ef; line-height: 1.6; }
+        .container { max-width: 680px; margin: 0 auto; padding: 40px 24px; }
+        h1 { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+        h2 { font-size: 20px; font-weight: 600; color: #4ade80; margin: 32px 0 12px; }
+        .subtitle { font-size: 16px; color: #94a3b8; margin-bottom: 32px; }
+        .pain-card { background: #0f1729; border: 1px solid #1e293b; border-radius: 12px; padding: 24px; margin: 20px 0; }
+        .pain-stat { font-size: 36px; font-weight: 700; color: #f87171; }
+        .pain-label { font-size: 14px; color: #94a3b8; margin-top: 4px; }
+        .hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+        .hour-block { background: #1a1f35; padding: 12px; border-radius: 8px; text-align: center; }
+        .hour-block.closed { border: 1px solid #f87171; }
+        .hour-block.covered { border: 1px solid #4ade80; }
+        .hour-label { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+        .hour-value { font-size: 16px; font-weight: 600; margin-top: 4px; }
+        .hour-value.red { color: #f87171; }
+        .hour-value.green { color: #4ade80; }
+        .cta-box { background: linear-gradient(135deg, #0f2a1a, #0f1729); border: 2px solid #4ade80; border-radius: 12px; padding: 28px; margin: 32px 0; text-align: center; }
+        .cta-box h3 { font-size: 18px; color: #4ade80; margin-bottom: 12px; }
+        .phone-number { font-size: 32px; font-weight: 700; color: #fff; letter-spacing: 1px; }
+        .phone-number a { color: #fff; text-decoration: none; }
+        .cta-note { font-size: 14px; color: #94a3b8; margin-top: 8px; }
+        .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+        .comp-card { padding: 20px; border-radius: 10px; text-align: center; }
+        .comp-yours { background: #1a0f0f; border: 1px solid #f8717133; }
+        .comp-ours { background: #0f1a14; border: 1px solid #4ade8033; }
+        .comp-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; }
+        .comp-value { font-size: 14px; margin-top: 8px; font-weight: 500; }
+        .footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #1e293b; font-size: 13px; color: #64748b; text-align: center; }
+        .footer a { color: #4ade80; text-decoration: none; }
+        .math-line { font-size: 15px; color: #cbd5e1; padding: 6px 0; }
+        .math-result { font-size: 20px; font-weight: 700; color: #f87171; padding: 12px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Frey Electric Inc</h1>
+        <p class="subtitle">A quick look at what happens when customers call after 4:00 PM.</p>
+
+        <div class="pain-card">
+            <div class="pain-stat">43 hours/week</div>
+            <div class="pain-label">Your phone goes unanswered outside business hours</div>
+        </div>
+
+        <h2>Your current coverage</h2>
+        <div class="hours-grid">
+            <div class="hour-block covered">
+                <div class="hour-label">Weekdays</div>
+                <div class="hour-value green">8:00 AM - 4:00 PM</div>
+            </div>
+            <div class="hour-block closed">
+                <div class="hour-label">After 4:00 PM</div>
+                <div class="hour-value red">No answer</div>
+            </div>
+            <div class="hour-block closed">
+                <div class="hour-label">Weekends</div>
+                <div class="hour-value red">Closed</div>
+            </div>
+            <div class="hour-block closed">
+                <div class="hour-label">Holidays</div>
+                <div class="hour-value red">No answer</div>
+            </div>
+        </div>
+
+        <h2>What that costs you</h2>
+        <div class="pain-card">
+            <div class="math-line">Average Electrical job in Cincinnati: <strong>$2,400</strong></div>
+            <div class="math-line">Missed calls per week (industry avg): <strong>8-15</strong></div>
+            <div class="math-line">Calls that would have been jobs (30%): <strong>3-5</strong></div>
+            <div class="math-result">Potential lost revenue: $9,600/month</div>
+        </div>
+
+        <h2>Try the difference</h2>
+        <div class="comparison">
+            <div class="comp-card comp-yours">
+                <div class="comp-label">Your line at 4:00 PM</div>
+                <div class="comp-value" style="color: #f87171;">Call 
+(513) 385-0700 right now. See what happens.</div>
+            </div>
+            <div class="comp-card comp-ours">
+                <div class="comp-label">Our AI at any time</div>
+                <div class="comp-value" style="color: #4ade80;">Answers in 2 rings. Knows Electrical. Books jobs. 24/7.</div>
+            </div>
+        </div>
+
+        <div class="cta-box">
+            <h3>Hear it yourself - 60 seconds</h3>
+            <div class="phone-number"><a href="tel:+15139953285">(513) 995-3285</a></div>
+            <div class="cta-note">Free demo line. No signup. No pitch. Just listen.</div>
+        </div>
+
+        <div class="footer">
+            <p>Built by <a href="https://theclawops.com">ClawOps</a> - AI phone systems for Electrical contractors.</p>
+            <p style="margin-top: 8px;">This page was made specifically for Frey Electric Inc. Questions? Call us at (513) 778-8336.</p>
+        </div>
+    </div>
+</body>
+</html>
