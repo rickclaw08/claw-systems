@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClawOps | White-Label AI Voice Partner Program for Agencies</title>
+  <meta name="description" content="Add AI voice receptionists to your agency's service lineup. We build it, you sell it. White-label AI that answers calls, books appointments, and captures leads - branded under your agency.">
+  <meta name="keywords" content="white-label AI receptionist, AI partner program, agency AI voice, reseller AI receptionist, white-label voice agent, marketing agency AI, ClawOps partner">
+  <meta name="author" content="Rick Claw">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://theclawops.com/partners/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://theclawops.com/partners/">
+  <meta property="og:title" content="ClawOps | White-Label AI Voice Partner Program">
+  <meta property="og:description" content="Add AI voice receptionists to your agency. We build it, you sell it. White-label, fully branded under your agency. You keep the margin.">
+  <meta property="og:site_name" content="ClawOps">
+
+  <!-- Favicon -->
+  <link rel="icon" href="../logo.svg" type="image/svg+xml">
+  <link rel="icon" href="../favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-deep: #050810;
+      --bg-surface: #0a0f1a;
+      --bg-elevated: #111827;
+      --accent-bright: #4ade80;
+      --accent-mid: #22c55e;
+      --accent-dark: #166534;
+      --cyan-bright: #00e5cc;
+      --text-primary: #f0f4ff;
+      --text-secondary: #8892b0;
+      --text-muted: #5a6480;
+      --border-subtle: rgba(136, 146, 176, .15);
+      --border-accent: rgba(74, 222, 128, .3);
+      --surface-card: rgba(10, 15, 26, .65);
+      --surface-card-strong: rgba(10, 15, 26, .8);
+      --logo-gradient-start: #4ade80;
+      --logo-gradient-end: #166534;
+      --logo-glow: rgba(74, 222, 128, .4);
+      --logo-glow-hover: rgba(0, 229, 204, .6);
+      --font-display: "Space Grotesk", system-ui, sans-serif;
+      --font-body: "Inter", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", "SF Mono", "Fira Code", monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    #starfield {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
+    }
+
+    /* Nav */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 1000; padding: 16px 0;
+      background: rgba(5, 8, 16, .7);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      transition: all .3s ease;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none; color: var(--text-primary);
+    }
+    .nav-brand svg { width: 36px; height: 36px; filter: drop-shadow(0 0 10px var(--logo-glow)); }
+    .nav-brand span { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; }
+    .nav-links { display: flex; gap: 18px; list-style: none; align-items: center; }
+    .nav-links a {
+      color: var(--text-secondary); text-decoration: none;
+      font-size: .875rem; font-weight: 500; transition: color .2s; letter-spacing: .02em;
+    }
+    .nav-links a:hover { color: var(--accent-bright); }
+    .nav-cta {
+      background: var(--accent-mid); color: var(--bg-deep);
+      padding: 10px 24px; border-radius: 8px; text-decoration: none;
+      font-weight: 600; font-size: .875rem; transition: all .2s; border: none; cursor: pointer;
+    }
+    .nav-cta:hover { background: var(--accent-bright); box-shadow: 0 0 20px var(--logo-glow); }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--text-primary); transition: all .3s; border-radius: 2px;
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    .mobile-menu {
+      display: none; position: fixed; top: 69px; left: 0; right: 0;
+      background: rgba(5, 8, 16, .95); backdrop-filter: blur(20px);
+      padding: 24px; border-bottom: 1px solid var(--border-subtle); z-index: 999;
+    }
+    .mobile-menu.active { display: block; }
+    .mobile-menu a {
+      display: block; padding: 12px 0; color: var(--text-secondary);
+      text-decoration: none; font-size: 1rem; border-bottom: 1px solid var(--border-subtle);
+    }
+    .mobile-menu a:hover { color: var(--accent-bright); }
+
+    /* Sections */
+    section { position: relative; z-index: 1; padding: 120px 24px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      font-family: var(--font-mono); font-size: .8rem; color: var(--accent-bright);
+      letter-spacing: .15em; text-transform: uppercase; margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--font-display); font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700; margin-bottom: 20px; color: var(--text-primary);
+    }
+    .section-subtitle {
+      color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; line-height: 1.7;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding-top: 100px;
+    }
+    .hero-content { max-width: 860px; }
+    .hero-badge {
+      display: inline-block; background: rgba(74, 222, 128, .08); border: 1px solid var(--border-accent);
+      color: var(--accent-bright); padding: 8px 20px; border-radius: 100px;
+      font-size: .85rem; font-family: var(--font-mono); font-weight: 500; letter-spacing: .03em;
+      margin-bottom: 32px;
+    }
+    .hero-title {
+      font-family: var(--font-display); font-size: clamp(2.5rem, 7vw, 4rem);
+      font-weight: 700; line-height: 1.1; margin-bottom: 24px;
+      background: linear-gradient(135deg, #ffffff 0%, var(--cyan-bright) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-subtitle {
+      font-size: 1.2rem; color: var(--text-secondary);
+      max-width: 640px; margin: 0 auto 40px; line-height: 1.7;
+    }
+    .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent-mid); color: var(--bg-deep);
+      padding: 14px 32px; border-radius: 10px; text-decoration: none;
+      font-weight: 700; font-size: 1rem; transition: all .25s; border: none; cursor: pointer;
+      font-family: var(--font-body);
+    }
+    .btn-primary:hover { background: var(--accent-bright); box-shadow: 0 0 30px var(--logo-glow); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--text-primary);
+      padding: 14px 32px; border-radius: 10px; text-decoration: none;
+      font-weight: 600; font-size: 1rem; transition: all .25s;
+      border: 1px solid var(--border-accent); cursor: pointer; font-family: var(--font-body);
+    }
+    .btn-outline:hover { border-color: var(--accent-bright); background: rgba(74, 222, 128, .08); transform: translateY(-2px); }
+
+    /* Steps */
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-top: 60px; position: relative; }
+    .step { text-align: center; position: relative; }
+    .step-num {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(74, 222, 128, .1); border: 2px solid var(--accent-bright);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 24px; font-family: var(--font-display);
+      font-size: 1.5rem; font-weight: 700; color: var(--accent-bright);
+    }
+    .step h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; }
+    .step p { color: var(--text-secondary); font-size: .9rem; max-width: 240px; margin: 0 auto; line-height: 1.6; }
+    .step-arrow { position: absolute; top: 32px; right: -16px; color: var(--accent-bright); font-size: 1.5rem; opacity: .5; }
+
+    /* Economics */
+    .economics-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 60px;
+    }
+    .economics-table {
+      width: 100%; border-collapse: collapse; font-family: var(--font-body);
+    }
+    .economics-table tr { border-bottom: 1px solid var(--border-subtle); }
+    .economics-table td {
+      padding: 16px 0; font-size: .95rem;
+    }
+    .economics-table td:first-child { color: var(--text-secondary); }
+    .economics-table td:last-child {
+      text-align: right; font-family: var(--font-mono); font-weight: 600; color: var(--text-primary);
+    }
+    .economics-table tr.profit td { color: var(--accent-bright); font-weight: 700; }
+    .economics-table tr.profit td:last-child { font-size: 1.1rem; }
+    .scale-cards { display: flex; flex-direction: column; gap: 16px; }
+    .scale-card {
+      background: var(--surface-card); border: 1px solid var(--border-subtle);
+      border-radius: 12px; padding: 24px; display: flex; justify-content: space-between; align-items: center;
+      transition: all .3s;
+    }
+    .scale-card:hover { border-color: var(--border-accent); transform: translateX(4px); }
+    .scale-card .clients { color: var(--text-secondary); font-size: .95rem; }
+    .scale-card .revenue {
+      font-family: var(--font-mono); font-weight: 700; font-size: 1.3rem; color: var(--accent-bright);
+    }
+
+    /* Feature cards */
+    .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 60px; }
+    .card {
+      background: var(--surface-card); border: 1px solid var(--border-subtle);
+      border-radius: 16px; padding: 32px 24px; transition: all .3s;
+      position: relative; overflow: hidden;
+    }
+    .card::before {
+      content: ''; position: absolute; inset: 0; border-radius: 16px;
+      border: 1px solid transparent; transition: border-color .3s; pointer-events: none;
+    }
+    .card:hover { transform: translateY(-4px); }
+    .card:hover::before { border-color: var(--border-accent); }
+    .card:hover { box-shadow: 0 8px 40px rgba(74, 222, 128, .08); }
+    .card-icon { font-size: 2rem; margin-bottom: 16px; }
+    .card h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; color: var(--text-primary); }
+    .card p { color: var(--text-secondary); font-size: .9rem; line-height: 1.6; }
+
+    /* Pricing */
+    .pricing-box {
+      max-width: 700px; margin: 60px auto 0;
+      background: var(--surface-card); border: 1px solid var(--accent-bright);
+      border-radius: 20px; padding: 48px 40px; text-align: center;
+      box-shadow: 0 0 40px rgba(74, 222, 128, .1);
+    }
+    .pricing-box h3 {
+      font-family: var(--font-display); font-size: 1.75rem; font-weight: 700; margin-bottom: 32px;
+    }
+    .pricing-items { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; text-align: left; margin-bottom: 32px; }
+    .pricing-item {
+      background: rgba(74, 222, 128, .05); border: 1px solid var(--border-subtle);
+      border-radius: 12px; padding: 20px;
+    }
+    .pricing-item .label { color: var(--text-secondary); font-size: .85rem; margin-bottom: 4px; }
+    .pricing-item .value {
+      font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent-bright);
+    }
+    .pricing-item .note { color: var(--text-muted); font-size: .8rem; margin-top: 4px; }
+    .pricing-details {
+      display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;
+      margin-bottom: 32px; padding-top: 24px; border-top: 1px solid var(--border-subtle);
+    }
+    .pricing-detail { color: var(--text-secondary); font-size: .9rem; display: flex; align-items: center; gap: 8px; }
+    .pricing-detail::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-bright); flex-shrink: 0; }
+
+    /* Demo section */
+    .demo-section {
+      background: var(--bg-surface); border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .demo-box {
+      max-width: 600px; margin: 0 auto; text-align: center;
+      background: var(--surface-card); border: 1px solid var(--border-subtle);
+      border-radius: 20px; padding: 48px 40px;
+    }
+    .demo-phone {
+      font-family: var(--font-mono); font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 700; color: var(--accent-bright); letter-spacing: .02em;
+      margin: 16px 0 8px;
+    }
+    .demo-phone a { color: var(--accent-bright); text-decoration: none; }
+    .demo-phone a:hover { color: var(--cyan-bright); }
+
+    /* CTA section */
+    .cta-section { text-align: center; }
+    .cta-section .section-title { max-width: 700px; margin: 0 auto 20px; }
+
+    /* Footer */
+    .footer {
+      position: relative; z-index: 1; border-top: 1px solid var(--border-subtle);
+      padding: 40px 24px; text-align: center;
+    }
+    .footer-brand { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; }
+    .footer-brand svg { width: 28px; height: 28px; filter: drop-shadow(0 0 8px var(--logo-glow)); }
+    .footer-brand span { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--text-primary); }
+    .footer p { color: var(--text-muted); font-size: .85rem; }
+
+    /* Fade in */
+    .fade-in { opacity: 1; transform: translateY(0); transition: opacity .6s ease, transform .6s ease; }
+    .fade-in.hidden { opacity: 0; transform: translateY(30px); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links, .nav .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .steps { grid-template-columns: 1fr 1fr; }
+      .economics-grid { grid-template-columns: 1fr; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .pricing-items { grid-template-columns: 1fr; }
+      .step-arrow { display: none; }
+      section { padding: 80px 20px; }
+      .pricing-box { padding: 32px 20px; }
+      .demo-box { padding: 32px 20px; }
+    }
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .cards-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="../" class="nav-brand">
+      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="60" cy="58" rx="22" ry="30" fill="url(#nav-grad)"/>
+        <ellipse cx="60" cy="30" rx="18" ry="16" fill="url(#nav-grad)"/>
+        <path d="M42 50 Q60 47 78 50" stroke="rgba(0,80,30,0.25)" stroke-width="1" fill="none"/>
+        <path d="M40 60 Q60 57 80 60" stroke="rgba(0,80,30,0.20)" stroke-width="1" fill="none"/>
+        <path d="M41 70 Q60 67 79 70" stroke="rgba(0,80,30,0.15)" stroke-width="1" fill="none"/>
+        <ellipse cx="52" cy="96" rx="8" ry="5" fill="url(#nav-grad)" transform="rotate(-15 52 96)"/>
+        <ellipse cx="60" cy="98" rx="8" ry="5" fill="url(#nav-grad)"/>
+        <ellipse cx="68" cy="96" rx="8" ry="5" fill="url(#nav-grad)" transform="rotate(15 68 96)"/>
+        <path d="M60 88 L60 93" stroke="rgba(0,80,30,0.20)" stroke-width="1"/>
+        <path d="M30 30 C18 22 8 28 10 38 C12 48 22 46 28 38 C32 32 30 30 30 30Z" fill="url(#nav-grad)"/>
+        <path d="M14 32 Q18 36 14 40" stroke="rgba(0,80,30,0.25)" stroke-width="1" fill="none"/>
+        <path d="M90 30 C102 22 112 28 110 38 C108 48 98 46 92 38 C88 32 90 30 90 30Z" fill="url(#nav-grad)"/>
+        <path d="M106 32 Q102 36 106 40" stroke="rgba(0,80,30,0.25)" stroke-width="1" fill="none"/>
+        <path d="M50 18 Q40 4 28 2" stroke="#4ade80" stroke-width="2" stroke-linecap="round"/>
+        <path d="M70 18 Q80 4 92 2" stroke="#4ade80" stroke-width="2" stroke-linecap="round"/>
+        <line x1="40" y1="48" x2="32" y2="52" stroke="url(#nav-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="80" y1="48" x2="88" y2="52" stroke="url(#nav-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="39" y1="56" x2="30" y2="60" stroke="url(#nav-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="81" y1="56" x2="90" y2="60" stroke="url(#nav-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="39" y1="64" x2="31" y2="68" stroke="url(#nav-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="81" y1="64" x2="89" y2="68" stroke="url(#nav-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="40" y1="72" x2="33" y2="76" stroke="url(#nav-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="80" y1="72" x2="87" y2="76" stroke="url(#nav-grad)" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="51" cy="28" r="5" fill="#050810"/>
+        <circle cx="69" cy="28" r="5" fill="#050810"/>
+        <circle cx="52" cy="27" r="2" fill="#00e5cc"/>
+        <circle cx="70" cy="27" r="2" fill="#00e5cc"/>
+        <defs><linearGradient id="nav-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4ade80"/><stop offset="100%" stop-color="#166534"/></linearGradient></defs>
+      </svg>
+      <span>ClawOps</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../#services">Services</a></li>
+      <li><a href="../#verticals">Industries</a></li>
+      <li><a href="../#pricing">Pricing</a></li>
+      <li><a href="../demo/">Demo</a></li>
+      <li><a href="../demo/receptionist-v2/" style="color:#f97066;font-weight:600;">&#x1F4DE; Phone Demo</a></li>
+      <li><a href="../blog/">Blog</a></li>
+      <li><a href="../scanner/" style="color:#60a5fa;font-weight:600;text-shadow:0 0 12px rgba(96,165,250,.5);">&#128737; SHIELD</a></li>
+    </ul>
+    <a href="#apply" class="nav-cta">Become a Partner</a>
+    <button class="hamburger" onclick="this.classList.toggle('active');document.querySelector('.mobile-menu').classList.toggle('active')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="../#services" onclick="closeMobile()">Services</a>
+  <a href="../#verticals" onclick="closeMobile()">Industries</a>
+  <a href="../demo/" onclick="closeMobile()">AI Receptionist Demo</a>
+  <a href="../#pricing" onclick="closeMobile()">Pricing</a>
+  <a href="#how-it-works" onclick="closeMobile()">How It Works</a>
+  <a href="#economics" onclick="closeMobile()">Agency Economics</a>
+  <a href="#pricing-section" onclick="closeMobile()">Partner Pricing</a>
+  <a href="#apply" onclick="closeMobile()" style="color:var(--accent-bright)">Become a Partner</a>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">&#129309; White-Label Partner Program</div>
+    <h1 class="hero-title">Add AI Voice to Your Agency.<br>We Build It. You Sell It.</h1>
+    <p class="hero-subtitle">White-label AI receptionists for your clients. Fully configured, branded under your agency. You keep the margin.</p>
+    <div class="hero-buttons">
+      <a href="#apply" class="btn-primary">Apply to Become a Partner</a>
+      <a href="#economics" class="btn-outline">See the Math</a>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section id="how-it-works">
+  <div class="container fade-in">
+    <div class="section-label" style="text-align:center">Partner Program</div>
+    <h2 class="section-title" style="text-align:center">How It Works</h2>
+    <p class="section-subtitle" style="text-align:center;margin:0 auto">Four simple steps to add a high-margin recurring revenue stream to your agency.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>You Sign Up as a Partner</h3>
+        <p>Apply below. We will review your agency and get you onboarded within 48 hours.</p>
+        <span class="step-arrow">&#8594;</span>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>We Build Custom AI Agents</h3>
+        <p>For each of your clients, we build and configure a fully trained AI voice receptionist.</p>
+        <span class="step-arrow">&#8594;</span>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Your Clients See YOUR Brand</h3>
+        <p>Everything is white-labeled. Your agency name, your logo, your pricing. We stay invisible.</p>
+        <span class="step-arrow">&#8594;</span>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>You Pocket the Difference</h3>
+        <p>Charge whatever you want. Pay us the wholesale rate. The margin is yours to keep.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Agency Economics -->
+<section id="economics" style="background: var(--bg-surface);">
+  <div class="container fade-in">
+    <div class="section-label" style="text-align:center">The Numbers</div>
+    <h2 class="section-title" style="text-align:center">Agency Economics</h2>
+    <p class="section-subtitle" style="text-align:center;margin:0 auto">Here is the math on what this looks like for your agency. Simple, predictable, and highly profitable.</p>
+    <div class="economics-grid">
+      <div>
+        <table class="economics-table">
+          <tr>
+            <td>You charge your client</td>
+            <td>$750/mo</td>
+          </tr>
+          <tr>
+            <td>You pay us</td>
+            <td>$200/mo</td>
+          </tr>
+          <tr class="profit">
+            <td>Your profit per client</td>
+            <td>$550/mo</td>
+          </tr>
+        </table>
+      </div>
+      <div class="scale-cards">
+        <div class="scale-card">
+          <span class="clients">10 clients</span>
+          <span class="revenue">$5,500/mo profit</span>
+        </div>
+        <div class="scale-card">
+          <span class="clients">20 clients</span>
+          <span class="revenue">$11,000/mo profit</span>
+        </div>
+        <div class="scale-card" style="border-color: var(--accent-bright); box-shadow: 0 0 20px rgba(74, 222, 128, .08);">
+          <span class="clients">50 clients</span>
+          <span class="revenue">$27,500/mo profit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What Your Clients Get -->
+<section id="clients-get">
+  <div class="container fade-in">
+    <div class="section-label" style="text-align:center">For Your Clients</div>
+    <h2 class="section-title" style="text-align:center">What Your Clients Get</h2>
+    <p class="section-subtitle" style="text-align:center;margin:0 auto">Every AI receptionist is a fully configured, production-ready system that delivers real results from day one.</p>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">&#128222;</div>
+        <h3>24/7 Call Answering</h3>
+        <p>AI receptionist that answers every call around the clock. Nights, weekends, holidays. No lead goes unanswered.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#128197;</div>
+        <h3>Automated Booking</h3>
+        <p>Books appointments directly into their calendar. Offers available slots, confirms instantly, sends reminders.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#128203;</div>
+        <h3>Lead Capture</h3>
+        <p>Captures lead info automatically. Name, number, service needed, urgency. Every detail logged and synced.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#128257;</div>
+        <h3>Unlimited Simultaneous Calls</h3>
+        <p>Handles as many calls at once as needed. No busy signals, no hold times, no lost revenue.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#129504;</div>
+        <h3>Custom-Trained per Business</h3>
+        <p>Each AI agent is trained on the specific business. Services, pricing, service areas, FAQs. It knows the business inside and out.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#127908;</div>
+        <h3>Sounds Like a Real Human</h3>
+        <p>Natural conversation flow with advanced voice synthesis. Callers think they are talking to a real receptionist.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What You Get as a Partner -->
+<section id="partner-benefits" style="background: var(--bg-surface);">
+  <div class="container fade-in">
+    <div class="section-label" style="text-align:center">For Your Agency</div>
+    <h2 class="section-title" style="text-align:center">What You Get as a Partner</h2>
+    <p class="section-subtitle" style="text-align:center;margin:0 auto">We handle all the heavy lifting. You focus on selling and growing your agency.</p>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">&#127912;</div>
+        <h3>Fully White-Labeled</h3>
+        <p>Your brand, your pricing, your client relationship. We stay behind the scenes. Your clients never know we exist.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#9881;</div>
+        <h3>We Handle All Setup</h3>
+        <p>You send us the client details. We build, configure, test, and deploy the AI agent. Turnkey delivery.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#128200;</div>
+        <h3>Ongoing Optimization</h3>
+        <p>Continuous prompt optimization and monitoring. We keep the AI sharp and improving over time.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#128202;</div>
+        <h3>Partner Dashboard</h3>
+        <p>Track all your clients, call volumes, and performance metrics in one place. Coming soon.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#128640;</div>
+        <h3>Priority Support</h3>
+        <p>Direct access to our team. Fast response times. Your clients are our priority.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#128241;</div>
+        <h3>Demo Line for Sales</h3>
+        <p>Use our live demo line on your sales calls. Let prospects hear the AI in action before they sign.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing-section">
+  <div class="container fade-in">
+    <div class="section-label" style="text-align:center">Partner Pricing</div>
+    <h2 class="section-title" style="text-align:center">Simple, Transparent Pricing</h2>
+    <p class="section-subtitle" style="text-align:center;margin:0 auto">No hidden fees, no platform charges. Just straightforward wholesale pricing that gives you room to profit.</p>
+    <div class="pricing-box">
+      <h3>Wholesale Partner Rates</h3>
+      <div class="pricing-items">
+        <div class="pricing-item">
+          <div class="label">One-time setup per client</div>
+          <div class="value">$500</div>
+          <div class="note">Covers build, config, and deployment</div>
+        </div>
+        <div class="pricing-item">
+          <div class="label">Monthly per client</div>
+          <div class="value">$200/mo</div>
+          <div class="note">Includes hosting, monitoring, optimization</div>
+        </div>
+      </div>
+      <div class="pricing-details">
+        <div class="pricing-detail">Minimum 5 clients to start</div>
+        <div class="pricing-detail">No monthly platform fee</div>
+        <div class="pricing-detail">You set your own retail price</div>
+      </div>
+      <a href="#apply" class="btn-primary" style="padding: 16px 40px; font-size: 1.05rem;">Apply to Become a Partner</a>
+    </div>
+  </div>
+</section>
+
+<!-- Try the Demo -->
+<section class="demo-section" style="padding: 100px 24px;">
+  <div class="container fade-in">
+    <div class="demo-box">
+      <div class="section-label">Hear It Live</div>
+      <h2 style="font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; margin-bottom: 8px;">Try the Demo</h2>
+      <p style="color: var(--text-secondary); font-size: 1rem; margin-bottom: 24px;">Call our AI receptionist right now. This is the same technology your clients will get.</p>
+      <div class="demo-phone"><a href="tel:+15139953285">(513) 995-3285</a></div>
+      <p style="color: var(--text-muted); font-size: .85rem; margin-top: 8px;">Available 24/7. Try it on your next sales call.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section id="apply" class="cta-section">
+  <div class="container fade-in">
+    <div class="section-label" style="text-align:center">Get Started</div>
+    <h2 class="section-title" style="text-align:center">Ready to Add AI Voice to Your Agency?</h2>
+    <p class="section-subtitle" style="text-align:center;margin:0 auto 40px">Apply today. We will review your agency, walk you through the program, and have you selling AI receptionists within a week.</p>
+    <div style="text-align:center;">
+      <a href="https://forms.gle/PLACEHOLDER" target="_blank" rel="noopener noreferrer" class="btn-primary" style="padding: 18px 48px; font-size: 1.1rem;">Apply to Become a Partner</a>
+      <p style="color: var(--text-muted); font-size: .85rem; margin-top: 16px;">Questions? Email us at <a href="mailto:rickclaw08@gmail.com" style="color:var(--accent-bright);text-decoration:none;">rickclaw08@gmail.com</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-brand">
+    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="60" cy="58" rx="22" ry="30" fill="url(#ft-grad)"/>
+      <ellipse cx="60" cy="30" rx="18" ry="16" fill="url(#ft-grad)"/>
+      <path d="M42 50 Q60 47 78 50" stroke="rgba(0,80,30,0.25)" stroke-width="1" fill="none"/>
+      <path d="M40 60 Q60 57 80 60" stroke="rgba(0,80,30,0.20)" stroke-width="1" fill="none"/>
+      <path d="M41 70 Q60 67 79 70" stroke="rgba(0,80,30,0.15)" stroke-width="1" fill="none"/>
+      <ellipse cx="52" cy="96" rx="8" ry="5" fill="url(#ft-grad)" transform="rotate(-15 52 96)"/>
+      <ellipse cx="60" cy="98" rx="8" ry="5" fill="url(#ft-grad)"/>
+      <ellipse cx="68" cy="96" rx="8" ry="5" fill="url(#ft-grad)" transform="rotate(15 68 96)"/>
+      <path d="M60 88 L60 93" stroke="rgba(0,80,30,0.20)" stroke-width="1"/>
+      <path d="M30 30 C18 22 8 28 10 38 C12 48 22 46 28 38 C32 32 30 30 30 30Z" fill="url(#ft-grad)"/>
+      <path d="M14 32 Q18 36 14 40" stroke="rgba(0,80,30,0.25)" stroke-width="1" fill="none"/>
+      <path d="M90 30 C102 22 112 28 110 38 C108 48 98 46 92 38 C88 32 90 30 90 30Z" fill="url(#ft-grad)"/>
+      <path d="M106 32 Q102 36 106 40" stroke="rgba(0,80,30,0.25)" stroke-width="1" fill="none"/>
+      <path d="M50 18 Q40 4 28 2" stroke="#4ade80" stroke-width="2" stroke-linecap="round"/>
+      <path d="M70 18 Q80 4 92 2" stroke="#4ade80" stroke-width="2" stroke-linecap="round"/>
+      <line x1="40" y1="48" x2="32" y2="52" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+      <line x1="80" y1="48" x2="88" y2="52" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+      <line x1="39" y1="56" x2="30" y2="60" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+      <line x1="81" y1="56" x2="90" y2="60" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+      <line x1="39" y1="64" x2="31" y2="68" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+      <line x1="81" y1="64" x2="89" y2="68" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+      <line x1="40" y1="72" x2="33" y2="76" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+      <line x1="80" y1="72" x2="87" y2="76" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="51" cy="28" r="5" fill="#050810"/>
+      <circle cx="69" cy="28" r="5" fill="#050810"/>
+      <circle cx="52" cy="27" r="2" fill="#00e5cc"/>
+      <circle cx="70" cy="27" r="2" fill="#00e5cc"/>
+      <defs><linearGradient id="ft-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4ade80"/><stop offset="100%" stop-color="#166534"/></linearGradient></defs>
+    </svg>
+    <span>ClawOps</span>
+  </div>
+  <div style="display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px;">
+    <a href="../contractors/" style="color: var(--text-secondary); font-size: .85rem; text-decoration: none;">AI for Contractors</a>
+    <a href="../legal/" style="color: var(--text-secondary); font-size: .85rem; text-decoration: none;">AI for Law Firms</a>
+    <a href="../healthcare/" style="color: var(--text-secondary); font-size: .85rem; text-decoration: none;">AI for Healthcare</a>
+    <a href="../demo/" style="color: var(--text-secondary); font-size: .85rem; text-decoration: none;">AI Receptionist Demo</a>
+    <a href="../scanner/" style="color: #60a5fa; font-size: .85rem; text-decoration: none; font-weight: 600; text-shadow: 0 0 10px rgba(96,165,250,.4);">&#128737; SHIELD</a>
+  </div>
+  <div style="display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px;">
+    <a href="../privacy/" style="color: var(--text-muted); font-size: .8rem; text-decoration: none;">Privacy Policy</a>
+    <a href="../terms/" style="color: var(--text-muted); font-size: .8rem; text-decoration: none;">Terms of Service</a>
+    <a href="../acceptable-use/" style="color: var(--text-muted); font-size: .8rem; text-decoration: none;">Acceptable Use Policy</a>
+    <a href="../privacy/#ccpa-do-not-sell" style="color: var(--text-muted); font-size: .8rem; text-decoration: none;">Do Not Sell My Personal Information</a>
+  </div>
+  <p>&copy; 2026 ClawOps. All rights reserved.</p>
+</footer>
+
+<script>
+// Starfield
+(function() {
+  var canvas = document.getElementById('starfield');
+  var ctx = canvas.getContext('2d');
+  var stars = [];
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    stars = Array.from({length: 200}, function() { return {
+      x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+      r: Math.random() * 1.5 + 0.3, a: Math.random(), s: Math.random() * 0.005 + 0.002
+    };});
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(function(s) {
+      s.a += s.s;
+      var alpha = 0.3 + Math.abs(Math.sin(s.a)) * 0.7;
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(240,244,255,' + alpha + ')'; ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+function closeMobile() {
+  document.querySelector('.hamburger').classList.remove('active');
+  document.querySelector('.mobile-menu').classList.remove('active');
+}
+
+// Scroll fade-in
+document.addEventListener('DOMContentLoaded', function() {
+  var els = document.querySelectorAll('.fade-in');
+  els.forEach(function(el) { el.classList.add('hidden'); });
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.remove('hidden'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  els.forEach(function(el) { obs.observe(el); });
+});
+</script>
+</body>
+</html>
