@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Twin Power Heating &amp; Air — AI Receptionist Preview · ClawOps</title>
+<meta name="description" content="A personalized AI receptionist preview built for Twin Power Heating &amp; Air. Hear what your customers would.">
+<meta name="robots" content="noindex">
+<style>
+:root {
+  --bg: #050810; --bg2: #0a0f1a; --bg3: #111827;
+  --green: #4ade80; --green-bright: #22c55e; --green-dark: #166534;
+  --cyan: #00e5cc;
+  --text: #f0f4ff; --text-2: #8892b0; --text-mute: #5a6480;
+  --border: rgba(136,146,176,0.15);
+  --warn: #fbbf24;
+  --danger: #ef4444;
+}
+* { box-sizing: border-box; }
+body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; }
+.container { max-width: 980px; margin: 0 auto; padding: 24px; }
+
+header.brand { display: flex; align-items: center; gap: 12px; padding: 18px 24px; border-bottom: 1px solid var(--border); }
+header.brand .logo { font-family: "SF Mono", monospace; font-weight: 700; color: var(--green); letter-spacing: 0.04em; }
+header.brand .tag { color: var(--text-mute); font-size: 13px; }
+
+.hero { padding: 60px 24px 40px; background: radial-gradient(ellipse 800px 400px at 30% 20%, rgba(74,222,128,0.10), transparent), radial-gradient(ellipse 600px 300px at 80% 0%, rgba(0,229,204,0.06), transparent); }
+.eyebrow { font-family: "SF Mono", monospace; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+h1.hero-h { font-size: clamp(28px, 5vw, 44px); margin: 0 0 12px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.1; }
+h1.hero-h .biz { background: linear-gradient(135deg, var(--green), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero-sub { font-size: 18px; color: var(--text-2); max-width: 680px; }
+
+.cta-stack { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; align-items: center; }
+.cta-primary { background: var(--green-bright); color: var(--bg); text-decoration: none; padding: 14px 26px; border-radius: 10px; font-weight: 700; font-size: 17px; transition: all 0.2s; box-shadow: 0 0 0 0 rgba(74,222,128,0.4); }
+.cta-primary:hover { background: var(--green); transform: translateY(-1px); box-shadow: 0 0 30px rgba(74,222,128,0.4); }
+.cta-mono { font-family: "SF Mono", monospace; font-size: 22px; }
+.cta-secondary { color: var(--text-2); text-decoration: none; padding: 12px 20px; border: 1px solid var(--border); border-radius: 10px; font-size: 14px; transition: 0.2s; }
+.cta-secondary:hover { color: var(--text); border-color: var(--text-2); }
+
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 50px 0; }
+@media (max-width: 720px) { .compare { grid-template-columns: 1fr; } }
+.compare-card { padding: 22px; border-radius: 12px; border: 1px solid var(--border); }
+.compare-card.before { background: rgba(239,68,68,0.06); border-color: rgba(239,68,68,0.25); }
+.compare-card.after  { background: rgba(74,222,128,0.06); border-color: rgba(74,222,128,0.30); }
+.compare-card .label { font-family: "SF Mono", monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-mute); margin-bottom: 8px; }
+.compare-card .num { font-family: "SF Mono", monospace; font-size: 28px; font-weight: 700; }
+.compare-card.before .num { color: #fca5a5; }
+.compare-card.after  .num { color: var(--green); }
+.compare-card .desc { color: var(--text-2); font-size: 14px; margin-top: 8px; }
+
+section { padding: 36px 0; border-top: 1px solid var(--border); }
+section h2.section-eyebrow { font-family: "SF Mono", monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin: 0 0 16px; }
+section p { color: var(--text-2); }
+
+.quoted-review .review { background: var(--bg2); border-left: 3px solid var(--danger); padding: 18px 22px; border-radius: 8px; margin: 12px 0; }
+.quoted-review .rating { color: var(--warn); font-size: 18px; }
+.quoted-review p { color: var(--text); font-style: italic; font-size: 16px; line-height: 1.6; }
+.quoted-review cite { font-style: normal; color: var(--text-2); font-size: 13px; }
+.quoted-review .signals { color: var(--text-mute); font-size: 11px; font-family: "SF Mono", monospace; margin-top: 8px; }
+
+.audit-block { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 22px 24px; }
+.audit-block.warn { border-color: rgba(251,191,36,0.30); background: rgba(251,191,36,0.04); }
+.audit-block code { background: var(--bg3); padding: 2px 8px; border-radius: 4px; font-size: 13px; color: var(--green); }
+.audit-block a { color: var(--green); }
+
+.sim { background: var(--bg2); border-radius: 14px; padding: 18px 20px; margin: 12px 0 30px; border: 1px solid var(--border); max-width: 640px; }
+.sim .sim-head { display: flex; gap: 10px; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 14px; }
+.sim .sim-head .sim-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+.sim .sim-head .sim-num { font-family: "SF Mono", monospace; color: var(--text); font-weight: 600; }
+.sim .sim-head .sim-time { font-size: 12px; color: var(--text-mute); margin-left: auto; }
+.sim .msg { margin: 8px 0; max-width: 88%; }
+.sim .msg-ring { font-family: "SF Mono", monospace; color: var(--text-mute); font-size: 13px; padding-left: 10px; }
+.sim .msg-ai span { display: inline-block; background: rgba(74,222,128,0.12); color: var(--green); padding: 8px 14px; border-radius: 16px 16px 16px 4px; font-size: 14px; }
+.sim .msg-customer { text-align: right; }
+.sim .msg-customer span { display: inline-block; background: var(--bg3); color: var(--text); padding: 8px 14px; border-radius: 16px 16px 4px 16px; font-size: 14px; }
+.sim .msg-system { text-align: center; color: var(--text-mute); font-family: "SF Mono", monospace; font-size: 11px; padding: 8px; background: var(--bg3); border-radius: 6px; margin-top: 10px; }
+
+.kvs { display: grid; grid-template-columns: 160px 1fr; gap: 10px 18px; font-size: 14px; margin: 8px 0; }
+.kvs dt { color: var(--text-2); }
+.kvs dd { margin: 0; color: var(--text); }
+
+.pricing-card { background: linear-gradient(180deg, var(--bg2), rgba(74,222,128,0.04)); border: 1px solid var(--green); border-radius: 14px; padding: 28px; margin-top: 16px; }
+.pricing-card .pilot-tag { display: inline-block; background: var(--green); color: var(--bg); padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+.pricing-card .price { font-family: "SF Mono", monospace; font-size: 32px; font-weight: 700; color: var(--green); }
+.pricing-card .terms { color: var(--text-2); font-size: 14px; margin: 8px 0 18px; }
+.pricing-card ul { list-style: none; padding: 0; margin: 0 0 22px; }
+.pricing-card li { padding: 6px 0; color: var(--text); font-size: 14px; }
+.pricing-card li:before { content: "✓"; color: var(--green); margin-right: 10px; font-weight: 700; }
+
+footer.foot { padding: 30px 24px; border-top: 1px solid var(--border); color: var(--text-mute); font-size: 12px; text-align: center; }
+footer.foot a { color: var(--text-2); }
+</style>
+</head>
+<body>
+
+<header class="brand">
+    <span class="logo">CLAWOPS</span>
+    <span class="tag">AI receptionist for trade contractors</span>
+</header>
+
+<div class="hero">
+    <div class="container">
+        <div class="eyebrow">Personalized preview built for</div>
+        <h1 class="hero-h">Your AI Receptionist for <span class="biz">Twin Power Heating &amp; Air</span></h1>
+        <p class="hero-sub">A working AI agent that answers your phone 24/7, books appointments to your calendar, and recovers the after-hours calls your business misses today. Hear it in 30 seconds.</p>
+        <div class="cta-stack">
+            <a class="cta-primary" href="tel:+15139953285"><span>📞 Hear it now:</span> <span class="cta-mono">(513) 995-3285</span></a>
+            <a class="cta-secondary" href="#pilot">14-day free pilot →</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <section>
+        <h2 class="section-eyebrow">Your numbers, estimated</h2>
+        <div class="compare">
+            <div class="compare-card before">
+                <div class="label">Currently rings</div>
+                <div class="num">(513) 374-7387</div>
+                <div class="desc">After 5pm and weekends, this likely goes to voicemail. Estimated <strong>~3 missed calls/week</strong> at peak season.</div>
+            </div>
+            <div class="compare-card after">
+                <div class="label">What customers will hear</div>
+                <div class="num cta-mono">(513) 995-3285</div>
+                <div class="desc">Live AI receptionist · books to calendar · sends SMS confirmation · escalates emergencies. <strong>~$2,412/mo</strong> recovered (estimate).</div>
+            </div>
+        </div>
+
+        <dl class="kvs">
+            <dt>Estimated jobs/week</dt>      <dd>11 (based on review velocity)</dd>
+            <dt>Average ticket</dt>            <dd>$425 (HVAC industry benchmark)</dd>
+            <dt>After-hours miss rate</dt>     <dd>30% (industry average for trade contractors)</dd>
+            <dt>Estimated recovery</dt>        <dd><strong style="color: var(--green);">$2,412/month</strong> if AI receptionist captures 40% of misses</dd>
+        </dl>
+    </section>
+
+    
+        <section class="audit-block warn">
+            <h2 class="section-eyebrow">No working contact form on your website</h2>
+            <p>We searched <a href="http://www.twinpowerair.com/">http://www.twinpowerair.com/</a> on April 25 for a contact form. Could not find one on the homepage, /contact, /contact-us, or /get-in-touch.</p>
+            <p>Customers who land on your site after-hours have no way to reach you except calling — which probably goes to voicemail.</p>
+        </section>
+
+    
+
+    <section>
+        <h2 class="section-eyebrow">Sample call — your AI receptionist for Twin Power Heating &amp; Air</h2>
+        <div class="sim">
+            <div class="sim-head">
+                <span class="sim-dot"></span>
+                <span class="sim-num">📞 (513) 995-3285</span>
+                <span class="sim-time">Live · 0:24</span>
+            </div>
+            <div class="msg msg-ring"><span>ring… ring… ring…</span></div>
+<div class="msg msg-ai"><span>Hi, thanks for calling Twin Power Heating &amp; Air. I can help you book an appointment, get an estimate, or handle an emergency. What can I help you with?</span></div>
+<div class="msg msg-customer"><span>My AC stopped working and it&#x27;s 95 degrees. I need someone today.</span></div>
+<div class="msg msg-ai"><span>I&#x27;m sorry to hear that — let&#x27;s get someone out fast. Can I have your name, address, and a quick description of what the unit&#x27;s doing?</span></div>
+<div class="msg msg-customer"><span>Sarah Mills, 4218 Maplewood Drive, Mason. The AC just won&#x27;t turn on, no air at all.</span></div>
+<div class="msg msg-ai"><span>Got it, Sarah. Twin Power Heating &amp; Air has an opening today between 2pm and 4pm. I&#x27;ll text you when the tech is 30 minutes out. Sound good?</span></div>
+<div class="msg msg-customer"><span>Perfect, thank you.</span></div>
+<div class="msg msg-ai"><span>Booked. You&#x27;ll get a confirmation text in about 60 seconds, and Twin Power Heating &amp; Air will see Sarah Mills at 4218 Maplewood Drive between 2pm and 4pm today. Stay cool.</span></div>
+<div class="msg msg-system"><span>📅 Appointment booked to Google Calendar  ·  📱 SMS confirmation sent  ·  💼 Lead logged in CRM</span></div>
+        </div>
+        <p style="font-size: 14px;">This is the AI working for Twin Power Heating &amp; Air. Real customer voice. Real calendar. Real SMS confirmations. <a href="tel:+15139953285" style="color: var(--green);">Call it yourself</a> — picks up in 1 ring.</p>
+    </section>
+
+    <section id="pilot">
+        <h2 class="section-eyebrow">14-day pilot · zero risk</h2>
+        <div class="pricing-card">
+            <span class="pilot-tag">Founding cohort offer</span>
+            <div class="price">$0 setup · $750/mo</div>
+            <div class="terms">14-day cancel-any-reason · full refund · cancel anytime month-to-month after</div>
+            <ul>
+                <li>Custom AI agent trained on your services, hours, and emergency rules</li>
+                <li>Dedicated phone number, live within 24 hours</li>
+                <li>Books appointments straight to your calendar</li>
+                <li>SMS confirmations on every booking</li>
+                <li>Owner-mobile escalation when emergency keywords detected</li>
+                <li>Dashboard with every call, recording, and outcome</li>
+                <li>30-day money-back guarantee</li>
+            </ul>
+            <a class="cta-primary" href="https://theclawops.com/intake?ref=twin-power-heating-air">Start the 14-day pilot →</a>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-eyebrow">Why we built this for you specifically</h2>
+        <p>This page was built specifically for <strong>Twin Power Heating &amp; Air</strong>. We pulled your public business data, identified the patterns that cost Twin Power Heating &amp; Air money, and configured the preview to match your service area, hours, and customer base.</p>
+        <p>If you decide to move forward, the live AI agent we deploy for you will be tuned to your specifics — your service types, your pricing, your tech names, your escalation rules.</p>
+        <p>Questions? Reply to the email this page came from, or call <a href="tel:+15139953285" style="color: var(--green);">(513) 995-3285</a> and our AI will book you in.</p>
+    </section>
+
+</div>
+
+<footer class="foot">
+    <p>ClawOps LLC · 6787 Summer Field Dr, Mason OH 45040 · contact@theclawops.com</p>
+    <p>Built personally for Twin Power Heating &amp; Air — <a href="http://www.twinpowerair.com/">http://www.twinpowerair.com/</a></p>
+    <p style="opacity: 0.5;">Reference: AUDIT-twin-power-heating-air · Generated April 25, 2026</p>
+</footer>
+
+</body></html>
