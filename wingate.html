@@ -1,213 +1,913 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Wingate — AI Receptionist Preview · ClawOps</title>
-<meta name="description" content="A personalized AI receptionist preview built for Wingate. Hear what your customers would.">
-<meta name="robots" content="noindex">
-<style>
-:root {
-  --bg: #050810; --bg2: #0a0f1a; --bg3: #111827;
-  --green: #4ade80; --green-bright: #22c55e; --green-dark: #166534;
-  --cyan: #00e5cc;
-  --text: #f0f4ff; --text-2: #8892b0; --text-mute: #5a6480;
-  --border: rgba(136,146,176,0.15);
-  --warn: #fbbf24;
-  --danger: #ef4444;
-}
-* { box-sizing: border-box; }
-body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; }
-.container { max-width: 980px; margin: 0 auto; padding: 24px; }
 
-header.brand { display: flex; align-items: center; gap: 12px; padding: 18px 24px; border-bottom: 1px solid var(--border); }
-header.brand .logo { font-family: "SF Mono", monospace; font-weight: 700; color: var(--green); letter-spacing: 0.04em; }
-header.brand .tag { color: var(--text-mute); font-size: 13px; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wingate — AI Receptionist Preview · ClawOps</title>
+  <meta name="description" content="A personalized AI receptionist preview built specifically for Wingate. Hear what your customers would, recover missed calls, book a 14-day free pilot.">
+  <meta name="keywords" content="AI receptionist, AI receptionist for contractors, missed call text back, AI chatbot for law firms, AI voice agent, revenue automation, lead capture automation, AI for HVAC, AI for plumbers, AI dental receptionist, CRM automation, ClawOps">
+  <meta name="author" content="Rick Claw">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://theclawops.com/wingate.html">
 
-.hero { padding: 60px 24px 40px; background: radial-gradient(ellipse 800px 400px at 30% 20%, rgba(74,222,128,0.10), transparent), radial-gradient(ellipse 600px 300px at 80% 0%, rgba(0,229,204,0.06), transparent); }
-.eyebrow { font-family: "SF Mono", monospace; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
-h1.hero-h { font-size: clamp(28px, 5vw, 44px); margin: 0 0 12px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.1; }
-h1.hero-h .biz { background: linear-gradient(135deg, var(--green), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.hero-sub { font-size: 18px; color: var(--text-2); max-width: 680px; }
+  <!-- Security Headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://widgets.leadconnectorhq.com https://fonts.googleapis.com https://www.googletagmanager.com https://www.gstatic.com https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://widgets.leadconnectorhq.com https://services.leadconnectorhq.com https://buy.stripe.com https://www.google-analytics.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://apis.google.com https://script.google.com https://script.googleusercontent.com; frame-src https://accounts.google.com https://theclawops.com https://clawops-488220.firebaseapp.com; object-src 'none'; base-uri 'self'; form-action 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 
-.cta-stack { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; align-items: center; }
-.cta-primary { background: var(--green-bright); color: var(--bg); text-decoration: none; padding: 14px 26px; border-radius: 10px; font-weight: 700; font-size: 17px; transition: all 0.2s; box-shadow: 0 0 0 0 rgba(74,222,128,0.4); }
-.cta-primary:hover { background: var(--green); transform: translateY(-1px); box-shadow: 0 0 30px rgba(74,222,128,0.4); }
-.cta-mono { font-family: "SF Mono", monospace; font-size: 22px; }
-.cta-secondary { color: var(--text-2); text-decoration: none; padding: 12px 20px; border: 1px solid var(--border); border-radius: 10px; font-size: 14px; transition: 0.2s; }
-.cta-secondary:hover { color: var(--text); border-color: var(--text-2); }
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://theclawops.com/wingate.html">
+  <meta property="og:title" content="Wingate — AI Receptionist Preview · ClawOps">
+  <meta property="og:description" content="A personalized AI receptionist preview built specifically for Wingate. Hear what your customers would, recover missed calls, book a 14-day free pilot.">
+  <meta property="og:site_name" content="ClawOps">
+  <meta property="og:locale" content="en_US">
 
-.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 50px 0; }
-@media (max-width: 720px) { .compare { grid-template-columns: 1fr; } }
-.compare-card { padding: 22px; border-radius: 12px; border: 1px solid var(--border); }
-.compare-card.before { background: rgba(239,68,68,0.06); border-color: rgba(239,68,68,0.25); }
-.compare-card.after  { background: rgba(74,222,128,0.06); border-color: rgba(74,222,128,0.30); }
-.compare-card .label { font-family: "SF Mono", monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-mute); margin-bottom: 8px; }
-.compare-card .num { font-family: "SF Mono", monospace; font-size: 28px; font-weight: 700; }
-.compare-card.before .num { color: #fca5a5; }
-.compare-card.after  .num { color: var(--green); }
-.compare-card .desc { color: var(--text-2); font-size: 14px; margin-top: 8px; }
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Wingate — AI Receptionist Preview · ClawOps">
+  <meta name="twitter:description" content="A personalized AI receptionist preview built specifically for Wingate. Hear what your customers would, recover missed calls, book a 14-day free pilot.">
 
-section { padding: 36px 0; border-top: 1px solid var(--border); }
-section h2.section-eyebrow { font-family: "SF Mono", monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin: 0 0 16px; }
-section p { color: var(--text-2); }
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "ClawOps",
+    "description": "AI receptionist, lead capture automation, and revenue operations for contractors, law firms, and healthcare practices.",
+    "url": "https://theclawops.com",
+    "founder": {
+      "@type": "Person",
+      "name": "Rick Claw"
+    },
+    "serviceType": ["AI Receptionist", "Missed Call Text-Back", "Lead Capture Chatbot", "Revenue Automation", "AI Agent Development", "CRM Automation"],
+    "slogan": "Never miss a lead again.",
+    "priceRange": "$500 - $25,000",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "AI Automation Services",
+      "itemListElement": [
+        {"@type": "Offer", "name": "AI Readiness Audit", "price": "500", "priceCurrency": "USD"},
+        {"@type": "Offer", "name": "AI Receptionist", "price": "3000", "priceCurrency": "USD", "description": "Setup + $750/mo"},
+        {"@type": "Offer", "name": "Revenue Ops Sprint", "price": "5000", "priceCurrency": "USD", "description": "2-4 week engagement"},
+        {"@type": "Offer", "name": "AI Agent Development", "price": "7500", "priceCurrency": "USD", "description": "Custom project"},
+        {"@type": "Offer", "name": "Automation-as-a-Service", "price": "2000", "priceCurrency": "USD", "description": "Per month managed retainer"}
+      ]
+    }
+  }
+  </script>
 
-.quoted-review .review { background: var(--bg2); border-left: 3px solid var(--danger); padding: 18px 22px; border-radius: 8px; margin: 12px 0; }
-.quoted-review .rating { color: var(--warn); font-size: 18px; }
-.quoted-review p { color: var(--text); font-style: italic; font-size: 16px; line-height: 1.6; }
-.quoted-review cite { font-style: normal; color: var(--text-2); font-size: 13px; }
-.quoted-review .signals { color: var(--text-mute); font-size: 11px; font-family: "SF Mono", monospace; margin-top: 8px; }
+  <!-- Favicon -->
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-.audit-block { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 22px 24px; }
-.audit-block.warn { border-color: rgba(251,191,36,0.30); background: rgba(251,191,36,0.04); }
-.audit-block code { background: var(--bg3); padding: 2px 8px; border-radius: 4px; font-size: 13px; color: var(--green); }
-.audit-block a { color: var(--green); }
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX', { send_page_view: true });
+  </script>
 
-.sim { background: var(--bg2); border-radius: 14px; padding: 18px 20px; margin: 12px 0 30px; border: 1px solid var(--border); max-width: 640px; }
-.sim .sim-head { display: flex; gap: 10px; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 14px; }
-.sim .sim-head .sim-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 1.5s infinite; }
-@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-.sim .sim-head .sim-num { font-family: "SF Mono", monospace; color: var(--text); font-weight: 600; }
-.sim .sim-head .sim-time { font-size: 12px; color: var(--text-mute); margin-left: auto; }
-.sim .msg { margin: 8px 0; max-width: 88%; }
-.sim .msg-ring { font-family: "SF Mono", monospace; color: var(--text-mute); font-size: 13px; padding-left: 10px; }
-.sim .msg-ai span { display: inline-block; background: rgba(74,222,128,0.12); color: var(--green); padding: 8px 14px; border-radius: 16px 16px 16px 4px; font-size: 14px; }
-.sim .msg-customer { text-align: right; }
-.sim .msg-customer span { display: inline-block; background: var(--bg3); color: var(--text); padding: 8px 14px; border-radius: 16px 16px 4px 16px; font-size: 14px; }
-.sim .msg-system { text-align: center; color: var(--text-mute); font-family: "SF Mono", monospace; font-size: 11px; padding: 8px; background: var(--bg3); border-radius: 6px; margin-top: 10px; }
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-.kvs { display: grid; grid-template-columns: 160px 1fr; gap: 10px 18px; font-size: 14px; margin: 8px 0; }
-.kvs dt { color: var(--text-2); }
-.kvs dd { margin: 0; color: var(--text); }
+    :root {
+      --bg-deep: #050810;
+      --bg-surface: #0a0f1a;
+      --bg-elevated: #111827;
+      --accent-bright: #4ade80;
+      --accent-mid: #22c55e;
+      --accent-dark: #166534;
+      --cyan-bright: #00e5cc;
+      --text-primary: #f0f4ff;
+      --text-secondary: #8892b0;
+      --text-muted: #5a6480;
+      --border-subtle: rgba(136, 146, 176, .15);
+      --border-accent: rgba(74, 222, 128, .3);
+      --surface-card: rgba(10, 15, 26, .65);
+      --surface-card-strong: rgba(10, 15, 26, .8);
+      --logo-gradient-start: #4ade80;
+      --logo-gradient-end: #166534;
+      --logo-glow: rgba(74, 222, 128, .4);
+      --logo-glow-hover: rgba(0, 229, 204, .6);
+      --font-display: "Space Grotesk", system-ui, sans-serif;
+      --font-body: "Inter", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", "SF Mono", "Fira Code", monospace;
+    }
 
-.pricing-card { background: linear-gradient(180deg, var(--bg2), rgba(74,222,128,0.04)); border: 1px solid var(--green); border-radius: 14px; padding: 28px; margin-top: 16px; }
-.pricing-card .pilot-tag { display: inline-block; background: var(--green); color: var(--bg); padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
-.pricing-card .price { font-family: "SF Mono", monospace; font-size: 32px; font-weight: 700; color: var(--green); }
-.pricing-card .terms { color: var(--text-2); font-size: 14px; margin: 8px 0 18px; }
-.pricing-card ul { list-style: none; padding: 0; margin: 0 0 22px; }
-.pricing-card li { padding: 6px 0; color: var(--text); font-size: 14px; }
-.pricing-card li:before { content: "✓"; color: var(--green); margin-right: 10px; font-weight: 700; }
+    html { scroll-behavior: smooth; }
 
-footer.foot { padding: 30px 24px; border-top: 1px solid var(--border); color: var(--text-mute); font-size: 12px; text-align: center; }
-footer.foot a { color: var(--text-2); }
-</style>
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    #starfield {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
+    }
+
+    /* Nav */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 1000; padding: 16px 0;
+      background: rgba(5, 8, 16, .7);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      transition: all .3s ease;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none; color: var(--text-primary);
+    }
+    .nav-brand svg { width: 36px; height: 36px; filter: drop-shadow(0 0 10px var(--logo-glow)); }
+    .nav-brand span { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; }
+    .nav-links { display: flex; gap: 18px; list-style: none; align-items: center; }
+    .nav-links a {
+      color: var(--text-secondary); text-decoration: none;
+      font-size: .875rem; font-weight: 500; transition: color .2s; letter-spacing: .02em;
+    }
+    .nav-links a:hover { color: var(--accent-bright); }
+    .nav-cta {
+      background: var(--accent-mid); color: var(--bg-deep);
+      padding: 10px 24px; border-radius: 8px; text-decoration: none;
+      font-weight: 600; font-size: .875rem; transition: all .2s; border: none; cursor: pointer;
+    }
+    .nav-cta:hover { background: var(--accent-bright); box-shadow: 0 0 20px var(--logo-glow); }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--text-primary); transition: all .3s; border-radius: 2px;
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    .mobile-menu {
+      display: none; position: fixed; top: 69px; left: 0; right: 0;
+      background: rgba(5, 8, 16, .95); backdrop-filter: blur(20px);
+      padding: 24px; border-bottom: 1px solid var(--border-subtle); z-index: 999;
+    }
+    .mobile-menu.active { display: block; }
+    .mobile-menu a {
+      display: block; padding: 12px 0; color: var(--text-secondary);
+      text-decoration: none; font-size: 1rem; border-bottom: 1px solid var(--border-subtle);
+    }
+    .mobile-menu a:hover { color: var(--accent-bright); }
+
+    /* Pricing Dropdown */
+    .nav-dropdown { position: relative; }
+    .nav-dropdown > a { cursor: pointer; }
+    .nav-dropdown-menu {
+      display: none; position: absolute; top: 100%; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 15, 26, .95); backdrop-filter: blur(20px);
+      border: 1px solid var(--border-subtle); border-radius: 12px;
+      padding: 12px 0; min-width: 280px; z-index: 1001;
+      box-shadow: 0 8px 32px rgba(0,0,0,.4);
+    }
+    /* Invisible bridge so mouse can travel from link to dropdown */
+    .nav-dropdown::after {
+      content: ''; position: absolute; top: 100%; left: 0;
+      width: 100%; height: 20px;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown-menu:hover { display: block; }
+    .nav-dropdown-menu a {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 20px; color: var(--text-secondary) !important;
+      text-decoration: none; font-size: .85rem; font-weight: 500;
+      transition: all .2s; white-space: nowrap;
+    }
+    .nav-dropdown-menu a:hover {
+      color: var(--accent-bright) !important; background: rgba(74, 222, 128, .06);
+    }
+    .nav-dropdown-menu .dropdown-price {
+      color: var(--accent-bright); font-family: var(--font-mono);
+      font-size: .8rem; font-weight: 600; margin-left: 16px;
+    }
+    .nav-dropdown-menu .dropdown-divider { height: 1px; background: var(--border-subtle); margin: 6px 0; }
+
+    /* Sections */
+    section { position: relative; z-index: 1; padding: 120px 24px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      font-family: var(--font-mono); font-size: .8rem; color: var(--accent-bright);
+      letter-spacing: .15em; text-transform: uppercase; margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--font-display); font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700; margin-bottom: 20px; color: var(--text-primary);
+    }
+    .section-subtitle {
+      color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; line-height: 1.7;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding-top: 100px;
+    }
+    .hero-content { max-width: 860px; }
+    .logo-icon {
+      width: 120px; height: 120px; margin: 0 auto 32px;
+      animation: float 4s ease-in-out infinite; cursor: pointer; transition: transform .3s;
+    }
+    .logo-icon:hover { transform: scale(1.1); }
+    .logo-icon svg {
+      width: 100%; height: 100%;
+      filter: drop-shadow(0 0 20px var(--logo-glow)); transition: filter .3s;
+    }
+    .logo-icon:hover svg { filter: drop-shadow(0 0 30px var(--logo-glow-hover)); }
+    .logo-icon .eye-glow { animation: eyePulse 3s ease-in-out infinite; }
+    .logo-icon .claw-body { animation: bodyBob 3s ease-in-out infinite; transform-origin: center bottom; }
+    .logo-icon .claw-left { animation: clawSnap 4s ease-in-out infinite; transform-origin: right center; }
+    .logo-icon .claw-right { animation: clawSnap 4s ease-in-out 0.2s infinite; transform-origin: left center; }
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+    @keyframes eyePulse { 0%, 100% { opacity: 1; filter: drop-shadow(0 0 2px #00e5cc); } 50% { opacity: 0.6; filter: drop-shadow(0 0 6px #00e5cc); } }
+    @keyframes bodyBob { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-4px); } }
+    @keyframes clawSnap { 0%, 85%, 100% { transform: rotate(0deg); } 90% { transform: rotate(-12deg); } 95% { transform: rotate(0deg); } }
+    .hero-title {
+      font-family: var(--font-display); font-size: clamp(2.5rem, 7vw, 4.5rem);
+      font-weight: 700; line-height: 1.1; margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff 0%, var(--cyan-bright) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-tagline {
+      font-family: var(--font-mono); font-size: clamp(.85rem, 2vw, 1.1rem);
+      color: var(--accent-bright); margin-bottom: 20px; letter-spacing: .05em;
+    }
+    .hero-subtitle {
+      font-size: 1.15rem; color: var(--text-secondary);
+      max-width: 620px; margin: 0 auto 40px; line-height: 1.7;
+    }
+    .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
+    .btn-primary {
+      background: var(--accent-mid); color: var(--bg-deep);
+      padding: 14px 32px; border-radius: 10px; text-decoration: none;
+      font-weight: 700; font-size: 1rem; transition: all .25s; border: none; cursor: pointer;
+      font-family: var(--font-body);
+    }
+    .btn-primary:hover { background: var(--accent-bright); box-shadow: 0 0 30px var(--logo-glow); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--text-primary);
+      padding: 14px 32px; border-radius: 10px; text-decoration: none;
+      font-weight: 600; font-size: 1rem; transition: all .25s;
+      border: 1px solid var(--border-accent); cursor: pointer; font-family: var(--font-body);
+    }
+    .btn-outline:hover { border-color: var(--accent-bright); background: rgba(74, 222, 128, .08); transform: translateY(-2px); }
+    .hero-pills { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .pill {
+      background: rgba(74, 222, 128, .08); border: 1px solid var(--border-accent);
+      color: var(--accent-bright); padding: 6px 16px; border-radius: 100px;
+      font-size: .8rem; font-family: var(--font-mono); font-weight: 500; letter-spacing: .03em;
+    }
+
+    /* Stat Bar */
+    .stat-bar {
+      display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+      padding: 40px 24px; background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);
+      position: relative; z-index: 1;
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: var(--font-display); font-size: 2.5rem; font-weight: 700;
+      color: var(--accent-bright); line-height: 1;
+    }
+    .stat-label { color: var(--text-secondary); font-size: .85rem; margin-top: 4px; }
+
+    /* Cards grid */
+    .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 60px; }
+    .card {
+      background: var(--surface-card); border: 1px solid var(--border-subtle);
+      border-radius: 16px; padding: 36px 28px; transition: all .3s;
+      position: relative; overflow: hidden;
+    }
+    .card::before {
+      content: ''; position: absolute; inset: 0; border-radius: 16px;
+      border: 1px solid transparent; transition: border-color .3s; pointer-events: none;
+    }
+    .card:hover { transform: translateY(-4px); }
+    .card:hover::before { border-color: var(--border-accent); }
+    .card:hover { box-shadow: 0 8px 40px rgba(74, 222, 128, .08); }
+    .card-icon { width: 48px; height: 48px; margin-bottom: 20px; color: var(--accent-bright); }
+    .card-icon svg { width: 100%; height: 100%; stroke: var(--accent-bright); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .card h3 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; margin-bottom: 10px; color: var(--text-primary); }
+    .card p { color: var(--text-secondary); font-size: .925rem; line-height: 1.6; }
+    .card-price {
+      display: inline-block; margin-top: 12px; font-family: var(--font-mono);
+      font-size: .85rem; color: var(--accent-bright); font-weight: 600;
+      background: rgba(74, 222, 128, .08); padding: 4px 12px; border-radius: 6px;
+      border: 1px solid var(--border-accent);
+    }
+    .card-cta {
+      display: inline-block; margin-top: 16px; color: var(--accent-bright);
+      font-size: .85rem; font-weight: 600; text-decoration: none; transition: all .2s;
+    }
+    .card-cta:hover { color: var(--cyan-bright); }
+
+    /* How It Works */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 60px; position: relative; }
+    .step { text-align: center; position: relative; }
+    .step-num {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(74, 222, 128, .1); border: 2px solid var(--accent-bright);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 24px; font-family: var(--font-display);
+      font-size: 1.5rem; font-weight: 700; color: var(--accent-bright);
+    }
+    .step h3 { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; margin-bottom: 12px; }
+    .step p { color: var(--text-secondary); font-size: .925rem; max-width: 280px; margin: 0 auto; }
+    .step-arrow { position: absolute; top: 32px; right: -20px; color: var(--accent-bright); font-size: 1.5rem; opacity: .5; }
+
+    /* Verticals Section */
+    .verticals-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 60px; }
+    .vertical-card {
+      background: var(--surface-card); border: 1px solid var(--border-subtle);
+      border-radius: 16px; padding: 40px 28px; text-align: center; transition: all .3s;
+    }
+    .vertical-card:hover { transform: translateY(-4px); border-color: var(--border-accent); box-shadow: 0 8px 40px rgba(74, 222, 128, .08); }
+    .vertical-icon { font-size: 3rem; margin-bottom: 16px; }
+    .vertical-card h3 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; margin-bottom: 12px; }
+    .vertical-card p { color: var(--text-secondary); font-size: .9rem; line-height: 1.6; margin-bottom: 16px; }
+    .vertical-card ul { list-style: none; text-align: left; margin-bottom: 20px; }
+    .vertical-card ul li {
+      padding: 6px 0; color: var(--text-secondary); font-size: .85rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .vertical-card ul li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-bright); flex-shrink: 0; }
+    .vertical-cta {
+      display: inline-block; background: transparent; color: var(--accent-bright);
+      border: 1px solid var(--border-accent); padding: 10px 24px; border-radius: 8px;
+      text-decoration: none; font-weight: 600; font-size: .875rem; transition: all .2s;
+    }
+    .vertical-cta:hover { background: rgba(74, 222, 128, .08); border-color: var(--accent-bright); }
+
+    /* Pricing */
+    .pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 60px; max-width: 900px; margin-left: auto; margin-right: auto; }
+    .pricing-card {
+      background: var(--surface-card); border: 1px solid var(--border-subtle);
+      border-radius: 16px; padding: 40px 28px; text-align: center;
+      transition: all .3s; position: relative;
+    }
+    .pricing-card:hover { transform: translateY(-4px); }
+    .pricing-card.featured { border-color: var(--accent-bright); box-shadow: 0 0 40px rgba(74, 222, 128, .12); }
+    .pricing-card.featured::before {
+      content: 'Most Popular'; position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: var(--accent-mid); color: var(--bg-deep); padding: 4px 16px; border-radius: 100px;
+      font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+      z-index: 1;
+    }
+    .pricing-card.featured { padding-top: 36px; }
+    .pricing-tier {
+      font-family: var(--font-display); font-size: 1rem; font-weight: 600;
+      color: var(--accent-bright); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .1em;
+    }
+    .pricing-price { font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; margin-bottom: 4px; }
+    .pricing-freq { color: var(--text-muted); font-size: .85rem; margin-bottom: 28px; }
+    .pricing-features { list-style: none; margin-bottom: 32px; text-align: left; }
+    .pricing-features li {
+      padding: 8px 0; color: var(--text-secondary); font-size: .9rem;
+      border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; gap: 10px;
+    }
+    .pricing-features li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-bright); flex-shrink: 0; }
+
+    /* Two-col pricing for bottom row */
+    .pricing-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 24px; max-width: 816px; margin-left: auto; margin-right: auto; }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 60px; }
+    .about-text h3 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; margin-bottom: 16px; color: var(--accent-bright); }
+    .about-text p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px; }
+    .terminal {
+      background: var(--bg-surface); border: 1px solid var(--border-subtle);
+      border-radius: 12px; overflow: hidden; font-family: var(--font-mono); font-size: .85rem;
+    }
+    .terminal-bar { background: var(--bg-elevated); padding: 10px 16px; display: flex; gap: 8px; align-items: center; }
+    .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .terminal-dot.red { background: #ff5f57; }
+    .terminal-dot.yellow { background: #ffbd2e; }
+    .terminal-dot.green { background: #28c840; }
+    .terminal-body { padding: 20px; line-height: 1.8; }
+    .terminal-body .prompt { color: var(--accent-bright); }
+    .terminal-body .output { color: var(--text-secondary); }
+    .terminal-body .cursor {
+      display: inline-block; width: 8px; height: 16px; background: var(--accent-bright);
+      animation: cursorBlink 1s step-end infinite; vertical-align: text-bottom; margin-left: 2px;
+    }
+    @keyframes cursorBlink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+    /* Contact */
+    .contact-form { max-width: 600px; margin: 60px auto 0; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block; font-size: .85rem; font-weight: 500; color: var(--text-secondary);
+      margin-bottom: 8px; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .08em;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; background: var(--bg-surface); border: 1px solid var(--border-subtle);
+      border-radius: 10px; padding: 14px 18px; color: var(--text-primary);
+      font-family: var(--font-body); font-size: .95rem; transition: border-color .2s; outline: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--accent-bright); box-shadow: 0 0 0 3px rgba(74, 222, 128, .1);
+    }
+    .form-group textarea { min-height: 140px; resize: vertical; }
+    .form-group select {
+      cursor: pointer; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238892b0'%3E%3Cpath d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 16px center;
+    }
+    .form-group select option { background: var(--bg-surface); color: var(--text-primary); }
+
+    /* Footer */
+    .footer {
+      position: relative; z-index: 1; border-top: 1px solid var(--border-subtle);
+      padding: 40px 24px; text-align: center;
+    }
+    .footer-brand { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; }
+    .footer-brand svg { width: 28px; height: 28px; filter: drop-shadow(0 0 8px var(--logo-glow)); }
+    .footer-brand span { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--text-primary); }
+    .footer p { color: var(--text-muted); font-size: .85rem; }
+
+    /* Fade in */
+    .fade-in { opacity: 1; transform: translateY(0); transition: opacity .6s ease, transform .6s ease; }
+    .fade-in.hidden { opacity: 0; transform: translateY(30px); }
+
+    /* Social Proof */
+    .social-proof { background: var(--bg-surface); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
+    .social-proof-header { text-align: center; margin-bottom: 48px; }
+    .social-proof-header h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; color: var(--text-primary); }
+    .social-proof-header h2 span { color: var(--accent-bright); }
+    .logo-strip { display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; margin-bottom: 60px; }
+    .logo-placeholder {
+      min-width: 140px; padding: 0 16px; height: 48px;
+      background: linear-gradient(135deg, rgba(74, 222, 128, .08), rgba(74, 222, 128, .03));
+      border: 1px solid rgba(74, 222, 128, .15); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      color: #4ade80; font-family: var(--font-body); font-size: .85rem; font-weight: 600;
+      font-style: italic; letter-spacing: .02em; transition: all .3s; white-space: nowrap;
+    }
+    .logo-placeholder:hover {
+      border-color: rgba(74, 222, 128, .35);
+      background: linear-gradient(135deg, rgba(74, 222, 128, .14), rgba(74, 222, 128, .06));
+      color: #6ee7a0; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(74, 222, 128, .1);
+    }
+    .testimonial-carousel { position: relative; max-width: 700px; margin: 0 auto; overflow: hidden; }
+    .testimonial-track { display: flex; transition: transform .5s cubic-bezier(.22, 1, .36, 1); }
+    .testimonial-slide { min-width: 100%; padding: 0 20px; }
+    .testimonial-card {
+      background: var(--surface-card); border: 1px solid var(--border-subtle);
+      border-radius: 16px; padding: 32px; text-align: center;
+    }
+    .testimonial-card .stars { color: #fbbf24; font-size: 1.1rem; margin-bottom: 16px; letter-spacing: 4px; }
+    .testimonial-card blockquote { color: var(--text-secondary); font-size: 1rem; line-height: 1.7; font-style: italic; margin-bottom: 20px; }
+    .testimonial-card .attribution { display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .testimonial-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-bright), var(--accent-dark));
+      display: flex; align-items: center; justify-content: center;
+      color: var(--bg-deep); font-weight: 700; font-size: .9rem;
+    }
+    .testimonial-info { text-align: left; }
+    .testimonial-info .t-name { color: var(--text-primary); font-weight: 600; font-size: .9rem; }
+    .testimonial-info .t-role { color: var(--text-muted); font-size: .8rem; }
+    .carousel-controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 24px; }
+    .carousel-btn {
+      background: rgba(74, 222, 128, .1); border: 1px solid var(--border-accent);
+      color: var(--accent-bright); width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.1rem; transition: all .2s;
+    }
+    .carousel-btn:hover { background: rgba(74, 222, 128, .2); }
+    .carousel-dots { display: flex; gap: 8px; }
+    .carousel-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted);
+      border: none; cursor: pointer; transition: all .2s; padding: 0;
+    }
+    .carousel-dot.active { background: var(--accent-bright); width: 24px; border-radius: 4px; }
+
+    /* Floating Banner */
+    .audit-banner {
+      position: fixed; bottom: -120px; left: 0; right: 0; z-index: 9999;
+      background: linear-gradient(135deg, var(--bg-elevated) 0%, var(--bg-surface) 100%);
+      border-top: 1px solid var(--border-accent); box-shadow: 0 -4px 24px rgba(74, 222, 128, .15);
+      padding: 16px 24px; display: flex; align-items: center; justify-content: center; gap: 20px;
+      transition: bottom .6s cubic-bezier(.22, 1, .36, 1);
+    }
+    .audit-banner.visible { bottom: 0; }
+    .audit-banner.dismissed { bottom: -120px !important; }
+    .audit-banner-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .audit-banner-text { font-size: .95rem; color: var(--text-primary); font-weight: 500; }
+    .audit-banner-text span { color: var(--accent-bright); font-weight: 700; }
+    .audit-banner-cta {
+      background: var(--accent-mid); color: var(--bg-deep); padding: 10px 24px;
+      border-radius: 8px; text-decoration: none; font-weight: 700; font-size: .875rem;
+      transition: all .2s; white-space: nowrap; flex-shrink: 0;
+    }
+    .audit-banner-cta:hover { background: var(--accent-bright); box-shadow: 0 0 20px var(--logo-glow); }
+    .audit-banner-close {
+      position: absolute; top: 8px; right: 12px; background: none; border: none;
+      color: var(--text-muted); font-size: 1.25rem; cursor: pointer; padding: 4px 8px;
+      transition: color .2s; line-height: 1;
+    }
+    .audit-banner-close:hover { color: var(--text-primary); }
+
+    /* Exit Modal */
+    .exit-modal-overlay {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(5, 8, 16, .85); z-index: 10000;
+      align-items: center; justify-content: center;
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    }
+    .exit-modal-overlay.visible { display: flex; }
+    .exit-modal {
+      background: var(--bg-elevated); border: 1px solid var(--border-accent);
+      border-radius: 20px; padding: 48px 40px; max-width: 520px; width: 90%;
+      text-align: center; position: relative;
+      box-shadow: 0 0 60px rgba(74, 222, 128, .15);
+      animation: modalIn .4s cubic-bezier(.22, 1, .36, 1);
+    }
+    @keyframes modalIn { from { opacity: 0; transform: scale(.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    .exit-modal-close {
+      position: absolute; top: 16px; right: 20px; background: none; border: none;
+      color: var(--text-muted); font-size: 1.5rem; cursor: pointer; padding: 4px; transition: color .2s; line-height: 1;
+    }
+    .exit-modal-close:hover { color: var(--text-primary); }
+    .exit-modal-icon { font-size: 3rem; margin-bottom: 16px; }
+    .exit-modal h2 { font-family: var(--font-display); font-size: 1.75rem; font-weight: 700; margin-bottom: 12px; color: var(--text-primary); }
+    .exit-modal p { color: var(--text-secondary); font-size: 1rem; line-height: 1.7; margin-bottom: 28px; }
+    .exit-modal-buttons { display: flex; flex-direction: column; gap: 12px; }
+    .exit-modal-buttons .btn-primary, .exit-modal-buttons .btn-outline { display: block; text-align: center; width: 100%; }
+    .exit-modal-skip {
+      background: none; border: none; color: var(--text-muted); font-size: .85rem;
+      cursor: pointer; margin-top: 12px; padding: 4px; transition: color .2s;
+    }
+    .exit-modal-skip:hover { color: var(--text-secondary); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links, .nav .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .cards-grid, .steps, .pricing-grid, .verticals-grid { grid-template-columns: 1fr; }
+      .pricing-grid-2 { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; }
+      .step-arrow { display: none; }
+      section { padding: 80px 20px; }
+      .stat-bar { gap: 24px; }
+    }
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .cards-grid { grid-template-columns: repeat(2, 1fr); }
+      .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+      .verticals-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* Demo scenario tabs */
+    .demo-scenario-tab {
+      padding: 8px 16px; border-radius: 8px; font-size: .8rem; font-weight: 600;
+      cursor: pointer; transition: all .2s; border: 1px solid var(--border-subtle);
+      background: transparent; color: var(--text-secondary); font-family: var(--font-body);
+    }
+    .demo-scenario-tab:hover { border-color: var(--border-accent); color: var(--text-primary); }
+    .demo-scenario-tab.active { background: rgba(74,222,128,.12); border-color: var(--accent-bright); color: var(--accent-bright); }
+
+    /* Chat messages */
+    .demo-msg { max-width: 85%; padding: 10px 14px; border-radius: 16px; font-size: .85rem; line-height: 1.5; animation: demoMsgIn .4s ease; word-wrap: break-word; }
+    @keyframes demoMsgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .demo-msg-ai { background: rgba(74,222,128,.12); border: 1px solid rgba(74,222,128,.2); align-self: flex-start; border-bottom-left-radius: 4px; color: var(--text-primary); }
+    .demo-msg-user { background: #1e3a5f; border: 1px solid rgba(30,58,95,.5); align-self: flex-end; border-bottom-right-radius: 4px; color: var(--text-primary); }
+    .demo-msg-system { align-self: center; font-size: .75rem; color: var(--text-muted); font-style: italic; padding: 4px 12px; background: rgba(255,255,255,.03); border-radius: 8px; }
+    .demo-msg-label { font-size: .65rem; color: var(--text-muted); margin-bottom: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+    .demo-typing { display: flex; gap: 4px; padding: 12px 16px; align-self: flex-start; }
+    .demo-typing-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-bright); animation: demoBounce 1.4s ease-in-out infinite; }
+    .demo-typing-dot:nth-child(2) { animation-delay: .2s; }
+    .demo-typing-dot:nth-child(3) { animation-delay: .4s; }
+    @keyframes demoBounce { 0%, 80%, 100% { transform: translateY(0); opacity: .4; } 40% { transform: translateY(-8px); opacity: 1; } }
+
+    @media (max-width: 900px) {
+      #receptionist-demo .container > div[style*="grid-template-columns"] { display: block !important; }
+      #receptionist-demo div[style*="width: 360px"] { width: 100% !important; margin: 0 auto 40px; }
+    }
+  </style>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="auth/clawops-auth.js"></script>
+
 </head>
 <body>
 
-<header class="brand">
-    <span class="logo">CLAWOPS</span>
-    <span class="tag">AI receptionist for trade contractors</span>
-</header>
+<canvas id="starfield"></canvas>
 
-<div class="hero">
-    <div class="container">
-        <div class="eyebrow">Personalized preview built for</div>
-        <h1 class="hero-h">Your AI Receptionist for <span class="biz">Wingate</span></h1>
-        <p class="hero-sub">A working AI agent that answers your phone 24/7, books appointments to your calendar, and recovers the after-hours calls your business misses today. Hear it in 30 seconds.</p>
-        <div class="cta-stack">
-            <a class="cta-primary" href="tel:+15139953285"><span>📞 Hear it now:</span> <span class="cta-mono">(513) 995-3285</span></a>
-            <a class="cta-secondary" href="#pilot">14-day free pilot →</a>
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">
+      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Lobster body - elongated pill shape -->
+        <ellipse cx="60" cy="58" rx="22" ry="30" fill="url(#nav-grad)"/>
+        <!-- Head - rounded top -->
+        <ellipse cx="60" cy="30" rx="18" ry="16" fill="url(#nav-grad)"/>
+        <!-- Body segment lines -->
+        <path d="M42 50 Q60 47 78 50" stroke="rgba(0,80,30,0.25)" stroke-width="1" fill="none"/>
+        <path d="M40 60 Q60 57 80 60" stroke="rgba(0,80,30,0.20)" stroke-width="1" fill="none"/>
+        <path d="M41 70 Q60 67 79 70" stroke="rgba(0,80,30,0.15)" stroke-width="1" fill="none"/>
+        <!-- Tail fan -->
+        <ellipse cx="52" cy="96" rx="8" ry="5" fill="url(#nav-grad)" transform="rotate(-15 52 96)"/>
+        <ellipse cx="60" cy="98" rx="8" ry="5" fill="url(#nav-grad)"/>
+        <ellipse cx="68" cy="96" rx="8" ry="5" fill="url(#nav-grad)" transform="rotate(15 68 96)"/>
+        <path d="M60 88 L60 93" stroke="rgba(0,80,30,0.20)" stroke-width="1"/>
+        <!-- Left claw -->
+        <path d="M30 30 C18 22 8 28 10 38 C12 48 22 46 28 38 C32 32 30 30 30 30Z" fill="url(#nav-grad)"/>
+        <path d="M14 32 Q18 36 14 40" stroke="rgba(0,80,30,0.25)" stroke-width="1" fill="none"/>
+        <!-- Right claw -->
+        <path d="M90 30 C102 22 112 28 110 38 C108 48 98 46 92 38 C88 32 90 30 90 30Z" fill="url(#nav-grad)"/>
+        <path d="M106 32 Q102 36 106 40" stroke="rgba(0,80,30,0.25)" stroke-width="1" fill="none"/>
+        <!-- Antennae - long and curved -->
+        <path d="M50 18 Q40 4 28 2" stroke="#4ade80" stroke-width="2" stroke-linecap="round"/>
+        <path d="M70 18 Q80 4 92 2" stroke="#4ade80" stroke-width="2" stroke-linecap="round"/>
+        <!-- Small legs (4 pairs) -->
+        <line x1="40" y1="48" x2="32" y2="52" stroke="url(#nav-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="80" y1="48" x2="88" y2="52" stroke="url(#nav-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="39" y1="56" x2="30" y2="60" stroke="url(#nav-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="81" y1="56" x2="90" y2="60" stroke="url(#nav-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="39" y1="64" x2="31" y2="68" stroke="url(#nav-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="81" y1="64" x2="89" y2="68" stroke="url(#nav-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="40" y1="72" x2="33" y2="76" stroke="url(#nav-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="80" y1="72" x2="87" y2="76" stroke="url(#nav-grad)" stroke-width="2" stroke-linecap="round"/>
+        <!-- Eyes -->
+        <circle cx="51" cy="28" r="5" fill="#050810"/>
+        <circle cx="69" cy="28" r="5" fill="#050810"/>
+        <circle cx="52" cy="27" r="2" fill="#00e5cc"/>
+        <circle cx="70" cy="27" r="2" fill="#00e5cc"/>
+        <defs><linearGradient id="nav-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4ade80"/><stop offset="100%" stop-color="#166534"/></linearGradient></defs>
+      </svg>
+      <span>ClawOps</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#verticals">Industries</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="demo/">Demo</a></li>
+      <li><a href="demo/receptionist-v2/" style="color:#f97066;font-weight:600;">&#x1F4DE; Phone Demo</a></li>
+      <li><a href="blog/">Blog</a></li>
+      <li><a href="scanner/" style="color:#60a5fa;font-weight:600;text-shadow:0 0 12px rgba(96,165,250,.5);">&#128737; SHIELD</a></li>
+      <li><a href="scanner/geo/" style="color:#4ade80;font-weight:600;text-shadow:0 0 12px rgba(74,222,128,.4);">&#128270; GEO Scanner</a></li>
+    </ul>
+    <div id="co-nav-auth-slot"></div>
+    <a href="#pricing" class="nav-cta">Get Started</a>
+    <button class="hamburger" onclick="this.classList.toggle('active');document.querySelector('.mobile-menu').classList.toggle('active')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<section class="hero">
+    <div class="container hero-content">
+        <div class="section-label" style="color: var(--accent-bright); margin-bottom: 14px;">PERSONALIZED PREVIEW BUILT FOR WINGATE</div>
+        <h1 class="hero-title">Your AI Receptionist for <span style="background: linear-gradient(135deg, var(--accent-bright), var(--cyan-bright)); -webkit-background-clip: text; background-clip: text; color: transparent;">Wingate</span></h1>
+        <p class="hero-subtitle" style="max-width: 720px; margin-top: 16px;">A working AI agent that answers your phone 24/7, books appointments to your calendar, and recovers the after-hours calls your business misses today. Hear it in 30 seconds.</p>
+        <div class="hero-buttons" style="margin-top: 32px;">
+            <a class="btn-primary" href="tel:+15139953285" style="font-size: 17px;"><span style="margin-right: 8px;">📞 Hear it now:</span><span style="font-family: var(--font-mono); font-size: 20px;">(513) 995-3285</span></a>
+            <a class="btn-outline" href="#pilot">14-day free pilot →</a>
         </div>
     </div>
-</div>
+</section>
 
-<div class="container">
-
-    <section>
-        <h2 class="section-eyebrow">Your numbers, estimated</h2>
-        <div class="compare">
-            <div class="compare-card before">
-                <div class="label">Currently rings</div>
-                <div class="num">(513) 342-0059</div>
-                <div class="desc">After 5pm and weekends, this likely goes to voicemail. Estimated <strong>~3 missed calls/week</strong> at peak season.</div>
+<section style="padding: 80px 24px;">
+    <div class="container">
+        <div class="section-label">YOUR NUMBERS, ESTIMATED</div>
+        <h2 class="section-title" style="margin-bottom: 28px;">What Wingate is leaving on the table</h2>
+        <div class="cards-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="card" style="background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.25);">
+                <div class="section-label" style="color: var(--text-muted); margin-bottom: 8px;">CURRENTLY RINGS</div>
+                <div style="font-family: var(--font-mono); font-size: 28px; font-weight: 700; color: #fca5a5;">(513) 342-0059</div>
+                <p style="color: var(--text-secondary); font-size: 14px; margin-top: 12px;">After 5pm and weekends, this likely goes to voicemail. Estimated <strong style="color: var(--text-primary);">~3 missed calls/week</strong> at peak season.</p>
             </div>
-            <div class="compare-card after">
-                <div class="label">What customers will hear</div>
-                <div class="num cta-mono">(513) 995-3285</div>
-                <div class="desc">Live AI receptionist · books to calendar · sends SMS confirmation · escalates emergencies. <strong>~$2,412/mo</strong> recovered (estimate).</div>
+            <div class="card" style="background: rgba(74,222,128,0.06); border: 1px solid var(--border-accent);">
+                <div class="section-label" style="color: var(--accent-bright); margin-bottom: 8px;">WHAT CUSTOMERS WILL HEAR</div>
+                <div style="font-family: var(--font-mono); font-size: 28px; font-weight: 700; color: var(--accent-bright);">(513) 995-3285</div>
+                <p style="color: var(--text-secondary); font-size: 14px; margin-top: 12px;">Live AI receptionist · books to calendar · sends SMS confirmation · escalates emergencies. <strong style="color: var(--accent-bright);">~$2,412/mo</strong> recovered (estimate).</p>
             </div>
         </div>
 
-        <dl class="kvs">
-            <dt>Estimated jobs/week</dt>      <dd>11 (based on review velocity)</dd>
-            <dt>Average ticket</dt>            <dd>$425 (HVAC industry benchmark)</dd>
-            <dt>After-hours miss rate</dt>     <dd>30% (industry average for trade contractors)</dd>
-            <dt>Estimated recovery</dt>        <dd><strong style="color: var(--green);">$2,412/month</strong> if AI receptionist captures 40% of misses</dd>
-        </dl>
-    </section>
+        <table style="width: 100%; margin-top: 36px; border-collapse: collapse; max-width: 720px;">
+            <tr><td style="padding: 10px 0; color: var(--text-secondary); border-bottom: 1px solid var(--border-subtle);">Estimated jobs/week</td><td style="padding: 10px 0; text-align: right; border-bottom: 1px solid var(--border-subtle); font-family: var(--font-mono);">11</td></tr>
+            <tr><td style="padding: 10px 0; color: var(--text-secondary); border-bottom: 1px solid var(--border-subtle);">Average ticket</td><td style="padding: 10px 0; text-align: right; border-bottom: 1px solid var(--border-subtle); font-family: var(--font-mono);">$425</td></tr>
+            <tr><td style="padding: 10px 0; color: var(--text-secondary); border-bottom: 1px solid var(--border-subtle);">After-hours miss rate (industry avg)</td><td style="padding: 10px 0; text-align: right; border-bottom: 1px solid var(--border-subtle); font-family: var(--font-mono);">30%</td></tr>
+            <tr><td style="padding: 10px 0; color: var(--text-secondary);">Estimated recovery if AI captures 40%</td><td style="padding: 10px 0; text-align: right; font-family: var(--font-mono); color: var(--accent-bright); font-weight: 700;">$2,412/month</td></tr>
+        </table>
+    </div>
+</section>
 
-    
-        <section class="audit-block warn">
-            <h2 class="section-eyebrow">Your contact form is gated by reCAPTCHA</h2>
-            <p>We tried to submit a research inquiry to <a href="https://callwingate.com/furnace-company-mason-oh/">https://callwingate.com/furnace-company-mason-oh/</a> on April 25. Google reCAPTCHA blocked it.</p>
-            <p>That same friction is blocking real customers — especially older customers, mobile users with weak signal, and anyone in a hurry. Estimated lost form completions per week: <strong>15–30%</strong>.</p>
-        </section>
+<section style="padding: 60px 24px; border-top: 1px solid var(--border-subtle);">
+    <div class="container">
+        <div class="section-label">YOUR CONTACT FORM IS GATED BY reCAPTCHA</div>
+        <div style="background: var(--surface-card-strong); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 22px 26px; margin-top: 16px; max-width: 780px;">
+            <p style="color: var(--text-primary); margin: 0; line-height: 1.7;">We tried to submit a research inquiry to <a href="https://callwingate.com/furnace-company-mason-oh/">https://callwingate.com/furnace-company-mason-oh/</a> on April 25. Google reCAPTCHA blocked it. That same friction is blocking real customers — especially older customers, mobile users with weak signal, and anyone in a hurry. Estimated lost form completions per week: <strong>15–30%</strong>.</p>
+        </div>
+    </div>
+</section>
 
-    
-        <section class="quoted-review">
-            <h2 class="section-eyebrow">A real customer of Wingate said</h2>
-            <blockquote class="review">
-                <div class="rating">★☆☆☆☆</div>
-                <p>"This is how Wingate employee ‘’fixed’’ my damaged AC pipe in 20 minutes for $1678. This is absolutely unacceptable. Unprofessional service.Price assessmentOverpricedPrice$1,000+ServicesHVAC system repair"</p>
-                <cite>— Marufjon Sayfullaev1 review · 5 photos, 8 months ago</cite>
-                <div class="signals">Detected pain signals: unprofessional</div>
-            </blockquote>
+
+        <section style="padding: 60px 24px; border-top: 1px solid var(--border-subtle);">
+            <div class="container">
+                <div class="section-label">A real customer of Wingate said</div>
+                <div style="background: var(--surface-card-strong); border-left: 3px solid #ef4444; padding: 24px 28px; border-radius: 10px; margin-top: 16px; max-width: 780px;">
+                    <div style="color: #fbbf24; font-size: 18px; margin-bottom: 8px;">★☆☆☆☆</div>
+                    <p style="font-style: italic; font-size: 17px; color: var(--text-primary); line-height: 1.6; margin: 0 0 12px;">"This is how Wingate employee ‘’fixed’’ my damaged AC pipe in 20 minutes for $1678. This is absolutely unacceptable. Unprofessional service.Price assessmentOverpricedPrice$1,000+ServicesHVAC system repair"</p>
+                    <cite style="color: var(--text-secondary); font-size: 13px; font-style: normal;">— Marufjon Sayfullaev1 review · 5 photos, 8 months ago</cite>
+                    <div style="color: var(--text-muted); font-size: 11px; font-family: var(--font-mono); margin-top: 8px;">Detected pain signals: unprofessional</div>
+                </div>
+            </div>
         </section>
         
 
-    <section>
-        <h2 class="section-eyebrow">Sample call — your AI receptionist for Wingate</h2>
-        <div class="sim">
-            <div class="sim-head">
-                <span class="sim-dot"></span>
-                <span class="sim-num">📞 (513) 995-3285</span>
-                <span class="sim-time">Live · 0:24</span>
+<section style="padding: 80px 24px; border-top: 1px solid var(--border-subtle);">
+    <div class="container">
+        <div class="section-label">SAMPLE CALL · WINGATE</div>
+        <h2 class="section-title" style="margin-bottom: 28px;">Hear how it'd handle a real call for Wingate</h2>
+        <div class="card" style="max-width: 680px; padding: 24px;">
+            <div style="display: flex; gap: 10px; align-items: center; padding-bottom: 14px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 18px;">
+                <span style="width: 10px; height: 10px; border-radius: 50%; background: var(--accent-bright); box-shadow: 0 0 8px var(--accent-bright);"></span>
+                <span style="font-family: var(--font-mono); font-weight: 600;">📞 (513) 995-3285</span>
+                <span style="margin-left: auto; font-size: 12px; color: var(--text-muted);">Live · 0:24</span>
             </div>
-            <div class="msg msg-ring"><span>ring… ring… ring…</span></div>
-<div class="msg msg-ai"><span>Hi, thanks for calling Wingate. I can help you book an appointment, get an estimate, or handle an emergency. What can I help you with?</span></div>
-<div class="msg msg-customer"><span>My AC stopped working and it&#x27;s 95 degrees. I need someone today.</span></div>
-<div class="msg msg-ai"><span>I&#x27;m sorry to hear that — let&#x27;s get someone out fast. Can I have your name, address, and a quick description of what the unit&#x27;s doing?</span></div>
-<div class="msg msg-customer"><span>Sarah Mills, 4218 Maplewood Drive, Mason. The AC just won&#x27;t turn on, no air at all.</span></div>
-<div class="msg msg-ai"><span>Got it, Sarah. Wingate has an opening today between 2pm and 4pm. I&#x27;ll text you when the tech is 30 minutes out. Sound good?</span></div>
-<div class="msg msg-customer"><span>Perfect, thank you.</span></div>
-<div class="msg msg-ai"><span>Booked. You&#x27;ll get a confirmation text in about 60 seconds, and Wingate will see Sarah Mills at 4218 Maplewood Drive between 2pm and 4pm today. Stay cool.</span></div>
-<div class="msg msg-system"><span>📅 Appointment booked to Google Calendar  ·  📱 SMS confirmation sent  ·  💼 Lead logged in CRM</span></div>
+            <style>
+                .sim-line { margin: 8px 0; max-width: 90%; }
+                .sim-ring { font-family: var(--font-mono); color: var(--text-muted); font-size: 13px; padding-left: 10px; }
+                .sim-ai span { display: inline-block; background: rgba(74,222,128,0.12); color: var(--accent-bright); padding: 8px 14px; border-radius: 16px 16px 16px 4px; font-size: 14px; }
+                .sim-customer { text-align: right; }
+                .sim-customer span { display: inline-block; background: var(--bg-elevated); color: var(--text-primary); padding: 8px 14px; border-radius: 16px 16px 4px 16px; font-size: 14px; }
+                .sim-system { text-align: center; color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; padding: 10px; background: var(--bg-elevated); border-radius: 6px; margin-top: 12px; }
+            </style>
+            <div class="sim-line sim-ring"><span>ring… ring…</span></div>
+<div class="sim-line sim-ai"><span>Hi, thanks for calling Wingate. I can help you book an appointment, get an estimate, or handle an emergency. What can I help you with?</span></div>
+<div class="sim-line sim-customer"><span>My AC stopped working and it&#x27;s 95 degrees. I need someone today.</span></div>
+<div class="sim-line sim-ai"><span>I&#x27;m sorry to hear that — let&#x27;s get someone out fast. Can I have your name, address, and a quick description of what the unit&#x27;s doing?</span></div>
+<div class="sim-line sim-customer"><span>Sarah Mills, 4218 Maplewood Drive, Mason. The AC just won&#x27;t turn on, no air at all.</span></div>
+<div class="sim-line sim-ai"><span>Got it, Sarah. Wingate has an opening today between 2pm and 4pm. I&#x27;ll text you when the tech is 30 minutes out. Sound good?</span></div>
+<div class="sim-line sim-customer"><span>Perfect, thank you.</span></div>
+<div class="sim-line sim-ai"><span>Booked. You&#x27;ll get a confirmation text in about 60 seconds, and Wingate will see Sarah Mills at 4218 Maplewood between 2pm and 4pm today. Stay cool.</span></div>
+<div class="sim-line sim-system"><span>📅 Calendar  ·  📱 SMS confirmed  ·  💼 Logged</span></div>
         </div>
-        <p style="font-size: 14px;">This is the AI working for Wingate. Real customer voice. Real calendar. Real SMS confirmations. <a href="tel:+15139953285" style="color: var(--green);">Call it yourself</a> — picks up in 1 ring.</p>
-    </section>
+        <p style="color: var(--text-secondary); margin-top: 16px; font-size: 14px;">This is the AI working for Wingate. <a href="tel:+15139953285" style="color: var(--accent-bright);">Call it yourself</a> — picks up in 1 ring.</p>
+    </div>
+</section>
 
-    <section id="pilot">
-        <h2 class="section-eyebrow">14-day pilot · zero risk</h2>
-        <div class="pricing-card">
-            <span class="pilot-tag">Founding cohort offer</span>
-            <div class="price">$0 setup · $750/mo</div>
-            <div class="terms">14-day cancel-any-reason · full refund · cancel anytime month-to-month after</div>
-            <ul>
-                <li>Custom AI agent trained on your services, hours, and emergency rules</li>
-                <li>Dedicated phone number, live within 24 hours</li>
-                <li>Books appointments straight to your calendar</li>
-                <li>SMS confirmations on every booking</li>
-                <li>Owner-mobile escalation when emergency keywords detected</li>
-                <li>Dashboard with every call, recording, and outcome</li>
-                <li>30-day money-back guarantee</li>
+<section id="pilot" style="padding: 80px 24px; border-top: 1px solid var(--border-subtle);">
+    <div class="container">
+        <div class="section-label">14-DAY PILOT · ZERO RISK</div>
+        <h2 class="section-title">Founding cohort offer</h2>
+        <div class="card pricing-card featured" style="margin-top: 24px;">
+            <div style="display: inline-block; background: var(--accent-bright); color: var(--bg-deep); padding: 5px 14px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px;">FOUNDING OFFER</div>
+            <div class="card-price" style="font-family: var(--font-mono); font-size: 36px; font-weight: 700; color: var(--accent-bright); margin: 8px 0;">$0 setup · $750/mo</div>
+            <p style="color: var(--text-secondary); margin-bottom: 22px;">14-day cancel any reason · full refund · cancel anytime month-to-month after</p>
+            <ul style="list-style: none; padding: 0; margin: 0 0 28px;">
+                <li style="padding: 8px 0; color: var(--text-primary);">✓&nbsp;&nbsp;Custom AI agent trained on your services, hours, and emergency rules</li>
+                <li style="padding: 8px 0; color: var(--text-primary);">✓&nbsp;&nbsp;Dedicated phone number, live within 24 hours</li>
+                <li style="padding: 8px 0; color: var(--text-primary);">✓&nbsp;&nbsp;Books appointments straight to your calendar</li>
+                <li style="padding: 8px 0; color: var(--text-primary);">✓&nbsp;&nbsp;SMS confirmations on every booking</li>
+                <li style="padding: 8px 0; color: var(--text-primary);">✓&nbsp;&nbsp;Owner-mobile escalation when emergency keywords detected</li>
+                <li style="padding: 8px 0; color: var(--text-primary);">✓&nbsp;&nbsp;Full call dashboard with recordings + transcripts</li>
+                <li style="padding: 8px 0; color: var(--text-primary);">✓&nbsp;&nbsp;30-day money-back guarantee</li>
             </ul>
-            <a class="cta-primary" href="https://theclawops.com/intake?ref=wingate">Start the 14-day pilot →</a>
+            <a class="btn-primary" href="https://theclawops.com/intake?ref=wingate" style="font-size: 16px;">Start the 14-day pilot →</a>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section>
-        <h2 class="section-eyebrow">Why we built this for you specifically</h2>
-        <p>This page was built specifically for <strong>Wingate</strong>. We pulled your public business data, identified the patterns that cost Wingate money, and configured the preview to match your service area, hours, and customer base.</p>
-        <p>If you decide to move forward, the live AI agent we deploy for you will be tuned to your specifics — your service types, your pricing, your tech names, your escalation rules.</p>
-        <p>Questions? Reply to the email this page came from, or call <a href="tel:+15139953285" style="color: var(--green);">(513) 995-3285</a> and our AI will book you in.</p>
-    </section>
+<section style="padding: 60px 24px; border-top: 1px solid var(--border-subtle);">
+    <div class="container">
+        <div class="section-label">WHY THIS PAGE EXISTS</div>
+        <p style="color: var(--text-secondary); max-width: 720px; line-height: 1.7; margin: 16px 0;">This page was built specifically for <strong style="color: var(--text-primary);">Wingate</strong>. We pulled your public business data, identified the patterns that cost Wingate money, and configured the preview to match your service area, hours, and customer base.</p>
+        <p style="color: var(--text-secondary); max-width: 720px; line-height: 1.7;">If you decide to move forward, the live AI agent we deploy for you will be tuned to your specifics — your service types, your pricing, your tech names, your escalation rules. Questions? <a href="mailto:contact@theclawops.com" style="color: var(--accent-bright);">Reply by email</a> or call <a href="tel:+15139953285" style="color: var(--accent-bright);">(513) 995-3285</a>.</p>
+        <p style="color: var(--text-muted); font-size: 12px; font-family: var(--font-mono); margin-top: 24px;">Reference: AUDIT-wingate · Generated April 25, 2026</p>
+    </div>
+</section>
 
-</div>
-
-<footer class="foot">
-    <p>ClawOps LLC · 6787 Summer Field Dr, Mason OH 45040 · contact@theclawops.com</p>
-    <p>Built personally for Wingate — <a href="https://callwingate.com/furnace-company-mason-oh/">https://callwingate.com/furnace-company-mason-oh/</a></p>
-    <p style="opacity: 0.5;">Reference: AUDIT-wingate · Generated April 25, 2026</p>
+<footer class="footer">
+  <div class="footer-brand">
+    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Lobster body - elongated pill shape -->
+        <ellipse cx="60" cy="58" rx="22" ry="30" fill="url(#ft-grad)"/>
+        <!-- Head - rounded top -->
+        <ellipse cx="60" cy="30" rx="18" ry="16" fill="url(#ft-grad)"/>
+        <!-- Body segment lines -->
+        <path d="M42 50 Q60 47 78 50" stroke="rgba(0,80,30,0.25)" stroke-width="1" fill="none"/>
+        <path d="M40 60 Q60 57 80 60" stroke="rgba(0,80,30,0.20)" stroke-width="1" fill="none"/>
+        <path d="M41 70 Q60 67 79 70" stroke="rgba(0,80,30,0.15)" stroke-width="1" fill="none"/>
+        <!-- Tail fan -->
+        <ellipse cx="52" cy="96" rx="8" ry="5" fill="url(#ft-grad)" transform="rotate(-15 52 96)"/>
+        <ellipse cx="60" cy="98" rx="8" ry="5" fill="url(#ft-grad)"/>
+        <ellipse cx="68" cy="96" rx="8" ry="5" fill="url(#ft-grad)" transform="rotate(15 68 96)"/>
+        <path d="M60 88 L60 93" stroke="rgba(0,80,30,0.20)" stroke-width="1"/>
+        <!-- Left claw -->
+        <path d="M30 30 C18 22 8 28 10 38 C12 48 22 46 28 38 C32 32 30 30 30 30Z" fill="url(#ft-grad)"/>
+        <path d="M14 32 Q18 36 14 40" stroke="rgba(0,80,30,0.25)" stroke-width="1" fill="none"/>
+        <!-- Right claw -->
+        <path d="M90 30 C102 22 112 28 110 38 C108 48 98 46 92 38 C88 32 90 30 90 30Z" fill="url(#ft-grad)"/>
+        <path d="M106 32 Q102 36 106 40" stroke="rgba(0,80,30,0.25)" stroke-width="1" fill="none"/>
+        <!-- Antennae - long and curved -->
+        <path d="M50 18 Q40 4 28 2" stroke="#4ade80" stroke-width="2" stroke-linecap="round"/>
+        <path d="M70 18 Q80 4 92 2" stroke="#4ade80" stroke-width="2" stroke-linecap="round"/>
+        <!-- Small legs (4 pairs) -->
+        <line x1="40" y1="48" x2="32" y2="52" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="80" y1="48" x2="88" y2="52" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="39" y1="56" x2="30" y2="60" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="81" y1="56" x2="90" y2="60" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="39" y1="64" x2="31" y2="68" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="81" y1="64" x2="89" y2="68" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="40" y1="72" x2="33" y2="76" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="80" y1="72" x2="87" y2="76" stroke="url(#ft-grad)" stroke-width="2" stroke-linecap="round"/>
+        <!-- Eyes -->
+        <circle cx="51" cy="28" r="5" fill="#050810"/>
+        <circle cx="69" cy="28" r="5" fill="#050810"/>
+        <circle cx="52" cy="27" r="2" fill="#00e5cc"/>
+        <circle cx="70" cy="27" r="2" fill="#00e5cc"/>
+        <defs><linearGradient id="ft-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4ade80"/><stop offset="100%" stop-color="#166534"/></linearGradient></defs>
+      </svg>
+    <span>ClawOps</span>
+  </div>
+  <div style="display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px;">
+    <a href="contractors/" style="color: var(--text-secondary); font-size: .85rem; text-decoration: none;">AI for Contractors</a>
+    <a href="legal/" style="color: var(--text-secondary); font-size: .85rem; text-decoration: none;">AI for Law Firms</a>
+    <a href="healthcare/" style="color: var(--text-secondary); font-size: .85rem; text-decoration: none;">AI for Healthcare</a>
+    <a href="demo/" style="color: var(--text-secondary); font-size: .85rem; text-decoration: none;">AI Receptionist Demo</a>
+    <a href="scanner/" style="color: #60a5fa; font-size: .85rem; text-decoration: none; font-weight: 600; text-shadow: 0 0 10px rgba(96,165,250,.4);">&#128737; SHIELD</a>
+  </div>
+  <div style="display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px;">
+    <a href="privacy/" style="color: var(--text-muted); font-size: .8rem; text-decoration: none;">Privacy Policy</a>
+    <a href="terms/" style="color: var(--text-muted); font-size: .8rem; text-decoration: none;">Terms of Service</a>
+    <a href="acceptable-use/" style="color: var(--text-muted); font-size: .8rem; text-decoration: none;">Acceptable Use Policy</a>
+    <a href="privacy/#ccpa-do-not-sell" style="color: var(--text-muted); font-size: .8rem; text-decoration: none;">Do Not Sell My Personal Information</a>
+  </div>
+  <p>&copy; 2026 ClawOps. All rights reserved.</p>
 </footer>
 
-</body></html>
+<script>
+// Starfield (matches the site's homepage exactly)
+(function() {
+    var canvas = document.getElementById('starfield');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = document.body.scrollHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    var stars = [];
+    var count = Math.min(180, Math.floor(canvas.width * canvas.height / 12000));
+    for (var i = 0; i < count; i++) {
+        stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 1.4 + 0.3,
+            a: Math.random() * 0.6 + 0.1,
+            ds: (Math.random() - 0.5) * 0.01
+        });
+    }
+    function tick() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (var i = 0; i < stars.length; i++) {
+            var s = stars[i];
+            s.a += s.ds;
+            if (s.a < 0.05 || s.a > 0.8) s.ds = -s.ds;
+            ctx.fillStyle = 'rgba(240,244,255,' + s.a + ')';
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        requestAnimationFrame(tick);
+    }
+    tick();
+})();
+</script>
+
+</body>
+</html>
